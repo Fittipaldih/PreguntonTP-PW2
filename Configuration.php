@@ -3,6 +3,12 @@ include_once('helpers/MySqlDatabase.php');
 include_once("helpers/MustacheRender.php");
 include_once('helpers/Router.php');
 
+include_once ("model/UserModel.php");
+
+
+include_once('controller/UserController.php');
+
+
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 
 
@@ -10,6 +16,12 @@ class Configuration {
     private $configFile = 'config/config.ini';
 
     public function __construct() {
+    }
+
+    public function getUserController() {
+        return new UserController(
+            new UserModel($this->getDatabase()),
+            $this->getRenderer());
     }
 
     private function getArrayConfig() {
@@ -22,7 +34,7 @@ class Configuration {
 
     public function getDatabase() {
         $config = $this->getArrayConfig();
-        return new DatabaseConnect(
+        return new MySqlDatabase(
             $config['servername'],
             $config['username'],
             $config['password'],
@@ -32,7 +44,7 @@ class Configuration {
     public function getRouter() {
         return new Router(
             $this,
-            "getLaBandaController",
-            "list");
+            "getUserController",
+            "home");
     }
 }
