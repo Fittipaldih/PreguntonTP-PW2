@@ -9,4 +9,8 @@ class HomeController {
         $this->renderer = $renderer;
     }
 
+    public function home(){
+        $data=[];
+        $this->renderer->render("home", $data);
+    }
 }
