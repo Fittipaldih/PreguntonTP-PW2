@@ -9,7 +9,7 @@ class RegistroController {
         $this->renderer = $renderer;
     }
 
-    public function registro(){
+    public function home(){
         $data=[];
         $this->renderer->render("registro", $data);
     }
@@ -32,7 +32,6 @@ class RegistroController {
         }else{
             $data=[];
             $this->renderer->render("registro", $data);
-
         }
 
     }
