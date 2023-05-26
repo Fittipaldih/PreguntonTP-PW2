@@ -32,7 +32,6 @@ class RegistroController {
         }else{
             $data=[];
             $this->renderer->render("registro", $data);
-
         }
 
     }
