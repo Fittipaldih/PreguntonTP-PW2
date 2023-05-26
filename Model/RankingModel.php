@@ -8,4 +8,7 @@ class RankingModel {
         $this->database = $database;
     }
 
+    public function obtenerDatosUsuarios(){
+        return $this->database->query('SELECT * FROM usuario');
+    }
 }

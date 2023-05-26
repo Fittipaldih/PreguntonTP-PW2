@@ -10,7 +10,7 @@ class RankingController {
     }
 
     public function home(){
-        $data=[];
+        $data['users']=$this->RankingModel->obtenerDatosUsuarios();
         $this->renderer->render("ranking", $data);
     }
 

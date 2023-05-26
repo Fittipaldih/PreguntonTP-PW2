@@ -8,9 +8,9 @@ class UserModel {
         $this->database = $database;
     }
 
-    public function getUsuarioPorId() {
-
-        return $this->database->query('SELECT * FROM usuario WHERE Id = 6');
+    public function getUsuarioPorNombre($nombreUsuario)
+    {
+        return $this->database->query("SELECT * FROM usuario WHERE Nombre_usuario = '$nombreUsuario'");
 
         /* $sql = "SELECT * FROM usuario WHERE id = ?";
         $stmt = $this->database-

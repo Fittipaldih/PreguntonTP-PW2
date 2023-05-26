@@ -9,7 +9,6 @@ include_once ("model/RegistroModel.php");
 include_once ("model/LobbyModel.php");
 include_once ("model/RankingModel.php");
 include_once ("model/PartidaModel.php");
-include_once ("model/validarMailModel.php");
 
 include_once('controller/UserController.php');
 include_once('controller/HomeController.php');
@@ -17,7 +16,6 @@ include_once('controller/RegistroController.php');
 include_once('controller/LobbyController.php');
 include_once('controller/RankingController.php');
 include_once('controller/PartidaController.php');
-include_once('controller/validarMailController.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 
@@ -61,11 +59,7 @@ class Configuration {
             new PartidaModel($this->getDatabase()),
             $this->getRenderer());
     }
-    public function getValidarMailController() {
-        return new ValidarMailController(
-            new ValidarMailModel($this->getDatabase()),
-            $this->getRenderer());
-    }
+
     private function getArrayConfig() {
         return parse_ini_file($this->configFile);
     }

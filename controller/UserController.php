@@ -10,7 +10,9 @@ class UserController {
     }
 
     public function home() {
-        $data["usuario"] = $this->UserModel->getUsuarioPorId();
+        session_start();
+        $usuario=$_SESSION['usuario'];
+        $data["usuario"] = $this->UserModel->getUsuarioPorNombre($usuario);
         $this->renderer->render("user", $data);
     }
 
