@@ -21,17 +21,14 @@ class HomeController
         $data = $this->HomeModel->buscarUsuario($usuario, $clave);
 
         if (sizeof($data) > 0) {
-            $this->iniciarSesion();
-            $this->renderer->render('validarMail');
+            session_start();
+            $_SESSION["logueado"]=true;
+            $_SESSION["usuario"]=$usuario;
+            $data["nombre_usuario"]=$_SESSION["usuario"];
+            $this->renderer->render('validarMail', $data);
         } else {
             $this->renderer->render('home');
         }
     }
-    /*
-    public function iniciarSesion(){
-        session_start();
 
-
-        }
-    }*/
 }
