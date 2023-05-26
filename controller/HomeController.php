@@ -27,11 +27,9 @@ class HomeController
             $this->renderer->render('home');
         }
     }
-    /*
-    public function iniciarSesion(){
-        session_start();
 
+    public function iniciarSesion()
+    {
 
-        }
-    }*/
+    }
 }
