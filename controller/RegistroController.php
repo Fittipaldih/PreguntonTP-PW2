@@ -9,7 +9,7 @@ class RegistroController {
         $this->renderer = $renderer;
     }
 
-    public function registro(){
+    public function home(){
         $data=[];
         $this->renderer->render("registro", $data);
     }
@@ -28,7 +28,7 @@ class RegistroController {
 
         if($this->RegistroModel->guardarUsuario($nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $contrasenia, $confirmar_contrasenia)){
             $data=[];
-            $this->renderer->render("home", $data);
+            $this->renderer->render("validarMail", $data);
         }else{
             $data=[];
             $this->renderer->render("registro", $data);

@@ -1,15 +1,10 @@
 <?php
-
-class RegistroModel
-{
-
+class RegistroModel{
     private $database;
 
-    public function __construct($database)
-    {
+    public function __construct($database){
         $this->database = $database;
     }
-
 
     public function validarUsuario($correo, $nombre_usuario){
         $query= "SELECT COUNT(*) as count FROM usuario WHERE mail = ? OR nombre_usuario = ?";
@@ -27,8 +22,9 @@ class RegistroModel
         }
     }
     public function guardarUsuario($nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $contrasenia, $confirmar_contrasenia){
-        $contraseniahasheada = password_hash($contrasenia, PASSWORD_DEFAULT);
-        $hashParaValidar = password_hash($nombre_usuario, PASSWORD_DEFAULT);
+
+        $contraseniahasheada = md5($contrasenia);
+        $hashParaValidar = md5($nombre_usuario);
 
         if ($this->validarUsuario($correo, $nombre_usuario)){
             $query = "INSERT INTO usuario (Nombre_completo, Anio_nacimiento, Genero, Pais, Ciudad, Mail, Nombre_usuario, Foto_perfil, Hash, contrasenia_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -41,20 +37,4 @@ class RegistroModel
                 return false;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

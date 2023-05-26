@@ -10,7 +10,8 @@ class UserModel {
 
     public function getUsuarioPorId() {
 
-        return $this->database->query('SELECT * FROM usuario WHERE Id = 2');
+        return $this->database->query('SELECT * FROM usuario WHERE Id = 6');
+
         /* $sql = "SELECT * FROM usuario WHERE id = ?";
         $stmt = $this->database-
         if ($stmt === false) {
