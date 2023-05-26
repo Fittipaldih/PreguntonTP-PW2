@@ -19,15 +19,16 @@ class HomeController
 
     public function login()
     {
-        $usuario = $_POST["usuario"];
+        $usuario = $_POST['usuario'];
         $clave = md5($_POST['clave']);
         $data = $this->HomeModel->buscarUsuario($usuario, $clave);
 
-        if (sizeof($data) > 0) {
+        if (sizeof($data) > 0 && $data[0]["Id_rol"]==0) {
             session_start();
-            $_SESSION["logueado"] = true;
-            $_SESSION["usuario"] = $usuario;
-            $data["nombre_usuario"] = $_SESSION["usuario"];
+            $_SESSION['logueado'] = true;
+            $_SESSION['usuario'] = $usuario;
+            $data['nombre_usuario'] = $_SESSION['usuario'];
+
             $this->renderer->render('validarMail', $data);
         } else {
             $this->renderer->render('home');

@@ -1,4 +1,9 @@
 {{>header}}
 
-<h1>hola {{nombre_usuario}} </h1>
+<h1>Hola {{nombre_usuario}} </h1>
+<h2>Valida tu email</h2>
+<form action="/validarMail" method="post" enctype="multipart/form-data">
+    <input type="submit">Validar</input>
+</form>
+
 {{>footer}}

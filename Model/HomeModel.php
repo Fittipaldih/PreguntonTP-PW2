@@ -18,4 +18,9 @@ class HomeModel
         $result = $this->database->query("SELECT * FROM usuario WHERE Nombre_usuario = '$usuario' and contrasenia_hash = '$clave'");
         return $result;
     }
+
+    public function getRolUsuario($usuario){
+        $result = $this->database->query("SELECT Id_rol FROM usuario WHERE Nombre_usuario = '$usuario'");
+        return $result;
+    }
 }
