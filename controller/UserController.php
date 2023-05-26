@@ -9,7 +9,7 @@ class UserController {
         $this->renderer = $renderer;
     }
 
-    public function list() {
+    public function home() {
         $data["usuario"] = $this->UserModel->getUsuarioPorId();
         $this->renderer->render("user", $data);
     }

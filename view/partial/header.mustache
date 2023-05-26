@@ -18,12 +18,12 @@
                     <a class="nav-link" href="/registro">Registrarse</a>
                 </li>
             </ul>
-            <form class="d-flex" >
-                <input class="form-control me-2" type="text" placeholder="Usuario">
-                <input class="form-control me-2" type="text" placeholder="Contraseña">
-                <a href="/lobby" class="btn btn-primary">Ingresar</a>
+
+            <form class="d-flex" method="post" action="Home/login" enctype="multipart/form-data">
+                <input name="usuario" class="form-control me-2" type="text" placeholder="Usuario">
+                <input name="clave" class="form-control me-2" type="password" placeholder="Contraseña">
+                <button class="btn btn-primary">Ingresar</button>
             </form>
         </div>
     </div>
 </nav>
-<!-- PASARLO A MUSTACHE -->

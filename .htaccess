@@ -16,5 +16,5 @@ Options -Indexes
         RewriteRule ^(.*)/(.*)/(.*)$ index.php?module=$1&action=$2&$3 [L,QSA]
         RewriteRule ^(.*)/(.*)$ index.php?module=$1&action=$2 [L,QSA]
         RewriteRule ^(.*)$ index.php?module=$1&action=execute [L,QSA]
-
+        RewriteRule ^(public)($|/) - [L,NC]
 </IfModule>
