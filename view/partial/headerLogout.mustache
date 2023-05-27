@@ -13,16 +13,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="mynavbar">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/registro">Registrarse</a>
-                </li>
-            </ul>
-
-            <form class="d-flex" method="post" action="Home/login" enctype="multipart/form-data">
-                <input name="usuario" class="form-control me-2" type="text" placeholder="Usuario">
-                <input name="clave" class="form-control me-2" type="password" placeholder="Contraseña">
-                <button class="btn btn-primary">Ingresar</button>
+            <form class="d-flex ms-auto" method="post" action="Home/logout" enctype="multipart/form-data">
+                <button class="btn btn-primary">Cerrar sesion</button>
             </form>
         </div>
     </div>

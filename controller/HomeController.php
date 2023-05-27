@@ -38,4 +38,11 @@ class HomeController
             $this->renderer->render('home');
         }
     }
+
+    public function logout(){
+        session_start();
+        session_destroy();
+        $data = [];
+        $this->renderer->render('home');
+    }
 }

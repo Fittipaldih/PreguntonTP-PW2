@@ -13,6 +13,11 @@ class RegistroController {
         $data=[];
         $this->renderer->render("registro", $data);
     }
+    private function renderHome()
+    {
+        $data = [];
+        $this->renderer->render("home", $data);
+    }
 
     public function registrarse() {
         $nombre= $_POST["nombre"];
@@ -26,14 +31,19 @@ class RegistroController {
         $contrasenia= $_POST["contrasenia"];
         $confirmar_contrasenia= $_POST["confirmar_contrasenia"];
 
-        if($this->RegistroModel->guardarUsuario($nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $contrasenia, $confirmar_contrasenia)){
-            $data=[];
-            $this->renderer->render("validarMail", $data);
-        }else{
-            $data=[];
-            $this->renderer->render("registro", $data);
+        if ($this->validatePassword($contrasenia, $confirmar_contrasenia)) {
+            if ($this->RegistroModel->guardarUsuario($nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $contrasenia, $confirmar_contrasenia)) {
+                $this->renderHome();
+            } else {
+                $this->home();
+            }
+        } else {
+            $this->home();
         }
-
     }
 
+    private function validatePassword($contrasenia, $confirmar_contrasenia)
+    {
+        return $contrasenia === $confirmar_contrasenia;
+    }
 }
