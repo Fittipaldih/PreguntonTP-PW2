@@ -21,15 +21,15 @@ class RegistroModel{
             // El correo electrónico y el nombre de usuario no existen en la base de datos
         }
     }
-    public function guardarUsuario($nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $contrasenia, $confirmar_contrasenia){
+    public function guardarUsuario($nombre, $fecha_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $contrasenia, $confirmar_contrasenia){
 
         $contraseniahasheada = md5($contrasenia);
         $hashParaValidar = md5($nombre_usuario);
 
         if ($this->validarUsuario($correo, $nombre_usuario)){
-            $query = "INSERT INTO usuario (Nombre_completo, Anio_nacimiento, Genero, Pais, Ciudad, Mail, Nombre_usuario, Foto_perfil, Hash, contrasenia_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO usuario (Nombre_completo, Fecha_nacimiento, Genero, Pais, Ciudad, Mail, Nombre_usuario, Foto_perfil, Hash, contrasenia_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->database->prepare($query);
-            $stmt->bind_param("ssssssssss", $nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $hashParaValidar, $contraseniahasheada );
+            $stmt->bind_param("ssssssssss", $nombre, $fecha_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $hashParaValidar, $contraseniahasheada );
             $stmt->execute();
             if ($stmt->affected_rows > 0) {
                 return true;

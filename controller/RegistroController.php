@@ -21,7 +21,7 @@ class RegistroController {
 
     public function registrarse() {
         $nombre= $_POST["nombre"];
-        $anio_nacimiento= $_POST["anio_nacimiento"];
+        $fecha_nacimiento= $_POST["fecha_nacimiento"];
         $sexo= $_POST["sexo"];
         $pais= $_POST["pais"];
         $ciudad= $_POST["ciudad"];
@@ -32,7 +32,7 @@ class RegistroController {
         $confirmar_contrasenia= $_POST["confirmar_contrasenia"];
 
         if ($this->validatePassword($contrasenia, $confirmar_contrasenia)) {
-            if ($this->RegistroModel->guardarUsuario($nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $contrasenia, $confirmar_contrasenia)) {
+            if ($this->RegistroModel->guardarUsuario($nombre, $fecha_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $contrasenia, $confirmar_contrasenia)) {
                 $this->renderHome();
             } else {
                 $this->home();
