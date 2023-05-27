@@ -2,6 +2,7 @@
 include_once('helpers/MySqlDatabase.php');
 include_once("helpers/MustacheRender.php");
 include_once('helpers/Router.php');
+include_once('helpers/SessionManager.php');
 
 include_once ("model/UserModel.php");
 include_once ("model/HomeModel.php");
@@ -34,7 +35,8 @@ class Configuration {
     public function getHomeController() {
         return new HomeController(
             new HomeModel($this->getDatabase()),
-            $this->getRenderer());
+            $this->getRenderer(),
+            $this->getSessionManager());
     }
     public function getRegistroController() {
         return new RegistroController(
@@ -82,5 +84,9 @@ class Configuration {
             $this,
             "getHomeController",
             "home");
+    }
+
+    public function getSessionManager(){
+        return new SessionManager();
     }
 }
