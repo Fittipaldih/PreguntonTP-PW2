@@ -24,14 +24,15 @@ class HomeController
         $clave = md5($_POST['clave']);
         $data = $this->HomeModel->buscarUsuario($usuario, $clave);
         $rol=$data[0]["Id_rol"];
-        echo $rol;
         if (sizeof($data) > 0){
             $this->sessionManager->set("logueado", true);
             $this->sessionManager->set("usuario", $usuario);
             switch ($rol){
                 case 0:
                     $this->sessionManager->set("hash",$data[0]["Hash"]);
-                    $this->renderer->render('/validarMail', $this->sessionManager->get("usuario"));
+                    $nombre_usuario=$this->sessionManager->get("usuario");
+                    $this->renderer->render('validarMail', $nombre_usuario);
+                    break;
                 case 3:
                     header("Location: /lobby");
                     exit();
@@ -43,6 +44,6 @@ class HomeController
         session_start();
         session_destroy();
         $data = [];
-        $this->renderer->render('home');
+        $this->renderer->render('/home');
     }
 }

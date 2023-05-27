@@ -15,5 +15,18 @@ class LobbyController {
         $this->renderer->render("lobby", $data);
     }
 
+    public function validar(){
+        $data=[];
+        session_start();
+        $usuario=$_SESSION["usuario"];
+        $result = $this->LobbyModel->validarMail($usuario);
+
+        if ( $result[0]["Hash"]==$_SESSION["hash"] ){
+            $this->LobbyModel->cambiarRol($usuario);
+            $this->renderer->render("/lobby", $data);
+        } else{
+            $this->renderer->render("/registro", $data);
+        }
+    }
 
 }
