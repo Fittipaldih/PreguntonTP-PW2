@@ -30,12 +30,12 @@ class HomeController
             $_SESSION['usuario'] = $usuario;
             $data['nombre_usuario'] = $_SESSION['usuario'];
 
-            $this->renderer->render('validarMail', $data);
+            $this->renderer->render('/validarMail', $data);
 
         } else if (sizeof($data) > 0 && $data[0]["Id_rol"]!=0) {
-            $this->renderer->render('lobby');
+            $this->renderer->render('/lobby');
         } else{
-            $this->renderer->render('home');
+            $this->renderer->render('/home');
         }
     }
 
