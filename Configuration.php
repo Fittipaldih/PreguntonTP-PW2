@@ -47,7 +47,8 @@ class Configuration {
     public function getLobbyController() {
         return new LobbyController(
             new LobbyModel($this->getDatabase()),
-            $this->getRenderer());
+            $this->getRenderer(),
+            $this->getSessionManager());
     }
 
     public function getRankingController() {
