@@ -30,7 +30,8 @@ class Configuration {
     public function getUserController() {
         return new UserController(
             new UserModel($this->getDatabase()),
-            $this->getRenderer());
+            $this->getRenderer(),
+            $this->getSessionManager());
     }
     public function getHomeController() {
         return new HomeController(

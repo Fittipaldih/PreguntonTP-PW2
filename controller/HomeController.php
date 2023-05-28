@@ -48,7 +48,7 @@ class HomeController
         $usuarioEncontrado = $this->HomeModel->buscarUsuario($usuario, $clave);
         if ( $usuarioEncontrado[0]["Hash"]==$hash){
             $this->HomeModel->cambiarRol($usuario);
-            header("Location: /lobby");
+            header("Location: /home");
             exit();
         }
          else{

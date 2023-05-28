@@ -13,8 +13,7 @@ class LobbyController {
     }
 
     public function home(){
-        session_start();
-        $data['nombre_usuario']=$_SESSION['usuario'];
+        $data['nombre_usuario']=$this->sessionManager->get("usuario");
         $this->renderer->render("lobby", $data);
     }
 
