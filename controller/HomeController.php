@@ -42,17 +42,18 @@ class HomeController
     }
 
     public function validar(){
-        $hash=$this->sessionManager->get("hash");
+        $hash=$_GET["id"];
         $usuario = $this->sessionManager->get("usuario");
         $clave= $this->sessionManager->get("clave");
         $usuarioEncontrado = $this->HomeModel->buscarUsuario($usuario, $clave);
         if ( $usuarioEncontrado[0]["Hash"]==$hash){
             $this->HomeModel->cambiarRol($usuario);
             header("Location: /lobby");
-        /* else{
+            exit();
+        }
+         else{
             header("Location: /registro");
             exit();
-*/
         }
     }
 
