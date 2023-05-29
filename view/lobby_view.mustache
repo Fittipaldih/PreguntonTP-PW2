@@ -1,7 +1,10 @@
 {{>headerLogout}}
 <main class="py-5">
     <div class="container px-lg-5 p-4 bg-light rounded-3">
-        <h1 class="text-center display-3 fw-bold">¡Bienvenido {{nombre_usuario}}!</h1>
+        <h1 class="text-center display-3 fw-bold">
+            {{saludo}} {{nombre_usuario}}!
+        </h1>
+
         <h2 class="text-center">Tu puntaje actual: 132</h2>
         <div class="d-grid gap-2 col-6 mx-auto mt-4">
             <a href="partida" class="btn btn-primary btn-lg">Nueva partida</a>
@@ -13,25 +16,25 @@
                 <thead>
                 <tr>
                     <th>Partida:</th>
-                    <th>Contra:</th>
-                    <th>Resultado:</th>
+                    <th class="text-center">Contra:</th>
+                    <th class="text-end">Resultado:</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td>Partida 1</td>
-                    <td>Jugador 1</td>
-                    <td>Resultado 1</td>
+                    <td class="text-center">Jugador 1</td>
+                    <td class="text-end">Resultado 1</td>
                 </tr>
                 <tr>
                     <td>Partida 2</td>
-                    <td>Jugador 3</td>
-                    <td>Resultado 2</td>
+                    <td class="text-center">Jugador 3</td>
+                    <td class="text-end">Resultado 2</td>
                 </tr>
                 <tr>
                     <td>Partida 3</td>
-                    <td>Jugador 1</td>
-                    <td>Resultado 3</td>
+                    <td class="text-center">Jugador 1</td>
+                    <td class="text-end">Resultado 3</td>
                 </tr>
                 </tbody>
             </table>
