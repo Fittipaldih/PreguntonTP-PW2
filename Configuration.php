@@ -42,26 +42,30 @@ class Configuration {
     public function getRegistroController() {
         return new RegistroController(
             new RegistroModel($this->getDatabase()),
-            $this->getRenderer());
+            $this->getRenderer(),
+            $this->getSessionManager());
     }
 
     public function getLobbyController() {
         return new LobbyController(
             new LobbyModel($this->getDatabase()),
             $this->getRenderer(),
+            $this->getSessionManager(),
             $this->getSessionManager());
     }
 
     public function getRankingController() {
         return new RankingController(
             new RankingModel($this->getDatabase()),
-            $this->getRenderer());
+            $this->getRenderer(),
+            $this->getSessionManager());
     }
 
     public function getPartidaController() {
         return new PartidaController(
             new PartidaModel($this->getDatabase()),
-            $this->getRenderer());
+            $this->getRenderer(),
+            $this->getSessionManager());
     }
 
     private function getArrayConfig() {

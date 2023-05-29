@@ -3,20 +3,22 @@
 class RegistroController {
     private $RegistroModel;
     private $renderer;
+    private $sessionManager;
 
-    public function __construct($RegistroModel, $renderer) {
+    public function __construct($RegistroModel, $renderer, $sessionManager) {
         $this->RegistroModel = $RegistroModel;
         $this->renderer = $renderer;
+        $this->sessionManager=$sessionManager;
     }
 
     public function home(){
-        $data=[];
-        $this->renderer->render("registro", $data);
-    }
-    private function renderHome()
-    {
-        $data = [];
-        $this->renderer->render("home", $data);
+        if (!$this->laSesionEstaIniciada()){
+            $data=[];
+            $this->renderer->render("registro", $data);
+        } else {header("Location: /lobby");
+        exit();
+        }
+
     }
 
     public function registrarse() {
@@ -33,9 +35,11 @@ class RegistroController {
 
         if ($this->validatePassword($contrasenia, $confirmar_contrasenia)) {
             if ($this->RegistroModel->guardarUsuario($nombre, $fecha_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $contrasenia, $confirmar_contrasenia)) {
-                $this->renderHome();
+                $data=[];
+                $this->renderer->render("registroExitoso", $data);
             } else {
-                $this->home();
+                $data["mensaje"]="el usuario ya existe";
+                $this->renderer->render("registro", $data);
             }
         } else {
             $this->home();
@@ -45,5 +49,10 @@ class RegistroController {
     private function validatePassword($contrasenia, $confirmar_contrasenia)
     {
         return $contrasenia === $confirmar_contrasenia;
+    }
+
+    private function laSesionEstaIniciada()
+    {
+        return $this->sessionManager->get("logueado");
     }
 }

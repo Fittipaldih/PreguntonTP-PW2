@@ -14,8 +14,12 @@ class HomeController
 
     public function home()
     {
-        $data = [];
-        $this->renderer->render("home", $data);
+        if (!$this->laSesionEstaIniciada()){
+            $data = [];
+            $this->renderer->render("home", $data);
+        } else {
+            header("Location: /lobby");
+        }
     }
 
     public function login()
@@ -23,8 +27,8 @@ class HomeController
         $usuario = $_POST['usuario'];
         $clave = md5($_POST['clave']);
         $usuarioEncontrado = $this->HomeModel->buscarUsuario($usuario, $clave);
-        $rol=$usuarioEncontrado[0]["Id_rol"];
         if (sizeof($usuarioEncontrado) > 0){
+            $rol=$usuarioEncontrado[0]["Id_rol"];
             $this->sessionManager->set("logueado", true);
             $this->sessionManager->set("usuario", $usuario);
             $this->sessionManager->set("clave", $clave);
@@ -60,5 +64,10 @@ class HomeController
     public function logout(){
         $this->sessionManager->destroy();
         header("Location: /home");
+    }
+
+    private function laSesionEstaIniciada()
+    {
+        return $this->sessionManager->get("logueado");
     }
 }

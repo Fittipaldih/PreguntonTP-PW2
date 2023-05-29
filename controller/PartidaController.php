@@ -3,13 +3,28 @@ class PartidaController{
     private $PartidaModel;
     private $renderer;
 
-    public function __construct($PartidaModel, $renderer) {
+    private $sessionManager;
+
+    public function __construct($PartidaModel, $renderer, $sessionManager) {
         $this->PartidaModel = $PartidaModel;
         $this->renderer = $renderer;
+        $this->sessionManager=$sessionManager;
     }
 
     public function home(){
-        $data=[];
-        $this->renderer->render("Partida", $data);
+        if ($this->laSesionEstaIniciada()){
+            $data=[];
+            $this->renderer->render("Partida", $data);
+        }
+        else {
+            header("Location: /");
+        }
     }
+
+    private function laSesionEstaIniciada()
+    {
+        return $this->sessionManager->get("logueado");
+    }
+
+
 }

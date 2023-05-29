@@ -3,6 +3,7 @@
 class SessionManager
 {
 
+    private $iniciada;
     public function __construct()
     {
         $this->startSession();
@@ -40,5 +41,4 @@ class SessionManager
         session_unset();
         session_destroy();
     }
-
 }

@@ -13,8 +13,17 @@ class LobbyController {
     }
 
     public function home(){
+        if($this->laSesionEstaIniciada()){
         $data['nombre_usuario']=$this->sessionManager->get("usuario");
-        $this->renderer->render("lobby", $data);
+        $this->renderer->render("lobby", $data);}
+        else {
+            header("Location: /");
+            exit();
+        }
+    }
+    private function laSesionEstaIniciada()
+    {
+        return $this->sessionManager->get("logueado");
     }
 
 

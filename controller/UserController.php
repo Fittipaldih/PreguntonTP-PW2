@@ -12,9 +12,19 @@ class UserController {
     }
 
     public function home() {
-        $usuario=$this->sessionManager->get('usuario');
-        $data["usuario"] = $this->UserModel->getUsuarioPorNombre($usuario);
-        $this->renderer->render("user", $data);
+        if ($this->laSesionEstaIniciada()){
+            $usuario=$this->sessionManager->get('usuario');
+            $data["usuario"] = $this->UserModel->getUsuarioPorNombre($usuario);
+            $this->renderer->render("user", $data);
+        }
+        else {
+            header("location: /");
+        }
+
     }
 
+    private function laSesionEstaIniciada()
+    {
+        return $this->sessionManager->get("logueado");
+    }
 }
