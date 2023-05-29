@@ -12,10 +12,24 @@ class LobbyController {
         $this->sessionManager=$sessionManager;
     }
 
-    public function home(){
-        $data['nombre_usuario']=$this->sessionManager->get("usuario");
+    public function home()
+    {
+        $nombreUsuario = $this->sessionManager->get("usuario");
+        $data['nombre_usuario'] = $nombreUsuario;
+        $genero = $this->LobbyModel->obtenerGeneroDesdeBD($nombreUsuario);
+        $data['saludo'] = $this->getSaludo($genero);
         $this->renderer->render("lobby", $data);
     }
 
+    private function getSaludo($genero)
+    {
+        if ($genero === 'Femenino') {
+            return 'Bienvenida';
+        } elseif ($genero === 'Masculino') {
+            return 'Bienvenido';
+        } else {
+            return 'Bienvenidx';
+        }
+    }
 
 }
