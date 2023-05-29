@@ -15,7 +15,8 @@ class RankingController {
         if ($this->laSesionEstaIniciada()){
             $data['users']=$this->RankingModel->obtenerDatosUsuarios();
             $this->renderer->render("ranking", $data);
-        } else header("Location: /");
+        } else{ header("Location: /");
+        exit();}
     }
 
     private function laSesionEstaIniciada()

@@ -14,11 +14,12 @@ class LobbyController {
 
     public function home(){
         if($this->laSesionEstaIniciada()){
+        $nombreUsuario=$this->sessionManager->get("usuario");
         $data['nombre_usuario']=$this->sessionManager->get("usuario");
         $genero = $this->LobbyModel->obtenerGeneroDesdeBD($nombreUsuario);
         $data['saludo'] = $this->getSaludo($genero);
-        $this->renderer->render("lobby", $data);}
-        else {
+        $this->renderer->render("lobby", $data);
+        } else {
             header("Location: /");
             exit();
         }

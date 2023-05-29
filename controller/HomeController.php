@@ -19,6 +19,7 @@ class HomeController
             $this->renderer->render("home", $data);
         } else {
             header("Location: /lobby");
+            exit();
         }
     }
 
@@ -32,6 +33,7 @@ class HomeController
             $this->sessionManager->set("logueado", true);
             $this->sessionManager->set("usuario", $usuario);
             $this->sessionManager->set("clave", $clave);
+            $this->sessionManager->set("validado", false);
             switch ($rol){
                 case 0:
                     $data["nombre_usuario"]=$this->sessionManager->get("usuario");
@@ -52,7 +54,8 @@ class HomeController
         $usuarioEncontrado = $this->HomeModel->buscarUsuario($usuario, $clave);
         if ( $usuarioEncontrado[0]["Hash"]==$hash){
             $this->HomeModel->cambiarRol($usuario);
-            header("Location: /home");
+            $this->sessionManager->set("validado", true);
+            header("Location: /");
             exit();
         }
          else{
@@ -64,10 +67,13 @@ class HomeController
     public function logout(){
         $this->sessionManager->destroy();
         header("Location: /home");
+        exit();
     }
 
     private function laSesionEstaIniciada()
     {
         return $this->sessionManager->get("logueado");
     }
+
+
 }

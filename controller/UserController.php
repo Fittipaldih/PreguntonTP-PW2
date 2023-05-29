@@ -19,6 +19,7 @@ class UserController {
         }
         else {
             header("location: /");
+            exit();
         }
 
     }

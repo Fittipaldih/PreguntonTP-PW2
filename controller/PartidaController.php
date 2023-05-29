@@ -18,6 +18,7 @@ class PartidaController{
         }
         else {
             header("Location: /");
+            exit();
         }
     }
 
