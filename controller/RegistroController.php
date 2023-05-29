@@ -32,17 +32,18 @@ class RegistroController {
         $foto_perfil= basename($_FILES['foto_perfil']['name']);
         $contrasenia= $_POST["contrasenia"];
         $confirmar_contrasenia= $_POST["confirmar_contrasenia"];
+        $data=[];
 
         if ($this->validatePassword($contrasenia, $confirmar_contrasenia)) {
             if ($this->RegistroModel->guardarUsuario($nombre, $fecha_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $contrasenia, $confirmar_contrasenia)) {
-                $data=[];
                 $this->renderer->render("registroExitoso", $data);
             } else {
                 $data["mensaje"]="el usuario ya existe";
                 $this->renderer->render("registro", $data);
             }
         } else {
-            $this->home();
+            $data["mensaje"]="las contraseñas no coinciden";
+            $this->renderer->render("registro", $data);
         }
     }
 
