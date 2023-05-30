@@ -1,8 +1,9 @@
 {{> headerIndex}}
-{{mensaje}}
+<link rel="stylesheet" href="/public/css/home.css">
+
 <main class="py-5">
-    <div class="container px-lg-5 p-4 bg-light rounded-3">
-        <h1 class="text-center display-3 fw-bold">¡Creá tu cuenta y divertite jugando!</h1>
+    <div class="content container px-lg-5 p-4 bg-light rounded-3">
+        <h2 class="text-center display-3 fw-bold">¡Creá tu cuenta y divertite jugando!</h2>
     <br>
         <form action="/index.php?module=registro&action=registrarse" method="post" enctype="multipart/form-data" class="row g-3">
 
@@ -68,6 +69,9 @@
         </div>
 
         <div class="col-12">
+            {{#mensaje}}
+                <h2 class="alert alert-danger text-center">{{mensaje}}</h2>
+            {{/mensaje}}
             <div class="d-flex justify-content-between">
 
             <a href="../" class="btn btn-outline-primary btn-lg">Volver a inicio</a>

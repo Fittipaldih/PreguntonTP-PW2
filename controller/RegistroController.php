@@ -38,11 +38,11 @@ class RegistroController {
             if ($this->RegistroModel->guardarUsuario($nombre, $fecha_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $contrasenia, $confirmar_contrasenia)) {
                 $this->renderer->render("registroExitoso", $data);
             } else {
-                $data["mensaje"]="el usuario ya existe";
+                $data["mensaje"]="El usuario ya existe";
                 $this->renderer->render("registro", $data);
             }
         } else {
-            $data["mensaje"]="las contraseñas no coinciden";
+            $data["mensaje"]="Las contraseñas no coinciden";
             $this->renderer->render("registro", $data);
         }
     }
