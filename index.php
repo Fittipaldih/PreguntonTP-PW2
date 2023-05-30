@@ -12,9 +12,7 @@ $method = $_GET['action'] ?? 'home';
 $router->route($module, $method);
 
 /*
-$module = $_GET['module'] ?? 'home';
-$method = $_GET['action'] ?? 'home';
-
+ *
 if($_SESSION["logueado"]){
     switch ($_SESSION["Id_rol"]){
         case 0:

@@ -23,6 +23,11 @@ class HomeController
         }
     }
 
+    private function laSesionEstaIniciada()
+    {
+        return $this->sessionManager->get("logueado");
+    }
+
     public function login()
     {
         $usuario = $_POST['usuario'];
@@ -47,7 +52,15 @@ class HomeController
         } else $this->renderer->render('/home');
     }
 
-    public function validar(){
+    public function logout()
+    {
+        $this->sessionManager->destroy();
+        header("Location: /home");
+        exit();
+    }
+
+    public function validar()
+    {
         $hash=$_GET["id"];
         $usuario = $this->sessionManager->get("usuario");
         $clave= $this->sessionManager->get("clave");
@@ -58,22 +71,9 @@ class HomeController
             header("Location: /");
             exit();
         }
-         else{
+        else{
             header("Location: /registro");
             exit();
         }
     }
-
-    public function logout(){
-        $this->sessionManager->destroy();
-        header("Location: /home");
-        exit();
-    }
-
-    private function laSesionEstaIniciada()
-    {
-        return $this->sessionManager->get("logueado");
-    }
-
-
 }
