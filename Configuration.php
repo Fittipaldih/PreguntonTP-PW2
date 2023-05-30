@@ -23,8 +23,9 @@ include_once('third-party/mustache/src/Mustache/Autoloader.php');
 
 class Configuration {
     private $configFile = 'config/config.ini';
-
-    public function __construct() {
+    private $sessionManager;
+    public function __construct($sessionManager) {
+        $this->sessionManager=$sessionManager;
     }
 
     public function getUserController() {
