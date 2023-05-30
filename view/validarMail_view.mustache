@@ -1,9 +1,9 @@
 {{>headerLogout}}
-
-<h1>Hola {{nombre_usuario}}!</h1>
-<h2>Validá tu email</h2>
-<form action="/home/validar&id={{hash}}" method="get" enctype="multipart/form-data">
+<main>
+    <h1>Hola {{nombre_usuario}}!</h1>
+    <h2>Validá tu email</h2>
+    <form action="/home/validar&id={{hash}}" method="get" enctype="multipart/form-data">
     <input type="submit" value="Validar" class="btn btn-primary btn-lg">
-</form>
-
+    </form>
+</main>
 {{>footer}}

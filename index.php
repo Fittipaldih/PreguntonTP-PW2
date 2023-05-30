@@ -1,3 +1,4 @@
+
 <?php
 include_once('Configuration.php');
 $sessionManager = new SessionManager();
@@ -5,12 +6,12 @@ $configuration = new Configuration($sessionManager);
 
 $router = $configuration->getRouter();
 
-/*$module = $_GET['module'] ?? 'home';
+$module = $_GET['module'] ?? 'home';
 $method = $_GET['action'] ?? 'home';
 
 $router->route($module, $method);
 
-*/
+/*
 $module = $_GET['module'] ?? 'home';
 $method = $_GET['action'] ?? 'home';
 
@@ -28,7 +29,7 @@ if($_SESSION["logueado"]){
     $router->route($module, $method);
 
 } else $router->route("home", "home");
-
+*/
 //datos de session en el mosutache router
 //clase estatica para redirigir
 //llevar a SessionManager
