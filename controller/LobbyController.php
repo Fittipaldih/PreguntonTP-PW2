@@ -16,6 +16,7 @@ class LobbyController {
         if($this->laSesionEstaIniciada()){
         $nombreUsuario=$this->sessionManager->get("usuario");
         $data['nombre_usuario']=$this->sessionManager->get("usuario");
+        $data["partida"] = $this->LobbyModel->getDatosPartida($nombreUsuario);
         $genero = $this->LobbyModel->obtenerGeneroDesdeBD($nombreUsuario);
         $data['saludo'] = $this->getSaludo($genero);
         $this->renderer->render("lobby", $data);

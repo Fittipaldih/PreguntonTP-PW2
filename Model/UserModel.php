@@ -12,15 +12,10 @@ class UserModel {
     {
         return $this->database->query("SELECT * FROM usuario WHERE Nombre_usuario = '$nombreUsuario'");
 
-        /* $sql = "SELECT * FROM usuario WHERE id = ?";
-        $stmt = $this->database-
-        if ($stmt === false) {
-            die("Error en la consulta: " . $this->database->error);
-        }
-        $parametro = 2;
-        $stmt->bind_param("i", $parametro);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
-        return $resultado; */
+    }
+    // esto esta repetido en Lobby tambien
+    public function getDatosPartida($usuario){
+        return $this->database->query("SELECT * FROM partida WHERE id_usuario =
+                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$usuario')");
     }
 }

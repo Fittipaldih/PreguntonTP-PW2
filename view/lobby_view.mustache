@@ -1,4 +1,4 @@
-{{>headerLogout}}
+
 <link rel="stylesheet" href="/public/css/home.css">
 <main class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3">
@@ -13,33 +13,23 @@
         </div>
         <div class="mx-auto">
                 <h3>Partidas jugadas</h3>
-            <table class="table table-striped ">
+            <table class="table table-striped">
                 <thead>
                 <tr>
+
                     <th>Partida:</th>
-                    <th class="text-center">Contra:</th>
-                    <th class="text-end">Resultado:</th>
+                    <th>Resultado:</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>Partida 1</td>
-                    <td class="text-center">Jugador 1</td>
-                    <td class="text-end">Resultado 1</td>
-                </tr>
-                <tr>
-                    <td>Partida 2</td>
-                    <td class="text-center">Jugador 3</td>
-                    <td class="text-end">Resultado 2</td>
-                </tr>
-                <tr>
-                    <td>Partida 3</td>
-                    <td class="text-center">Jugador 1</td>
-                    <td class="text-end">Resultado 3</td>
-                </tr>
+                {{#partida}}
+                    <tr>
+                        <td>Partida: {{id}}</td>
+                        <td>Resultado: {{puntaje}}</td>
+                    </tr>
+                {{/partida}}
                 </tbody>
             </table>
         </div>
     </div>
 </main>
-{{>footer}}

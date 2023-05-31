@@ -13,9 +13,18 @@ class UserController {
 
     public function home() {
         if ($this->laSesionEstaIniciada()){
-            $usuario=$this->sessionManager->get('usuario');
-            $data["usuario"] = $this->UserModel->getUsuarioPorNombre($usuario);
-            $this->renderer->render("user", $data);
+            $nombreUsuario=$_GET['nombre'];
+            if($nombreUsuario==$this->sessionManager->get('usuario')){
+                $usuario=$this->sessionManager->get('usuario');
+                $data["usuario"] = $this->UserModel->getUsuarioPorNombre($usuario);
+                $data["partida"] = $this->UserModel->getDatosPartida($nombreUsuario);
+                $this->renderer->render("user", $data);
+            }
+            else{
+                $data["usuario"] = $this->UserModel->getUsuarioPorNombre($nombreUsuario);
+                $this->renderer->render("user", $data);
+            }
+
         }
         else {
             header("location: /");
@@ -28,4 +37,5 @@ class UserController {
     {
         return $this->sessionManager->get("logueado");
     }
+
 }

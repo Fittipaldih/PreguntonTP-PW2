@@ -23,5 +23,8 @@ class LobbyModel {
 
         return $fila['Genero'];
     }
-
+    public function getDatosPartida($usuario){
+        return $this->database->query("SELECT * FROM partida WHERE id_usuario =
+                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$usuario')");
+    }
 }

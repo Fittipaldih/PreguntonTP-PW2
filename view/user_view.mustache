@@ -1,11 +1,11 @@
-{{>headerLogout}}
+
 <link rel="stylesheet" href="/public/css/home.css">
 <main class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3 ">
         <div class="row g-3">
             {{#usuario}}
                 <h1 class="text-center display-3 fw-bold">{{Nombre_usuario}}</h1>
-                <h2  class="text-center" >Puntaje máximo: 132</h2>
+                <h2  class="text-center">Puntaje máximo: {{Puntaje_max}}</h2>
                 <div class="col-md-6 d-flex justify-content-center">
                     <img src="/public/imagenes/perfil.jpg" width="200px" class="rounded d-block">
                 </div>
@@ -19,30 +19,25 @@
             {{/usuario}}
         </div>
         <div class="mx-auto">
+
             <h3>Partidas jugadas</h3>
             <table class="table table-striped">
                 <thead>
                 <tr>
+
                     <th>Partida:</th>
                     <th>Resultado:</th>
                 </tr>
                 </thead>
                 <tbody>
+                {{#partida}}
                 <tr>
-                    <td>Partida 1</td>
-                    <td>Resultado 1</td>
+                    <td>Partida: {{id}}</td>
+                    <td>Resultado: {{puntaje}}</td>
                 </tr>
-                <tr>
-                    <td>Partida 2</td>
-                    <td>Resultado 2</td>
-                </tr>
-                <tr>
-                    <td>Partida 3</td>
-                    <td>Resultado 3</td>
-                </tr>
+                {{/partida}}
                 </tbody>
             </table>
         </div>
     </div>
 </main>
-{{>footer}}
