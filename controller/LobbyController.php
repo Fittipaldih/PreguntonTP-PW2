@@ -1,43 +1,51 @@
 <?php
 
-class LobbyController {
-    private $LobbyModel;
+class LobbyController
+{
+    private $lobbyModel;
     private $renderer;
-
     private $sessionManager;
 
-    public function __construct($LobbyModel, $renderer, $sessionManager) {
-        $this->LobbyModel = $LobbyModel;
+    public function __construct($model, $renderer, $sessionManager)
+    {
+        $this->lobbyModel = $model;
         $this->renderer = $renderer;
-        $this->sessionManager=$sessionManager;
+        $this->sessionManager = $sessionManager;
     }
 
-    public function home(){
-        if($this->laSesionEstaIniciada()){
-        $nombreUsuario=$this->sessionManager->get("usuario");
-        $data['nombre_usuario']=$this->sessionManager->get("usuario");
-        $data["partida"] = $this->LobbyModel->getDatosPartida($nombreUsuario);
-        $genero = $this->LobbyModel->obtenerGeneroDesdeBD($nombreUsuario);
-        $data['saludo'] = $this->getSaludo($genero);
-        $this->renderer->render("lobby", $data);
-        } else {
+    public function home()
+    {
+        if (!$this->isSessionStarted()) {
             header("Location: /");
             exit();
-        }
-    }
-    private function laSesionEstaIniciada()
-    {
-        return $this->sessionManager->get("logueado");
-}
-    private function getSaludo($genero)
-    {
-        if ($genero === 'Femenino') {
-            return 'Bienvenida';
-        } elseif ($genero === 'Masculino') {
-            return 'Bienvenido';
         } else {
-            return 'Bienvenidx';
+            $this->renderView();
         }
     }
 
+    private function isSessionStarted()
+    {
+        return $this->sessionManager->get("isConnected");
+    }
+
+    private function renderView()
+    {
+        $userName = $this->sessionManager->get("user");
+        $genre = $this->lobbyModel->getUserSex($userName);
+        $data["games"] = $this->lobbyModel->getUserGamesByName($userName);
+        $data['welcome'] = $this->getWelcome($genre);
+        $data['userLogged'] = $userName;
+        $this->renderer->render("lobby", $data);
+    }
+
+    private function getWelcome($genre)
+    {
+        $rt = 'Bienvenidx';
+        if ($genre === 'Femenino') {
+            $rt = 'Bienvenida';
+        } elseif ($genre === 'Masculino') {
+            $rt = 'Bienvenido';
+        }
+        return $rt;
+    }
 }

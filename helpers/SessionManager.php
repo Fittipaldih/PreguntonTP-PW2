@@ -2,11 +2,16 @@
 
 class SessionManager
 {
-
-    private $iniciada;
     public function __construct()
     {
         $this->startSession();
+    }
+
+    private function startSession()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
 
     public function set($key, $value)
@@ -22,13 +27,6 @@ class SessionManager
         return null;
     }
 
-    private function startSession()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-    }
-
     public function delete($key)
     {
         if (isset($_SESSION[$key])) {
@@ -41,4 +39,5 @@ class SessionManager
         session_unset();
         session_destroy();
     }
+
 }

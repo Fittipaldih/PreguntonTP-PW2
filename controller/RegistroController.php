@@ -1,59 +1,72 @@
 <?php
 
-class RegistroController {
-    private $RegistroModel;
+class RegistroController
+{
+    private $registroModel;
     private $renderer;
     private $sessionManager;
 
-    public function __construct($RegistroModel, $renderer, $sessionManager) {
-        $this->RegistroModel = $RegistroModel;
+    public function __construct($model, $renderer, $sessionManager)
+    {
+        $this->registroModel = $model;
         $this->renderer = $renderer;
-        $this->sessionManager=$sessionManager;
+        $this->sessionManager = $sessionManager;
     }
 
-    public function home(){
-        if (!$this->laSesionEstaIniciada()){
-            $data=[];
+    public function home()
+    {
+        if (!$this->isSessionStarted()) {
+            $data = [];
             $this->renderer->render("registro", $data);
-        } else {header("Location: /lobby");
-        exit();
+        } else {
+            $this->renderView();
         }
-
     }
 
-    public function registrarse() {
-        $nombre= $_POST["nombre"];
-        $fecha_nacimiento= $_POST["fecha_nacimiento"];
-        $sexo= $_POST["sexo"];
-        $pais= $_POST["pais"];
-        $ciudad= $_POST["ciudad"];
-        $correo= $_POST["correo"];
-        $nombre_usuario= $_POST["nombre_usuario"];
-        $foto_perfil= basename($_FILES['foto_perfil']['name']);
-        $contrasenia= $_POST["contrasenia"];
-        $confirmar_contrasenia= $_POST["confirmar_contrasenia"];
-        $data=[];
+    private function isSessionStarted()
+    {
+        return $this->sessionManager->get("isConnected");
+    }
 
-        if ($this->validatePassword($contrasenia, $confirmar_contrasenia)) {
-            if ($this->RegistroModel->guardarUsuario($nombre, $fecha_nacimiento, $sexo, $pais, $ciudad, $correo, $nombre_usuario, $foto_perfil, $contrasenia, $confirmar_contrasenia)) {
+    private function renderView()
+    {
+        header("Location: /lobby");
+        exit();
+    }
+    public function newAccount()
+    {
+        $nameComplete = $_POST["nombre"];
+        $birth = $_POST["fecha_nacimiento"];
+        $sex = $_POST["sexo"];
+        $country = $_POST["pais"];
+        $city = $_POST["ciudad"];
+        $mail = $_POST["correo"];
+        $nameUser = $_POST["nombre_usuario"];
+        $photo = basename($_FILES['foto_perfil']['name']);
+        $pass = $_POST["contrasenia"];
+        $passValidate = $_POST["confirmar_contrasenia"];
+        $data = [];
+
+        $this->createAccount($pass, $passValidate, $nameComplete, $birth, $sex, $country, $city, $mail, $nameUser, $photo, $data);
+    }
+
+    private function createAccount($pass, $passValidate, $nameComplete, $birth, $sex, $country, $city, $mail, $nameUser, $photo, $data)
+    {
+        if ($this->validatePassword($pass, $passValidate)) {
+            if ($this->registroModel->saveUser($nameComplete, $birth, $sex, $country, $city, $mail, $nameUser, $photo, $pass, $passValidate)) {
                 $this->renderer->render("registroExitoso", $data);
             } else {
-                $data["mensaje"]="El usuario ya existe";
+                $data["message"] = "El usuario ya existe";
                 $this->renderer->render("registro", $data);
             }
         } else {
-            $data["mensaje"]="Las contraseñas no coinciden";
+            $data["message"] = "Las contraseñas no coinciden";
             $this->renderer->render("registro", $data);
         }
     }
 
-    private function validatePassword($contrasenia, $confirmar_contrasenia)
+    private function validatePassword($pass, $passValidate)
     {
-        return $contrasenia === $confirmar_contrasenia;
-    }
-
-    private function laSesionEstaIniciada()
-    {
-        return $this->sessionManager->get("logueado");
+        return $pass === $passValidate;
     }
 }

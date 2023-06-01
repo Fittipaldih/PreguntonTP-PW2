@@ -1,11 +1,10 @@
-
 <link rel="stylesheet" href="/public/css/home.css">
 <main class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3 ">
         <div class="row g-3">
-            {{#usuario}}
+            {{#user}}
                 <h1 class="text-center display-3 fw-bold">{{Nombre_usuario}}</h1>
-                <h2  class="text-center">Puntaje máximo: {{Puntaje_max}}</h2>
+                <h2 class="text-center">Puntaje máximo: {{Puntaje_max}}</h2>
                 <div class="col-md-6 d-flex justify-content-center">
                     <img src="/public/imagenes/perfil.jpg" width="200px" class="rounded d-block">
                 </div>
@@ -16,26 +15,25 @@
                     <p>• Ubicación: {{Ciudad}}, {{Pais}} <img src="public/imagenes/pais.png" width="30px"></p>
                     <p>• Correo: {{Mail}}</p>
                 </div>
-            {{/usuario}}
+            {{/user}}
         </div>
         <div class="mx-auto">
-
+            <br>
             <h3>Partidas jugadas</h3>
             <table class="table table-striped">
                 <thead>
                 <tr>
-
-                    <th>Partida:</th>
-                    <th>Resultado:</th>
+                    <th>Id Partida:</th>
+                    <th>Puntaje obtenido:</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{#partida}}
-                <tr>
-                    <td>Partida: {{id}}</td>
-                    <td>Resultado: {{puntaje}}</td>
-                </tr>
-                {{/partida}}
+                {{#games}}
+                    <tr>
+                        <td># {{id}}</td>
+                        <td>{{puntaje}} puntos</td>
+                    </tr>
+                {{/games}}
                 </tbody>
             </table>
         </div>

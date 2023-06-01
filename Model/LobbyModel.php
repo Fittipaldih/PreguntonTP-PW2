@@ -1,30 +1,33 @@
 <?php
 
-class LobbyModel {
-
+class LobbyModel
+{
     private $database;
 
-    public function __construct($database) {
+    public function __construct($database)
+    {
         $this->database = $database;
     }
 
-    public function obtenerGeneroDesdeBD($nombreUsuario)
+    public function getUserSex($userName)
     {
         $query = "SELECT Genero FROM usuario WHERE nombre_usuario = ?";
 
         $stmt = $this->database->prepare($query);
-        $stmt->bind_param("s", $nombreUsuario);
+        $stmt->bind_param("s", $userName);
         $stmt->execute();
 
-        $resultado = $stmt->get_result();
-        $fila = $resultado->fetch_assoc();
+        $rt = $stmt->get_result();
+        $fila = $rt->fetch_assoc();
 
         $stmt->close();
 
         return $fila['Genero'];
     }
-    public function getDatosPartida($usuario){
+
+    public function getUserGamesByName($user)
+    { // tambien esta en el userModel -> refactorizar
         return $this->database->query("SELECT * FROM partida WHERE id_usuario =
-                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$usuario')");
+                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$user')");
     }
 }

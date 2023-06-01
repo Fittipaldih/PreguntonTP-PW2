@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-05-2023 a las 03:07:13
+-- Tiempo de generación: 01-06-2023 a las 02:54:49
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -58,6 +58,14 @@ CREATE TABLE `partida` (
   `puntaje` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `partida`
+--
+
+INSERT INTO `partida` (`id`, `id_usuario`, `puntaje`) VALUES
+(1, 12, 20),
+(3, 12, 10);
+
 -- --------------------------------------------------------
 
 --
@@ -73,6 +81,22 @@ CREATE TABLE `pregunta` (
   `id_respuesta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `pregunta`
+--
+
+INSERT INTO `pregunta` (`id`, `descripcion`, `estado`, `id_partida`, `id_categoria`, `id_respuesta`) VALUES
+(1, '¿Cuál es el elemento químico más abundante en el universo?', 0, 0, 0, 2),
+(2, '¿Cuál es el río más largo del mundo?', 0, 0, 0, 3),
+(3, '¿Cuál es la capital de Australia?', 0, 0, 0, 4),
+(4, '¿Cuál es el planeta más grande del sistema solar?', 0, 0, 0, 5),
+(5, '¿Cuál es la montaña más alta del mundo?', 0, 0, 0, 6),
+(6, '¿Cuál es el país más poblado del mundo?', 0, 0, 0, 7),
+(7, '¿Cuál es el símbolo químico del oro?', 0, 0, 0, 8),
+(8, '¿Cuál es el océano más grande del mundo?', 0, 0, 0, 9),
+(9, '¿Cuál es el animal terrestre más grande del mundo?', 0, 0, 0, 10),
+(10, '¿Cuál es el compuesto químico principal que constituye la atmósfera terrestre?', 0, 0, 0, 11);
+
 -- --------------------------------------------------------
 
 --
@@ -84,9 +108,25 @@ CREATE TABLE `respuesta` (
   `opcionA` text NOT NULL,
   `opcionB` text NOT NULL,
   `opcionC` text NOT NULL,
-  `opcionD` int(11) NOT NULL,
-  `resp_correcta` tinyint(4) NOT NULL
+  `opcionD` text NOT NULL,
+  `resp_correcta` char(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `respuesta`
+--
+
+INSERT INTO `respuesta` (`id`, `opcionA`, `opcionB`, `opcionC`, `opcionD`, `resp_correcta`) VALUES
+(2, 'Hidrógeno', 'Oxígeno', 'Carbono', 'Hierro', 'A'),
+(3, 'Amazonas', 'Nilo', 'Yangtsé', 'Misisipi', 'B'),
+(4, 'Sídney', 'Melbourne', 'Brisbane', 'Canberra', 'D'),
+(5, 'Mercurio', 'Venus', 'Júpiter', 'Marte', 'C'),
+(6, 'Mont Blanc', 'K2', 'Everest', 'Aconcagua', 'C'),
+(7, 'Estados Unidos', 'China', 'India', 'Brasil', 'B'),
+(8, 'Au', 'Ag', 'Fe', 'Hg', 'A'),
+(9, 'Océano Atlántico', 'Océano Pacífico', 'Océano Índico', 'Océano Ártico', 'B'),
+(10, 'Elefante africano', 'Rinoceronte blanco', 'Jirafa', 'Oso polar', 'A'),
+(11, 'Nitrógeno', 'Oxígeno', 'Dióxido de carbono', 'Argón', 'A');
 
 -- --------------------------------------------------------
 
@@ -127,15 +167,18 @@ CREATE TABLE `usuario` (
   `Foto_perfil` varchar(30) NOT NULL,
   `Id_rol` int(11) NOT NULL,
   `Hash` varchar(255) NOT NULL,
-  `contrasenia_hash` varchar(255) NOT NULL
+  `contrasenia_hash` varchar(255) NOT NULL,
+  `Puntaje_max` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`Id`, `Nombre_completo`, `Fecha_nacimiento`, `Genero`, `Pais`, `Ciudad`, `Mail`, `Nombre_usuario`, `Foto_perfil`, `Id_rol`, `Hash`, `contrasenia_hash`) VALUES
-(12, 'Marianita Aquino', '2001-03-23', 'Femenino', 'Argentina', 'CABA', 'maraquino@gmail.com', 'Mar', '', 3, '7ce6b2286a5396e614b8484105d277e0', '81dc9bdb52d04dc20036dbd8313ed055');
+INSERT INTO `usuario` (`Id`, `Nombre_completo`, `Fecha_nacimiento`, `Genero`, `Pais`, `Ciudad`, `Mail`, `Nombre_usuario`, `Foto_perfil`, `Id_rol`, `Hash`, `contrasenia_hash`, `Puntaje_max`) VALUES
+(12, 'Marianita Aquino', '2001-03-23', 'Femenino', 'Argentina', 'CABA', 'maraquino@gmail.com', 'Mar', '', 3, '7ce6b2286a5396e614b8484105d277e0', '81dc9bdb52d04dc20036dbd8313ed055', 10),
+(22, 'Hernan', '1997-09-17', 'Masculino', 'Argentina', 'La Matanza', 'fittipaldi.h@gmail.com', 'Fitti', '', 3, '2369fed0fc27c3b658ca7cf02274ba89', '81dc9bdb52d04dc20036dbd8313ed055', 0),
+(33, 'Franco', '1910-12-12', 'Masculino', 'Brasil', 'Casanova', 'franquito@gmail.com', 'Franqo', '', 3, 'ff7acc7b68352c0859ff1bfcb826e0ba', '81dc9bdb52d04dc20036dbd8313ed055', 0);
 
 --
 -- Índices para tablas volcadas
@@ -192,13 +235,19 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `respuesta`
+--
+ALTER TABLE `respuesta`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -210,7 +259,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

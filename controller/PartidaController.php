@@ -1,31 +1,36 @@
 <?php
-class PartidaController{
-    private $PartidaModel;
-    private $renderer;
 
+class PartidaController
+{
+    private $partidaModel;
+    private $renderer;
     private $sessionManager;
 
-    public function __construct($PartidaModel, $renderer, $sessionManager) {
-        $this->PartidaModel = $PartidaModel;
+    public function __construct($model, $renderer, $sessionManager)
+    {
+        $this->partidaModel = $model;
         $this->renderer = $renderer;
-        $this->sessionManager=$sessionManager;
+        $this->sessionManager = $sessionManager;
     }
 
-    public function home(){
-        if ($this->laSesionEstaIniciada()){
-            $data=[];
-            $this->renderer->render("Partida", $data);
-        }
-        else {
+    public function home()
+    {
+        if (!$this->isSessionStarted()) {
             header("Location: /");
             exit();
+        } else {
+            $this->renderView();
         }
     }
 
-    private function laSesionEstaIniciada()
+    private function isSessionStarted()
     {
-        return $this->sessionManager->get("logueado");
+        return $this->sessionManager->get("isConnected");
     }
 
-
+    private function renderView()
+    {
+        $data['userLogged'] = $this->sessionManager->get("user");
+        $this->renderer->render("Partida", $data);
+    }
 }

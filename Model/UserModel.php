@@ -1,21 +1,22 @@
 <?php
 
-class UserModel {
-
+class UserModel
+{
     private $database;
 
-    public function __construct($database) {
+    public function __construct($database)
+    {
         $this->database = $database;
     }
 
-    public function getUsuarioPorNombre($nombreUsuario)
+    public function getUserByName($userName)
     {
-        return $this->database->query("SELECT * FROM usuario WHERE Nombre_usuario = '$nombreUsuario'");
-
+        return $this->database->query("SELECT * FROM usuario WHERE Nombre_usuario = '$userName'");
     }
-    // esto esta repetido en Lobby tambien
-    public function getDatosPartida($usuario){
+
+    public function getUserGamesByName($userName)
+    {   // tambien esta en el lobby -> refactorizar
         return $this->database->query("SELECT * FROM partida WHERE id_usuario =
-                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$usuario')");
+                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$userName')");
     }
 }

@@ -1,4 +1,3 @@
-
 <link rel="stylesheet" href="/public/css/home.css">
 <main class="py-5">
     <div class="container px-lg-5 p-4 bg-light rounded-3 ">
@@ -6,8 +5,9 @@
             {{nombre_usuario}}
         </h1>
         <p class="text-center display-5">Validá tu correo para continuar</p>
-        <form class="d-grid gap-2 col-6 mx-auto mt-4" action="/home/validar?id={{hash}}" method="post" enctype="multipart/form-data">
-            <input type="submit" value="Validar" class="btn btn-primary btn-lg">
+        <form class="d-grid gap-2 col-6 mx-auto mt-4" action="/Home/validateEmail?hash={{hash}}" method="post"
+        enctype="multipart/form-data">
+        <input type="submit" value="Validar" class="btn btn-primary btn-lg">
         </form>
     </div>
 </main>

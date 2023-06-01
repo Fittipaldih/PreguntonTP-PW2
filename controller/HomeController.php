@@ -2,54 +2,81 @@
 
 class HomeController
 {
-    private $HomeModel;
+    private $homeModel;
     private $renderer;
     private $sessionManager;
-    public function __construct($HomeModel, $renderer, $sessionManager)
+
+    public function __construct($model, $renderer, $sessionManager)
     {
-        $this->HomeModel = $HomeModel;
+        $this->homeModel = $model;
         $this->renderer = $renderer;
-        $this->sessionManager=$sessionManager;
+        $this->sessionManager = $sessionManager;
     }
 
     public function home()
     {
-        if (!$this->laSesionEstaIniciada()){
+        if (!$this->isSessionStarted()) {
             $data = [];
             $this->renderer->render("home", $data);
         } else {
-            header("Location: /lobby");
-            exit();
+            $this->renderView();
         }
     }
 
-    private function laSesionEstaIniciada()
+    private function isSessionStarted()
     {
-        return $this->sessionManager->get("logueado");
+        return $this->sessionManager->get("isConnected");
+    }
+
+    private function renderView()
+    {
+        header("Location: /lobby");
+        exit();
     }
 
     public function login()
     {
-        $usuario = $_POST['usuario'];
-        $clave = md5($_POST['clave']);
-        $usuarioEncontrado = $this->HomeModel->buscarUsuario($usuario, $clave);
-        if (sizeof($usuarioEncontrado) > 0){
-            $rol=$usuarioEncontrado[0]["Id_rol"];
-            $this->sessionManager->set("logueado", true);
-            $this->sessionManager->set("usuario", $usuario);
-            $this->sessionManager->set("clave", $clave);
-            $this->sessionManager->set("validado", false);
-            switch ($rol){
-                case 0:
-                    $data["nombre_usuario"]=$this->sessionManager->get("usuario");
-                    $data["hash"]=$usuarioEncontrado[0]["Hash"];
-                    $this->renderer->render('validarMail', $data);
-                    break;
-                case 3:
-                    header("Location: /lobby");
-                    exit();
-            }
-        } else $this->renderer->render('/home');
+        $userName = $_POST['user'];
+        $pass = md5($_POST['pass']);
+        $userFound = $this->homeModel->getUserByNameAndPass($userName, $pass);
+
+        if (sizeof($userFound) > 0) {
+            $this->setUserSession($userName, $pass);
+            $this->verifyRol($userFound);
+        } else {
+            $this->renderer->render('/home');
+        }
+    }
+
+    private function setUserSession($userName, $pass)
+    {
+        $this->sessionManager->set("user", $userName);
+        $this->sessionManager->set("pass", $pass);
+        $this->sessionManager->set("isConnected", true);
+    }
+
+    private function verifyRol($user)
+    {
+        // $rol = $this->homeModel->getUserRol($user);
+        $rol = $user[0]["Id_rol"];
+        switch ($rol) {
+            case 0: // No_validado
+                $this->sessionManager->set("validEmail", false);
+                $data["nombre_usuario"] = $user[0]["Nombre_usuario"];
+                $data["hash"] = $user[0]["Hash"];
+                $this->renderer->render('validarMail', $data);
+                break;
+            case 1: // Administrador
+                break;
+            case 2: // Editor
+                break;
+            case 3: // Jugador
+                header("Location: /lobby");
+                exit();
+            default:
+                header("Location: /");
+                exit();
+        }
     }
 
     public function logout()
@@ -59,21 +86,26 @@ class HomeController
         exit();
     }
 
-    public function validar()
+    public function validateEmail()
     {
-        $hash=$_GET["id"];
-        $usuario = $this->sessionManager->get("usuario");
-        $clave= $this->sessionManager->get("clave");
-        $usuarioEncontrado = $this->HomeModel->buscarUsuario($usuario, $clave);
-        if ( $usuarioEncontrado[0]["Hash"]==$hash){
-            $this->HomeModel->cambiarRol($usuario);
-            $this->sessionManager->set("validado", true);
+        $hash = $_GET["hash"];
+        $userName = $this->sessionManager->get("user");
+        $pass = $this->sessionManager->get("pass");
+        $userFound = $this->homeModel->getUserByNameAndPass($userName, $pass);
+
+        if ($this->validateHash($hash, $userFound)) {
+            $this->homeModel->setUserRol($userName);
+            $this->sessionManager->set("validEmail", true);
             header("Location: /");
             exit();
-        }
-        else{
+        } else {
             header("Location: /registro");
             exit();
         }
+    }
+
+    private function validateHash($hash, $userFound)
+    {
+        return $userFound[0]["Hash"] == $hash;
     }
 }
