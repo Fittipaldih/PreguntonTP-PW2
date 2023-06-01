@@ -5,12 +5,15 @@ class PartidaController
     private $partidaModel;
     private $renderer;
     private $sessionManager;
+    private $questionData;
+    private $answerCorrects;
 
     public function __construct($model, $renderer, $sessionManager)
     {
         $this->partidaModel = $model;
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
+        $this->answerCorrects = 0;
     }
 
     public function home()
@@ -36,16 +39,40 @@ class PartidaController
            Porque nuestro metodo query devuelve los resultados como un array siempre
         */
         $data['userLogged'] = $this->sessionManager->get("user");
-
-        $question = $this->partidaModel->getQuestion();
-        $answerComplete= $this->partidaModel->getAnswers($question[0]['id_respuesta']);
-
-        $data['question'] = $question[0]['descripcion'];
-        $data['opcionA'] = $answerComplete[0]['opcionA'];
-        $data['opcionB'] = $answerComplete[0]['opcionB'];
-        $data['opcionC'] = $answerComplete[0]['opcionC'];
-        $data['opcionD'] = $answerComplete[0]['opcionD'];
-        $data['correct'] = $answerComplete[0]['resp_correcta'];
+        $data['answerCorrects'] = $this->answerCorrects;
+        $data+= $this->renderAnswerAndQuestion();
         $this->renderer->render("Partida", $data);
     }
+
+    private function renderAnswerAndQuestion()
+    {
+        $question = $this->partidaModel->getQuestion();
+        $answer= $this->partidaModel->getAnswers($question[0]['id_respuesta']);
+        $this->questionData = [
+            'question' => $question[0]['descripcion'],
+            'opcionA' => $answer[0]['opcionA'],
+            'opcionB' => $answer[0]['opcionB'],
+            'opcionC' => $answer[0]['opcionC'],
+            'opcionD' => $answer[0]['opcionD'],
+            'correct' => $answer[0]['resp_correcta']
+
+        ];
+        return $this->questionData;
+    }
+/*
+    private function checkAnswer()
+    {
+        if (isset($_POST['option'])) {
+            $optionSelected = $_POST['option'];
+            if (isset($this->questionData['correct'])) {
+            if( (string)$this->questionData['correct'] === (string)$optionSelected){
+                $this->answerCorrects+=1;
+
+            }else {
+                var_dump($this->questionData['correct']);
+                var_dump($optionSelected);
+            }
+            }
+        }
+    }*/
 }
