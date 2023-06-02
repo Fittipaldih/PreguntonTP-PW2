@@ -67,8 +67,22 @@ class HomeController
                 $this->renderer->render('validarMail', $data);
                 break;
             case 1: // Administrador
+                /*
+                 * Capaz de ver la cantidad de jugadores que tiene
+                la aplicación, cantidad de partidas jugadas, cantidad de preguntas en el juego, cantidad de
+                preguntas creadas, cantidad de usuarios nuevos, porcentaje de preguntas respondidas
+                correctamente por usuario, cantidad de usuarios por pais, cantidad de usuarios por sexo, cantidad
+                de usuarios por grupo de edad (menores, jubilados, medio). Todos estos gráficos deben poder
+                filtrarse por día, semana, mes o año. Estos reportes tienen que poder imprimirse (al menos las
+                tablas de datos)
+                 * */
                 break;
             case 2: // Editor
+                /*
+                 * Permite dar de alta, baja y modificar las preguntas. A
+                    su vez puede revisar las preguntas reportadas, para aprobar o dar de baja, y aprobar las preguntas
+                    sugeridas por usuarios.
+                 * */
                 break;
             case 3: // Jugador
                 header("Location: /lobby");

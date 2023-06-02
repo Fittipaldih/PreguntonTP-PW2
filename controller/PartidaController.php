@@ -31,11 +31,6 @@ class PartidaController
 
     private function renderView($userCorrects = 0)
     {
-        /* Al hacer [0] en lugar de pasar el array completo..
-           Pasa directamente la descripción o lo que fuese como una cadena de texto
-           Entonces evito errores al renderizador Mustache,
-           Porque nuestro metodo query devuelve los resultados como un array siempre
-        */
         $data['userLogged'] = $this->sessionManager->get("user");
         $data += $this->renderAnswerAndQuestion($userCorrects);
         $this->renderer->render("Partida", $data);
@@ -44,6 +39,7 @@ class PartidaController
     private function renderAnswerAndQuestion($userCorrects)
     {
         $question = $this->partidaModel->getQuestion();
+        $_SESSION['startTime'] = time();
         $answer = $this->partidaModel->getAnswers($question[0]['id_respuesta']);
         $this->questionData = [
             'question' => $question[0]['descripcion'],
@@ -55,6 +51,11 @@ class PartidaController
             'userCorrects' => $userCorrects
         ];
         return $this->questionData;
+        /* Al hacer [0] en lugar de pasar el array completo..
+            Pasa directamente la descripción o lo que fuese como una cadena de texto
+            Entonces evito errores al renderizador Mustache,
+            Porque nuestro metodo query devuelve los resultados como un array siempre
+         */
     }
 
     public function checkAnswer()
@@ -63,12 +64,13 @@ class PartidaController
             $optionSelected = $_POST['optionSelected'];
             $optionCorrect = $_POST['answerCorrect'];
             $userCorrects = $_POST['userCorrects'];
-                if ($optionSelected === $optionCorrect) {
-                    $userCorrects += 1;
-                }
-                else {
-                    echo 'perdiste';
-                }
+
+            if ($this->partidaModel->checkAnswer($optionSelected, $optionCorrect)) {
+                $userCorrects += 1;
+            } else {
+                echo 'perdiste';
+                // FRONTEND (imprimir puntos y la respuesta correcta en un lindo modal)
+            }
             $this->renderView($userCorrects);
         }
     }
