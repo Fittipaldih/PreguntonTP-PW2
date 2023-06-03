@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-06-2023 a las 02:54:49
+-- Tiempo de generación: 03-06-2023 a las 18:00:25
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -177,8 +177,34 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`Id`, `Nombre_completo`, `Fecha_nacimiento`, `Genero`, `Pais`, `Ciudad`, `Mail`, `Nombre_usuario`, `Foto_perfil`, `Id_rol`, `Hash`, `contrasenia_hash`, `Puntaje_max`) VALUES
 (12, 'Marianita Aquino', '2001-03-23', 'Femenino', 'Argentina', 'CABA', 'maraquino@gmail.com', 'Mar', '', 3, '7ce6b2286a5396e614b8484105d277e0', '81dc9bdb52d04dc20036dbd8313ed055', 10),
-(22, 'Hernan', '1997-09-17', 'Masculino', 'Argentina', 'La Matanza', 'fittipaldi.h@gmail.com', 'Fitti', '', 3, '2369fed0fc27c3b658ca7cf02274ba89', '81dc9bdb52d04dc20036dbd8313ed055', 0),
-(33, 'Franco', '1910-12-12', 'Masculino', 'Brasil', 'Casanova', 'franquito@gmail.com', 'Franqo', '', 3, 'ff7acc7b68352c0859ff1bfcb826e0ba', '81dc9bdb52d04dc20036dbd8313ed055', 0);
+(22, 'Hernan', '1997-09-17', 'Masculino', 'Argentina', 'La Matanza', 'fittipaldi.h@gmail.com', 'Fitti', '', 3, '2369fed0fc27c3b658ca7cf02274ba89', '81dc9bdb52d04dc20036dbd8313ed055', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario_pregunta`
+--
+
+CREATE TABLE `usuario_pregunta` (
+  `id` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_pregunta` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuario_pregunta`
+--
+
+INSERT INTO `usuario_pregunta` (`id`, `id_usuario`, `id_pregunta`) VALUES
+(183, 12, 9),
+(184, 12, 6),
+(185, 12, 5),
+(186, 12, 3),
+(187, 12, 7),
+(188, 12, 8),
+(189, 12, 10),
+(190, 12, 1),
+(191, 12, 2);
 
 --
 -- Índices para tablas volcadas
@@ -228,6 +254,12 @@ ALTER TABLE `usuario`
   ADD PRIMARY KEY (`Id`);
 
 --
+-- Indices de la tabla `usuario_pregunta`
+--
+ALTER TABLE `usuario_pregunta`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -259,7 +291,13 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario_pregunta`
+--
+ALTER TABLE `usuario_pregunta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
