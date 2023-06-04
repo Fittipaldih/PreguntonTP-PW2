@@ -94,7 +94,7 @@ class Configuration
     {
         return new Router(
             $this,
-            "getLobbyController",
+            "getHomeController",
             "home");
     }
 

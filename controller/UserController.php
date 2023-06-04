@@ -30,21 +30,6 @@ class UserController
         }
     }
 
-    private function getNameUserBySession()
-    {
-        return $_SESSION["user"];
-    }
-
-    private function getUserGamesByName($name)
-    {
-        return $this->userModel->getUserGamesByName($name);
-    }
-
-    private function getUserByName($name)
-    {
-        return $this->userModel->getUserByName($name);
-    }
-
     private function edit()
     {
         $userName = $_GET['name'];
@@ -80,4 +65,21 @@ class UserController
             }
         }
     }
+
+    private function getNameUserBySession()
+    {
+        return $_SESSION["user"];
+    }
+
+    private function getUserGamesByName($name)
+    {
+        return $this->userModel->getUserGamesByName($name);
+    }
+
+    private function getUserByName($name)
+    {
+        return $this->userModel->getUserByName($name);
+    }
+
+
 }

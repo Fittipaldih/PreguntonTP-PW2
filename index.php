@@ -1,17 +1,25 @@
 <?php
 include_once('Configuration.php');
 include_once ('helpers/SessionManager.php');
+include_once ('helpers/RolManager.php');
 
-$configuration = new Configuration();
 $sessionManager=new SessionManager();
+$configuration = new Configuration();
+$rolManager=new RolManager();
+
 $router = $configuration->getRouter();
 
 $module = $_GET['module'] ?? 'home';
 $method = $_GET['action'] ?? 'home';
 
-if($sessionManager->get("isConnected")){
-    $router->route($module, $method);
-} else $router->route("home", "$method");
+    $idRol=$sessionManager->get("idRol");
+
+    if($rolManager->getAccessRol($idRol, $module, $method)){
+        $router->route($module, $method);
+    } else {
+        $router->route("home", $method);
+    }
+
 
 /* ENTREGAS
 - 05/06 Jugar partida

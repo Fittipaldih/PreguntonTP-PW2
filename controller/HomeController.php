@@ -24,57 +24,16 @@ class HomeController
         $userFound = $this->homeModel->getUserByNameAndPass($userName, $pass);
 
         if (sizeof($userFound) > 0) {
-            $this->setUserSession($userName, $pass);
-            $this->verifyRol($userFound);
-        } else {
-            $this->renderer->render('/home');
-        }
-    }
-
-    private function setUserSession($userName, $pass)
-    {
-        $_SESSION["user"]= $userName;
-        $_SESSION["pass"]=$pass;
-        $_SESSION["isConnected"]=true;
-    }
-
-    private function verifyRol($user)
-    {
-        $rol = $user[0]["Id_rol"];
-        switch ($rol) {
-            case 0: // No_validado
-                $_SESSION["validEmail"]=false;
-                $data["nombre_usuario"] = $user[0]["Nombre_usuario"];
-                $data["hash"] = $user[0]["Hash"];
-                $this->renderer->render('validarMail', $data);
-                break;
-            case 1: // Administrador
-                /*
-                 * Capaz de ver la cantidad de jugadores que tiene
-                la aplicación, cantidad de partidas jugadas, cantidad de preguntas en el juego, cantidad de
-                preguntas creadas, cantidad de usuarios nuevos, porcentaje de preguntas respondidas
-                correctamente por usuario, cantidad de usuarios por pais, cantidad de usuarios por sexo, cantidad
-                de usuarios por grupo de edad (menores, jubilados, medio). Todos estos gráficos deben poder
-                filtrarse por día, semana, mes o año. Estos reportes tienen que poder imprimirse (al menos las
-                tablas de datos)
-                 * */
-                break;
-            case 2: // Editor
-                /*
-                 * Permite dar de alta, baja y modificar las preguntas. A
-                    su vez puede revisar las preguntas reportadas, para aprobar o dar de baja, y aprobar las preguntas
-                    sugeridas por usuarios.
-                 * */
-                break;
-            case 3: // Jugador
+            $this->setUserSession($userName, $pass, $userFound);
+            if ($_SESSION["idRol"]==0) {
+                $data["hash"]=$userFound[0]["Hash"];
+                $this->renderer->render('/validarMail', $data);
+            } else {
                 header("Location: /lobby");
                 exit();
-            default:
-                header("Location: /");
-                exit();
+            }
         }
     }
-
     public function logout()
     {   session_unset();
         session_destroy();
@@ -98,6 +57,16 @@ class HomeController
         }
         exit();
     }
+
+
+    private function setUserSession($userName, $pass, $userFound)
+    {
+        $_SESSION["user"]= $userName;
+        $_SESSION["pass"]=$pass;
+        $_SESSION["isConnected"]=true;
+        $_SESSION["idRol"]=$userFound[0]["Id_rol"];
+    }
+
 
     private function validateHash($hash, $userFound)
     {
