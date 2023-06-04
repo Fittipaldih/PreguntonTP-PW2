@@ -50,8 +50,10 @@ class HomeController
 
     private function setUserSession($userName, $pass)
     {
+        $idUser=$this->homeModel->getUserIdByNameAndPass($userName, $pass);
         $this->sessionManager->set("user", $userName);
         $this->sessionManager->set("pass", $pass);
+        $this->sessionManager->set("idUsuario", $idUser);
         $this->sessionManager->set("isConnected", true);
     }
 
@@ -95,7 +97,8 @@ class HomeController
 
     public function logout()
     {
-        $this->sessionManager->destroy();
+        session_unset();
+        session_destroy();
         header("Location: /home");
         exit();
     }
