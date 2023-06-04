@@ -4,42 +4,25 @@ class UserController
 {
     private $userModel;
     private $renderer;
-    private $sessionManager;
 
-    public function __construct($model, $renderer, $sessionManager)
+    public function __construct($model, $renderer)
     {
         $this->userModel = $model;
         $this->renderer = $renderer;
-        $this->sessionManager = $sessionManager;
     }
 
     public function home()
     {
-        if (!$this->isSessionStarted()) {
-            header("Location: /");
-            exit();
-        } else {
-            $this->renderView();
-        }
-    }
-
-    private function isSessionStarted()
-    {
-        return $this->sessionManager->get("isConnected") && $this->sessionManager->get('user');
-    }
-
-    public function renderView()
-    {
         if (isset($_GET['name'])){
-        $userName = $_GET['name']; // esto lo recibe de la view ranking Linea 18
-        $userLogged = $this->getNameUserBySession();
-        $canEdit = ($userName === $userLogged) ? true : false;
-        $data["canEdit"] = $canEdit;
-        $data["user"] = $this->getUserByName($userName);
-        $data["games"] = $this->getUserGamesByName($userName);
-        $data['userLogged'] = $userLogged;
+            $userName = $_GET['name']; // esto lo recibe de la view ranking Linea 18
+            $userLogged = $this->getNameUserBySession();
+            $canEdit = ($userName === $userLogged) ? true : false;
+            $data["canEdit"] = $canEdit;
+            $data["user"] = $this->getUserByName($userName);
+            $data["games"] = $this->getUserGamesByName($userName);
+            $data['userLogged'] = $userLogged;
 
-        $this->renderer->render("user", $data);
+            $this->renderer->render("user", $data);
         }
         else {
             header("Location: /");
@@ -49,7 +32,7 @@ class UserController
 
     private function getNameUserBySession()
     {
-        return $this->sessionManager->get('user');
+        return $_SESSION["user"];
     }
 
     private function getUserGamesByName($name)

@@ -4,39 +4,23 @@ class PartidaController
 {
     private $partidaModel;
     private $renderer;
-    private $sessionManager;
     private $questionData;
 
-    public function __construct($model, $renderer, $sessionManager)
+    public function __construct($model, $renderer)
     {
         $this->partidaModel = $model;
         $this->renderer = $renderer;
-        $this->sessionManager = $sessionManager;
     }
 
     public function home()
     {
-        if (!$this->isSessionStarted()) {
-            header("Location: /");
-            exit();
-        } else {
-            $this->renderView();
-        }
-    }
-
-    private function isSessionStarted()
-    {
-        return $this->sessionManager->get("isConnected");
-    }
-
-    private function renderView($userCorrects = 0)
-    {
-        $data['userLogged'] = $this->sessionManager->get("user");
+        $data['userLogged']=$_SESSION["user"];
+        $userCorrects = 0;
         $data += $this->renderAnswerAndQuestion($userCorrects);
         $this->renderer->render("Partida", $data);
     }
 
-    private function renderAnswerAndQuestion($userCorrects)
+    private function renderAnswerAndQuestion($userCorrects=0)
     {
         $question = $this->partidaModel->getQuestion();
         $_SESSION['startTime'] = time();
