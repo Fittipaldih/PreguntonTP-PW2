@@ -16,4 +16,6 @@ $router->route($module, $method);
 - 26/06 Rol administrador y sus gráficos
 - 03/07 Entrega
 - 10/07 Entrega final
+
+Hacer QR y MAPA ubicacion, validar mail
 */

@@ -4,6 +4,11 @@
         <h1 class="text-center display-3 fw-bold">
             {{nombre_usuario}}
         </h1>
+        <div>
+            <h1 class="d-grid gap-2 col-6 mx-auto mt-4">
+                <img src="/public/imagenes/ValdidarMail.png" width="500px" class="mx-auto d-block display-5" alt="">
+            </h1>
+        </div>
         <p class="text-center display-5">Validá tu correo para continuar</p>
         <form class="d-grid gap-2 col-6 mx-auto mt-4" action="/Home/validateEmail?hash={{hash}}" method="post"
         enctype="multipart/form-data">
