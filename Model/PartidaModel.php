@@ -14,7 +14,7 @@ class PartidaModel
         return $this->database->query("SELECT Id FROM usuario WHERE Nombre_usuario = '$userName'");
     }
     public function getUserLevelByName($userName)
-    {   // tambien esta en el lobby, y user -> refactorizar
+    {
         return $this->database->query("SELECT nivel FROM usuario WHERE Nombre_usuario = '$userName'");
     }
 

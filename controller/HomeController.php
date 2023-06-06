@@ -103,6 +103,15 @@ class HomeController
         exit();
     }
 
+    /* CATEGORIAS ERA:
+     public function logout()
+    {
+        $this->sessionManager->destroy();
+        header("Location: /home");
+        exit();
+    }
+     */
+
     public function validateEmail()
     {
         $hash = $_GET["hash"];

@@ -47,6 +47,9 @@ class RegistroController
         $passValidate = $_POST["confirmar_contrasenia"];
         $data = [];
 
+        $imagePath="./public/imagenes/" . $photo;
+        move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $imagePath);
+
         $this->createAccount($pass, $passValidate, $nameComplete, $birth, $sex, $country, $city, $mail, $nameUser, $photo, $data);
     }
 
