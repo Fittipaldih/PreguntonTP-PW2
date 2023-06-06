@@ -79,6 +79,7 @@ class PartidaController
                 $this->partidaModel->registerCorrectAnswer($idPregunta, $idUsuario);
                 $this->partidaModel->updateSkillLevel($idPregunta, $idUsuario);
                 $this->renderView($userCorrects);
+
             } else {
                 $this->partidaModel->updateSkillLevel($idPregunta, $idUsuario);
                 $this->partidaModel->insertUserGamesByName($idUsuario, $userCorrects);
