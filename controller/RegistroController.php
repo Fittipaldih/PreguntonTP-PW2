@@ -4,34 +4,17 @@ class RegistroController
 {
     private $registroModel;
     private $renderer;
-    private $sessionManager;
 
-    public function __construct($model, $renderer, $sessionManager)
+    public function __construct($model, $renderer)
     {
         $this->registroModel = $model;
         $this->renderer = $renderer;
-        $this->sessionManager = $sessionManager;
     }
 
     public function home()
     {
-        if (!$this->isSessionStarted()) {
-            $data = [];
-            $this->renderer->render("registro", $data);
-        } else {
-            $this->renderView();
-        }
-    }
-
-    private function isSessionStarted()
-    {
-        return $this->sessionManager->get("isConnected");
-    }
-
-    private function renderView()
-    {
-        header("Location: /lobby");
-        exit();
+        $data = [];
+        $this->renderer->render("registro", $data);
     }
     public function newAccount()
     {
@@ -46,9 +29,6 @@ class RegistroController
         $pass = $_POST["contrasenia"];
         $passValidate = $_POST["confirmar_contrasenia"];
         $data = [];
-
-        $imagePath="./public/imagenes/" . $photo;
-        move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $imagePath);
 
         $this->createAccount($pass, $passValidate, $nameComplete, $birth, $sex, $country, $city, $mail, $nameUser, $photo, $data);
     }

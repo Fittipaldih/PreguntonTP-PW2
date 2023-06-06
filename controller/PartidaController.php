@@ -4,44 +4,28 @@ class PartidaController
 {
     private $partidaModel;
     private $renderer;
-    private $sessionManager;
     private $questionData;
 
-    public function __construct($model, $renderer, $sessionManager)
+    public function __construct($model, $renderer)
     {
         $this->partidaModel = $model;
         $this->renderer = $renderer;
-        $this->sessionManager = $sessionManager;
     }
 
-    public function home()
+    public function home($userCorrects = 0)
     {
-        if (!$this->isSessionStarted()) {
-            header("Location: /");
-            exit();
-        } else {
-            $this->renderView();
-        }
-    }
-
-    private function isSessionStarted()
-    {
-        return $this->sessionManager->get("isConnected");
-    }
-
-    private function renderView($userCorrects = 0)
-    {
-        $data['userLogged'] = $this->sessionManager->get("user");
+        $data['userLogged']=$_SESSION["user"];
         $data += $this->renderAnswerAndQuestion($userCorrects);
         $this->renderer->render("Partida", $data);
     }
+
     private function renderViewPerdiste()
     {
         header("location: /lobby");
         exit();
     }
 
-    private function renderAnswerAndQuestion($userCorrects)
+    private function renderAnswerAndQuestion($userCorrects=0)
     {
         $question = $this->partidaModel->getQuestion();
         $_SESSION['startTime'] = time();
@@ -71,14 +55,14 @@ class PartidaController
             $optionSelected = $_POST['optionSelected'];
             $optionCorrect = $_POST['answerCorrect'];
             $userCorrects = $_POST['userCorrects'];
-            $idPregunta=$this->sessionManager->get("idPregunta");
-            $idUsuario=$this->sessionManager->get("idUsuario")[0]['id'];
+            $idPregunta = $_SESSION["idPregunta"];
+            $idUsuario = $_SESSION['idUser'];
 
             if ($this->partidaModel->checkAnswer($optionSelected, $optionCorrect)) {
                 $userCorrects += 1;
                 $this->partidaModel->registerCorrectAnswer($idPregunta, $idUsuario);
                 $this->partidaModel->updateSkillLevel($idPregunta, $idUsuario);
-                $this->renderView($userCorrects);
+                $this->home($userCorrects);
 
             } else {
                 $this->partidaModel->updateSkillLevel($idPregunta, $idUsuario);
@@ -86,8 +70,6 @@ class PartidaController
                 $this->partidaModel->updateUserMaxScore($idUsuario);
                 $this->renderViewPerdiste();
             }
-            /*$this->partidaModel->updateSkillLevel($idPregunta, $idUsuario);
-            $this->renderView($userCorrects);*/
         }
     }
 }
