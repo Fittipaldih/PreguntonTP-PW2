@@ -4,17 +4,34 @@ class RegistroController
 {
     private $registroModel;
     private $renderer;
+    private $sessionManager;
 
-    public function __construct($model, $renderer)
+    public function __construct($model, $renderer, $sessionManager)
     {
         $this->registroModel = $model;
         $this->renderer = $renderer;
+        $this->sessionManager = $sessionManager;
     }
 
     public function home()
     {
-        $data = [];
-        $this->renderer->render("registro", $data);
+        if (!$this->isSessionStarted()) {
+            $data = [];
+            $this->renderer->render("registro", $data);
+        } else {
+            $this->renderView();
+        }
+    }
+
+    private function isSessionStarted()
+    {
+        return $this->sessionManager->get("isConnected");
+    }
+
+    private function renderView()
+    {
+        header("Location: /lobby");
+        exit();
     }
     public function newAccount()
     {

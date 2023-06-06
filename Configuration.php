@@ -2,6 +2,7 @@
 include_once('helpers/MySqlDatabase.php');
 include_once("helpers/MustacheRender.php");
 include_once('helpers/Router.php');
+include_once('helpers/SessionManager.php');
 
 include_once("model/UserModel.php");
 include_once("model/HomeModel.php");
@@ -32,42 +33,49 @@ class Configuration
     {
         return new UserController(
             new UserModel($this->getDatabase()),
-            $this->getRenderer());
+            $this->getRenderer(),
+            $this->getSessionManager());
     }
 
     public function getHomeController()
     {
         return new HomeController(
             new HomeModel($this->getDatabase()),
-            $this->getRenderer());
+            $this->getRenderer(),
+            $this->getSessionManager());
     }
 
     public function getRegistroController()
     {
         return new RegistroController(
             new RegistroModel($this->getDatabase()),
-            $this->getRenderer());
+            $this->getRenderer(),
+            $this->getSessionManager());
     }
 
     public function getLobbyController()
     {
         return new LobbyController(
             new LobbyModel($this->getDatabase()),
-            $this->getRenderer());
+            $this->getRenderer(),
+            $this->getSessionManager(),
+            $this->getSessionManager());
     }
 
     public function getRankingController()
     {
         return new RankingController(
             new RankingModel($this->getDatabase()),
-            $this->getRenderer());
+            $this->getRenderer(),
+            $this->getSessionManager());
     }
 
     public function getPartidaController()
     {
         return new PartidaController(
             new PartidaModel($this->getDatabase()),
-            $this->getRenderer());
+            $this->getRenderer(),
+            $this->getSessionManager());
     }
 
     private function getArrayConfig()
@@ -98,4 +106,8 @@ class Configuration
             "home");
     }
 
+    public function getSessionManager()
+    {
+        return new SessionManager();
+    }
 }

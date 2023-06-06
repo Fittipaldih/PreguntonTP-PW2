@@ -4,23 +4,37 @@ class LobbyController
 {
     private $lobbyModel;
     private $renderer;
+    private $sessionManager;
 
-    public function __construct($model, $renderer)
+    public function __construct($model, $renderer, $sessionManager)
     {
         $this->lobbyModel = $model;
         $this->renderer = $renderer;
+        $this->sessionManager = $sessionManager;
     }
 
     public function home()
     {
-        $userName=$_SESSION["user"];
+        if (!$this->isSessionStarted()) {
+            header("Location: /");
+            exit();
+        } else {
+            $this->renderView();
+        }
+    }
+
+    private function isSessionStarted()
+    {
+        return $this->sessionManager->get("isConnected");
+    }
+
+    private function renderView()
+    {
+        $userName = $this->sessionManager->get("user");
         $genre = $this->lobbyModel->getUserSex($userName);
         $data["games"] = $this->lobbyModel->getUserGamesByName($userName);
         $data['welcome'] = $this->getWelcome($genre);
         $data['userLogged'] = $userName;
-        $puntaje = $this->lobbyModel->getUserMaxScore($userName);
-        $puntos = $puntaje[0][0];
-        $data['puntaje_max'] = $puntos;
         $this->renderer->render("lobby", $data);
     }
 
