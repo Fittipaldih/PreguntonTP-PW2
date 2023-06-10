@@ -55,12 +55,13 @@ class HomeController
     public function validateEmail()
     {
         $hash = $_GET["hash"];
-        $userName=$_SESSION["user"];
-        $pass=$_SESSION["pass"];
-        $userFound = $this->homeModel->getUserByNameAndPass($userName, $pass);
 
-        if ($this->validateHash($hash, $userFound)) {
-            $this->homeModel->setUserRol($userName);
+
+        $verifedHashArray= $this->homeModel->getUserHash($hash);
+        $hashobtained=$verifedHashArray[0]["Hash"];
+
+        if ($hash==$hashobtained) {
+            $this->homeModel->setUserRol($verifedHashArray[0]["Nombre_usuario"]);
             $_SESSION["validEmail"]=true;
             header("Location: /");
         } else {
@@ -71,6 +72,7 @@ class HomeController
 
     private function validateHash($hash, $userFound)
     {
+
         return $userFound[0]["Hash"] == $hash;
     }
 }

@@ -6,6 +6,7 @@ class PartidaController
     private $renderer;
     private $questionData;
 
+
     public function __construct($model, $renderer)
     {
         $this->partidaModel = $model;
@@ -17,6 +18,7 @@ class PartidaController
         $data['userLogged']=$_SESSION["user"];
         $data += $this->renderAnswerAndQuestion($userCorrects);
         $this->renderer->render("Partida", $data);
+
     }
 
     private function renderViewPerdiste()
@@ -25,12 +27,14 @@ class PartidaController
         exit();
     }
 
-    private function renderAnswerAndQuestion($userCorrects=0)
+    private function renderAnswerAndQuestion($userCorrects)
     {
         $question = $this->partidaModel->getQuestion();
         $_SESSION['startTime'] = time();
         $_SESSION['idPregunta'] = $question[0]['id'];
-        $answer = $this->partidaModel->getAnswers($question[0]['id_respuesta']);
+        $_SESSION['userCorrects'] = $userCorrects;
+        $idQuestion= $_SESSION['idPregunta'];
+        $answer = $this->partidaModel->getOptions($idQuestion);
         $this->questionData = [
             'question' => $question[0]['descripcion'],
             'question_id' => $question[0]['id'],
@@ -38,7 +42,6 @@ class PartidaController
             'opcionB' => $answer[0]['opcionB'],
             'opcionC' => $answer[0]['opcionC'],
             'opcionD' => $answer[0]['opcionD'],
-            'answerCorrect' => $answer[0]['resp_correcta'],
             'userCorrects' => $userCorrects
         ];
         return $this->questionData;
@@ -53,21 +56,20 @@ class PartidaController
     {
         if (isset($_POST['optionSelected'])) {
             $optionSelected = $_POST['optionSelected'];
-            $optionCorrect = $_POST['answerCorrect'];
-            $userCorrects = $_POST['userCorrects'];
-            $idPregunta = $_SESSION["idPregunta"];
-            $idUsuario = $_SESSION['idUser'];
+            $userCorrects = $_SESSION['userCorrects'];
+            $idQuestion = $_SESSION['idPregunta'];
+            $idUser = $_SESSION['idUser'];
 
-            if ($this->partidaModel->checkAnswer($optionSelected, $optionCorrect)) {
+            if ($this->partidaModel->checkAnswer($optionSelected, $idQuestion)) {
                 $userCorrects += 1;
-                $this->partidaModel->registerCorrectAnswer($idPregunta, $idUsuario);
-                $this->partidaModel->updateSkillLevel($idPregunta, $idUsuario);
+                $this->partidaModel->registerCorrectAnswer($idQuestion, $idUser);
+                $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
                 $this->home($userCorrects);
 
             } else {
-                $this->partidaModel->updateSkillLevel($idPregunta, $idUsuario);
-                $this->partidaModel->insertUserGamesByName($idUsuario, $userCorrects);
-                $this->partidaModel->updateUserMaxScore($idUsuario);
+                $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
+                $this->partidaModel->insertUserGamesByName($idUser, $userCorrects);
+                $this->partidaModel->updateUserMaxScore($idUser);
                 $this->renderViewPerdiste();
             }
         }
