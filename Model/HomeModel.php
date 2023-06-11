@@ -22,5 +22,9 @@ class HomeModel
     {
         $this->database->update("UPDATE usuario SET Id_rol = 3 WHERE Nombre_usuario = '$user'");
     }
+    public function getUserHash($hash)
+    {
+        return $this->database->query("SELECT Hash, Nombre_usuario FROM usuario WHERE Hash = '$hash' ");
+    }
 
 }

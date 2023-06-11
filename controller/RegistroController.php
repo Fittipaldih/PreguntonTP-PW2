@@ -37,6 +37,8 @@ class RegistroController
     {
         if ($this->validatePassword($pass, $passValidate)) {
             if ($this->registroModel->saveUser($nameComplete, $birth, $sex, $country, $city, $mail, $nameUser, $photo, $pass, $passValidate)) {
+                $hash=$this->registroModel->getHash($mail);
+                $this->registroModel->sendValidateEmail($mail, $hash, $nameComplete);
                 $this->renderer->render("registroExitoso", $data);
             } else {
                 $data["message"] = "El usuario ya existe";

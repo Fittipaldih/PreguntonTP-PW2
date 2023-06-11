@@ -18,13 +18,21 @@ class PartidaModel
         return $this->database->query("SELECT nivel FROM usuario WHERE Nombre_usuario = '$userName'");
     }
 
-    public function getAnswers($idQuestion)
+    public function getCorrectAnswer($idQuestion)
     {
-        return $this->database->query("SELECT * FROM respuesta WHERE id = '$idQuestion'");
+        return $this->database->singleQuery("SELECT resp_correcta FROM pregunta WHERE id = '$idQuestion'");
     }
+    public function getOptions($idQuestion)
+    {
+        return $this->database->query("SELECT opcionA, opcionB, opcionC, opcionD
+          FROM pregunta
+          WHERE id = $idQuestion");
+    }
+
 
     public function getQuestion()
     {
+
         $result = $this->getIdByName($_SESSION['user']);
         $idUser = $result[0][0];
         $question = null;
@@ -39,6 +47,8 @@ class PartidaModel
             }
         }
         $this->registerQuestion($question[0]['id'], $idUser);
+        //
+
         return $question;
     }
     private function getUserSkilLevel($idUser)
@@ -121,9 +131,12 @@ class PartidaModel
                                  SET nivel = (cant_acertadas / cant_respondidas) * 100
                                  WHERE id = $idUsuario;");
     }
-
-    public function checkAnswer($optionSelected, $optionCorrect)
+    //tenemos que buscar la respuesta correcta dentro de la tabla pregunta, con el id pregunta traido del controller)
+    //el metodo va a comparar la letra elegida contra la letra de la respueta correcta
+    public function checkAnswer($optionSelected, $idQuestion)
     {
+        $correct=$this->getCorrectAnswer($idQuestion);
+        $optionCorrect=$correct["resp_correcta"];
         $endTime = $_SESSION["startTime"] + 10;
         if (time() <= $endTime) {
             return $optionSelected === $optionCorrect;
