@@ -22,32 +22,32 @@ class UserModel
 
     public function setNameComplete($userLogged, $new)
     {
-        return $this->database->update("UPDATE usuario SET Nombre_completo='$new' WHERE Nombre_usuario = '$userLogged'");
-    }
-
-    public function setPhoto($userLogged, $new)
-    {
-        return $this->database->update("UPDATE usuario SET Foto_perfil='$new' WHERE Nombre_usuario = '$userLogged'");
-    }
-
-    public function setSex($userLogged, $new)
-    {
-        return $this->database->update("UPDATE usuario SET Genero='$new' WHERE Nombre_usuario = '$userLogged'");
+        $this->database->update("UPDATE usuario SET Nombre_completo='$new' WHERE Nombre_usuario = '$userLogged'");
     }
 
     public function setBirthDate($userLogged, $new)
     {
-        return $this->database->update("UPDATE usuario SET Fecha_nacimiento='$new' WHERE Nombre_usuario = '$userLogged'");
+        $this->database->update("UPDATE usuario SET Fecha_nacimiento='$new' WHERE Nombre_usuario = '$userLogged'");
     }
 
-    public function setUbication($userLogged, $new)
+    public function setSex($userLogged, $new)
     {
-        return $this->database->update("UPDATE usuario SET Ciudad='$new' WHERE Nombre_usuario = '$userLogged'");
+        $this->database->update("UPDATE usuario SET Genero='$new' WHERE Nombre_usuario = '$userLogged'");
     }
 
-    public function setMail($userLogged, $new)
+    public function setCity($userLogged, $new)
     {
-        return $this->database->update("UPDATE usuario SET Mail='$new' WHERE Nombre_usuario = '$userLogged'");
+        $this->database->update("UPDATE usuario SET Ciudad='$new' WHERE Nombre_usuario = '$userLogged'");
+    }
+
+    public function setCountry($userLogged, $new)
+    {
+        $this->database->update("UPDATE usuario SET Pais='$new' WHERE Nombre_usuario = '$userLogged'");
+    }
+
+    public function setPhoto($userLogged, $new)
+    {
+        $this->database->update("UPDATE usuario SET Foto_perfil='$new' WHERE Nombre_usuario = '$userLogged'");
     }
 
 }

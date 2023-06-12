@@ -23,6 +23,7 @@ class UserController
 
         $this->renderer->render("user", $data);
     }
+
     private function getNameUserBySession()
     {
         return $_SESSION["user"];
@@ -38,38 +39,28 @@ class UserController
         return $this->userModel->getUserByName($name);
     }
 
-    private function edit()
+    public function edit()
     {
-        $edit = $_POST['edit'];
-        $new = $_POST['new'];
-        switch ($edit) {
-            case 'photo':
-                $this->userModel->setPhoto($this->getNameUserBySession(), $new);
-                header("Location: /user");
-                break;
-            case 'nameComplete':
-                $this->userModel->setNameComplete($this->getNameUserBySession(), $new);
-                header("Location: /user");
-                break;
-            case 'genre':
-                $this->userModel->setSex($this->getNameUserBySession(), $new);
-                header("Location: /user");
-                break;
-            case 'birthDate':
-                $this->userModel->setBirthDate($this->getNameUserBySession(), $new);
-                header("Location: /user");
-                break;
-            case 'ubi':
-                $this->userModel->setUbication($this->getNameUserBySession(), $new);
-                header("Location: /user");
-                break;
-            case 'mail':
-                $this->userModel->setMail($this->getNameUserBySession(), $new);
-                header("Location: /user");
-                break;
-            default :
-                header("Location: /lobby");
-                exit();
+        $userName = $this->getNameUserBySession();
+
+        $variables = ['nameComplete', 'birthDate', 'sex', 'city', 'country'];
+
+        foreach ($variables as $variable) {
+            if (isset($_POST[$variable])) {
+                ${$variable} = $_POST[$variable];
+                $this->userModel->setNameComplete($userName, $nameComplete);
+                $this->userModel->setBirthDate($userName, $birthDate);
+                $this->userModel->setSex($userName, $sex);
+                $this->userModel->setCity($userName, $city);
+                $this->userModel->setCountry($userName, $country);
+            }
         }
+        if (isset($_FILES['photo'])) {
+            $photo =  basename($_FILES['photo']['name']);
+            $imagePath = "/public/imagenes/" . $photo;
+            move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $imagePath);
+            $this->userModel->setPhoto($userName, $photo);
+        }
+        header("Location: /user&name=" . $userName);
     }
 }

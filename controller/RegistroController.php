@@ -25,9 +25,11 @@ class RegistroController
         $city = $_POST["ciudad"];
         $mail = $_POST["correo"];
         $nameUser = $_POST["nombre_usuario"];
-        $photo = basename($_FILES['foto_perfil']['name']);
         $pass = $_POST["contrasenia"];
         $passValidate = $_POST["confirmar_contrasenia"];
+        $photo = basename($_FILES['foto_perfil']['name']);
+        $imagePath = "/public/imagenes/" . $photo;
+        move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $imagePath);
         $data = [];
 
         $this->createAccount($pass, $passValidate, $nameComplete, $birth, $sex, $country, $city, $mail, $nameUser, $photo, $data);
