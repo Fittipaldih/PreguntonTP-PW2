@@ -18,9 +18,9 @@ class LobbyController
         $data["games"] = $this->lobbyModel->getUserGamesByName($userName);
         $data['welcome'] = $this->getWelcome($genre);
         $data['userLogged'] = $userName;
-        $puntaje = $this->lobbyModel->getUserMaxScore($userName);
-        $puntos = $puntaje[0][0];
-        $data['puntaje_max'] = $puntos;
+        $score = $this->lobbyModel->getUserMaxScore($userName);
+        $scores = $score[0][0];
+        $data['puntaje_max'] = $scores;
         $this->renderer->render("lobby", $data);
     }
 

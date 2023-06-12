@@ -6,7 +6,6 @@ class PartidaController
     private $renderer;
     private $questionData;
 
-
     public function __construct($model, $renderer)
     {
         $this->partidaModel = $model;
@@ -21,7 +20,7 @@ class PartidaController
 
     }
 
-    private function renderViewPerdiste()
+    private function renderViewLost()
     {
         header("location: /lobby");
         exit();
@@ -45,11 +44,6 @@ class PartidaController
             'userCorrects' => $userCorrects
         ];
         return $this->questionData;
-        /* Al hacer [0] en lugar de pasar el array completo..
-            Pasa directamente la descripción o lo que fuese como una cadena de texto
-            Entonces evito errores al renderizador Mustache,
-            Porque nuestro metodo query devuelve los resultados como un array siempre
-         */
     }
 
     public function checkAnswer()
@@ -70,7 +64,7 @@ class PartidaController
                 $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
                 $this->partidaModel->insertUserGamesByName($idUser, $userCorrects);
                 $this->partidaModel->updateUserMaxScore($idUser);
-                $this->renderViewPerdiste();
+                $this->renderViewLost();
             }
         }
     }

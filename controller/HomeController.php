@@ -60,8 +60,6 @@ class HomeController
     public function validateEmail()
     {
         $hash = $_GET["hash"];
-
-
         $verifedHashArray= $this->homeModel->getUserHash($hash);
         $hashobtained=$verifedHashArray[0]["Hash"];
 
@@ -77,7 +75,6 @@ class HomeController
 
     private function validateHash($hash, $userFound)
     {
-
         return $userFound[0]["Hash"] == $hash;
     }
 }
