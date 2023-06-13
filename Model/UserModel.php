@@ -17,7 +17,7 @@ class UserModel
     public function getUserGamesByName($userName)
     {   // tambien esta en el lobby -> refactorizar
         return $this->database->query("SELECT * FROM partida WHERE id_usuario =
-                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$userName')");
+                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$userName') ORDER BY id DESC LIMIT 50");
     }
 
     public function setNameComplete($userLogged, $new)

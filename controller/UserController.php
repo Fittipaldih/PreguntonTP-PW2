@@ -65,7 +65,7 @@ class UserController
         header("Location: /user&name=" . $userName);
     }
 
-    public function generateQR()
+    private function generateQR()
     {
         $dir = 'public/qr/';
 

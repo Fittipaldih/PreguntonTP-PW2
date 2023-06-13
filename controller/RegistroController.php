@@ -58,4 +58,5 @@ class RegistroController
     {
         return $pass === $passValidate;
     }
+
 }

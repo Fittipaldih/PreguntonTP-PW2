@@ -11,7 +11,7 @@ body{
 }
 
 main{
-    min-height: calc(100vh - 15em);
+    min-height: calc(100vh - 18em);
 }
 
 .content{
