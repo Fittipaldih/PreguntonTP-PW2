@@ -4,7 +4,7 @@
         <div>
             <img src="/public/imagenes/perfil.jpg" width="50px" class="rounded mx-auto d-block">
         </div>
-        <style>
+       <style>
             #myProgress {
                 width: 100%;
                 background-color: #ddd;
@@ -13,9 +13,10 @@
             #myBar {
                 width: 1%;
                 height: 30px;
-                background-color: #04AA6D;
+                background-color: #0d6efd;
             }
         </style>
+
         <body>
         <h2 class="text-center display-6">Responde antes de que se te acabe el tiempo!</h2>
 
@@ -40,6 +41,7 @@
         </div>
     </div>
 </main>
+
 <script>
 
     var i = 0;
@@ -48,7 +50,7 @@
             i = 1;
             var elem = document.getElementById("myBar");
             var width = 1;
-            var id = setInterval(frame, 110);
+            var id = setInterval(frame, 103);
             function frame() {
                 if (width >= 100) {
                     clearInterval(id);
