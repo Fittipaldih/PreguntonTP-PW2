@@ -18,11 +18,7 @@ class LobbyController
         $data["games"] = $this->lobbyModel->getUserGamesByName($userName);
         $data['welcome'] = $this->getWelcome($genre);
         $data['userLogged'] = $userName;
-<<<<<<< Updated upstream
-        $puntaje = $this->lobbyModel->getUserMaxScore($userName);
-        $puntos = $puntaje[0][0];
-        $data['puntaje_max'] = $puntos;
-=======
+
         $score = $this->lobbyModel->getUserMaxScore($userName);
         $scores = $score[0][0];
         $data['puntaje_max'] = $scores;
@@ -34,8 +30,6 @@ class LobbyController
         } else {
             $data['showLostModal'] = false;
         }
-
->>>>>>> Stashed changes
         $this->renderer->render("lobby", $data);
     }
 
