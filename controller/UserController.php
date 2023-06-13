@@ -52,7 +52,7 @@ class UserController
                 $this->userModel->setNameComplete($userName, $nameComplete);
                 $this->userModel->setBirthDate($userName, $birthDate);
                 $this->userModel->setSex($userName, $sex);
-                $this->userModel->setCity($userName, $city);
+
                 $this->userModel->setCountry($userName, $country);
             }
         }

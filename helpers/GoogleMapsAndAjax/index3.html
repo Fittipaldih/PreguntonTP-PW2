@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Uso de Google Maps</title>
+    <script src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyAiq3xISXSZYgkd9GDAOdajy4NK2d3L7dY"></script>
+    <script>
+        function loadMap() {
+
+            var mapOptions = {
+                center:new google.maps.LatLng(-34.6686986,-58.5614947),
+                zoom:6,
+                mapTypeId:google.maps.MapTypeId.HYBRID
+            };
+
+            var map = new google.maps.Map(document.getElementById("mapa"),mapOptions);
+        }
+    </script>
+</head>
+<body onload="loadMap()">
+<br/>
+<br/>
+
+<ul>
+    <li>Ejemplo nro 3. Cambiar el Zoom.</li>
+
+</ul>
+<div id="mapa" style="width:500px; height:400px;"></div>
+<br/>
+<b>Pasos</b><br/>
+<ul>
+    <li>Los pasos son los mismos que en el ejemplo 2, pero al crear el objeto mapOptions, cambiamos el valor del Zoom</li>
+</ul>
+<img src="imagenes/ejemplo3.png">
+<br/>
+<br/>
+<a href="index4.html">Siguiente </a>
+<br/>
+
+
+
+
+
+</body>
+</html>

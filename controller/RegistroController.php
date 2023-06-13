@@ -22,7 +22,8 @@ class RegistroController
         $birth = $_POST["fecha_nacimiento"];
         $sex = $_POST["sexo"];
         $country = $_POST["pais"];
-        $city = $_POST["ciudad"];
+        $lat = $_POST['lat'];
+        $lng = $_POST['lng'];
         $mail = $_POST["correo"];
         $nameUser = $_POST["nombre_usuario"];
         $pass = $_POST["contrasenia"];
@@ -32,13 +33,13 @@ class RegistroController
         move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $imagePath);
         $data = [];
 
-        $this->createAccount($pass, $passValidate, $nameComplete, $birth, $sex, $country, $city, $mail, $nameUser, $photo, $data);
+        $this->createAccount($pass, $passValidate, $nameComplete, $birth, $sex, $country, $lat, $lng, $mail, $nameUser, $photo, $data);
     }
 
-    private function createAccount($pass, $passValidate, $nameComplete, $birth, $sex, $country, $city, $mail, $nameUser, $photo, $data)
+    private function createAccount($pass, $passValidate, $nameComplete, $birth, $sex, $country, $lat, $lng, $mail, $nameUser, $photo, $data)
     {
         if ($this->validatePassword($pass, $passValidate)) {
-            if ($this->registroModel->saveUser($nameComplete, $birth, $sex, $country, $city, $mail, $nameUser, $photo, $pass, $passValidate)) {
+            if ($this->registroModel->saveUser($nameComplete, $birth, $sex, $country, $lat, $lng, $mail, $nameUser, $photo, $pass, $passValidate)) {
                 $hash=$this->registroModel->getHash($mail);
                 $this->registroModel->sendValidateEmail($mail, $hash, $nameComplete);
                 $this->renderer->render("registroExitoso", $data);

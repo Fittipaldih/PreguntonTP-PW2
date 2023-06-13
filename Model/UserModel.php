@@ -20,6 +20,7 @@ class UserModel
                         (SELECT Id FROM usuario WHERE Nombre_usuario = '$userName') ORDER BY id DESC LIMIT 50");
     }
 
+
     public function setNameComplete($userLogged, $new)
     {
         $this->database->update("UPDATE usuario SET Nombre_completo='$new' WHERE Nombre_usuario = '$userLogged'");
@@ -33,11 +34,6 @@ class UserModel
     public function setSex($userLogged, $new)
     {
         $this->database->update("UPDATE usuario SET Genero='$new' WHERE Nombre_usuario = '$userLogged'");
-    }
-
-    public function setCity($userLogged, $new)
-    {
-        $this->database->update("UPDATE usuario SET Ciudad='$new' WHERE Nombre_usuario = '$userLogged'");
     }
 
     public function setCountry($userLogged, $new)

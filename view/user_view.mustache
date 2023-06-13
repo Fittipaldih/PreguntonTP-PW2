@@ -14,7 +14,6 @@
                 <p><strong>Género:</strong> {{Genero}}</p>
                 <p><strong>Fecha de Nacimiento:</strong> {{Fecha_nacimiento}}</p>
                 <p><strong>Correo:</strong> {{Mail}}</p>
-                <p><strong>Ubicación:</strong> {{Ciudad}}, {{Pais}} <img src="public/imagenes/{{Pais}}.png" width="35px"></p>
                 {{#canEdit}}
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEdit">
                         Editar perfil
@@ -52,19 +51,21 @@
                                                 <option value="Prefiero no cargarlo">Prefiero no cargarlo</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label">Ciudad:</label>
-                                            <input type="text" name="city" class="form-control" value="{{Ciudad}}">
-                                        </div>
-                                        <div class="col-md-6">
+                                        <!-- <div class="col-md-6">
                                             <label class="form-label">País:</label>
                                             <select class="form-select" name="country" required>
                                                 <option value="{{Pais}}">{{Pais}}</option>
-                                                <option value="Argentina">Argentina</option>
-                                                <option value="Brasil">Brasil</option>
-                                                <option value="Chile">Chile</option>
+                                                <option value="1">Argentina</option>
+                                                <option value="2">Bolivia</option>
+                                                <option value="3">Brasil</option>
+                                                <option value="4">Colombia</option>
+                                                <option value="5">Mexico</option>
+                                                <option value="6">Paraguay</option>
+                                                <option value="7">Peru</option>
+                                                <option value="8">Uruguay</option>
+                                                <option value="9">Venezuela</option>
                                             </select>
-                                        </div>
+                                        </div>-->
                                         <!-- Modal footer -->
                                         <div class="modal-footer">
                                             <input type="submit" value="Aplicar" class="btn btn-primary" data-bs-dismiss="modal">
@@ -75,13 +76,22 @@
                         </div>
                     </div>
                 {{/canEdit}}
+
+                {{lat}}
+                {{lng}}
             </div>
             <div class="col-md-3">
 
                 <img src="public/qr/{{Nombre_usuario}}.png" alt="Código QR">
                 <p class="fw-bold">Compartí el perfil con tus amigos</p>
             </div>
-            <div id="mapa" style="width:1500px; height:400px;"></div>
+
+            <p><strong>Ubicación:</strong> {{Ciudad}}, {{Pais}} <img src="public/imagenes/{{Pais}}.png" width="35px"></p>
+
+            <div id="mapUser" style="width:1500px; height:400px;">
+
+
+            </div>
         {{/user}}
     </div>
     <div class="mx-auto">
@@ -106,4 +116,5 @@
     </div>
     </div>
 </main>
-<script src="/public/js/mapsApi.js"></script>
+<script src="/public/js/userMapApi.js"></script>
+

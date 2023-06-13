@@ -8,7 +8,7 @@ function loadMap() {
         mapTypeId:google.maps.MapTypeId.ROADMAP
     };
 
-    var map = new google.maps.Map(document.getElementById("mapa"),mapOptions);
+    var map = new google.maps.Map(document.getElementById("mapUser"),mapOptions);
 
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(-34.6686986,-58.5614947),
