@@ -19,7 +19,7 @@ include_once('controller/RankingController.php');
 include_once('controller/PartidaController.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
-
+include_once('third-party/phpqrcode/qrlib.php');
 
 class Configuration
 {

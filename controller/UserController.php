@@ -21,6 +21,7 @@ class UserController
         $data["games"] = $this->getUserGamesByName($userName);
         $data['userLogged'] = $userLogged;
 
+        $this->generateQR();
         $this->renderer->render("user", $data);
     }
 
@@ -56,11 +57,30 @@ class UserController
             }
         }
         if (isset($_FILES['photo'])) {
-            $photo =  basename($_FILES['photo']['name']);
+            $photo = basename($_FILES['photo']['name']);
             $imagePath = "/public/imagenes/" . $photo;
             move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $imagePath);
             $this->userModel->setPhoto($userName, $photo);
         }
         header("Location: /user&name=" . $userName);
+    }
+
+    public function generateQR()
+    {
+        $dir = 'public/qr/';
+
+        if (!file_exists($dir)) {
+            mkdir($dir);
+        }
+        $nameUser = $_GET['name'];
+        $filename = $dir . $nameUser . '.png';
+
+        if (!file_exists($filename)) {
+            $size = 9;
+            $level = 'M';
+            $frameSize = 1;
+            $content = "localhost/user&name=" . $nameUser;
+            QRcode::png($content, $filename, $level, $size, $frameSize);
+        }
     }
 }
