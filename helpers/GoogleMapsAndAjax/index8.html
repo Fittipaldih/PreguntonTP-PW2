@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Uso de Google Maps</title>
+    <script src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyAiq3xISXSZYgkd9GDAOdajy4NK2d3L7dY"></script>
+    <script>
+        function loadMap() {
+
+            var mapOptions = {
+                center:new google.maps.LatLng(-34.6686986,-58.5614947),
+                zoom:12,
+                panControl: false,
+                zoomControl: false,
+                scaleControl: false,
+                mapTypeControl:false,
+                streetViewControl:true,
+                overviewMapControl:true,
+                rotateControl:true,
+                mapTypeId:google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(document.getElementById("mapa"),mapOptions);
+
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(-34.6686986,-58.5614947),
+                map: map,
+                draggable:true,
+                icon:'/imagenes/logo_unlam.png'
+            });
+        }
+    </script>
+</head>
+<body onload="loadMap()">
+<br/>
+<br/>
+
+<ul>
+    <li>Ejemplo nro 8. Crear un marcador personalizado.</li>
+
+</ul>
+<div id="mapa" style="width:500px; height:400px;"></div>
+<br/>
+<b>Pasos</b><br/>
+<ul>
+    <li>Para personalizar un marcador, debo agregar la propiedad correspondiente al objeto marker</li>
+    <li>Para eleiminar un marcador en tiempo real utilizo marker.setMap(null);</li>
+</ul>
+<img src="imagenes/ejemplo8.png">
+<br/>
+<br/>
+<a href="index9.html">Siguiente </a>
+<br/>
+
+
+
+
+
+</body>
+</html>

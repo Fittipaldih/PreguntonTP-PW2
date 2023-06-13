@@ -1,104 +1,120 @@
 <link rel="stylesheet" href="/public/css/home.css">
 <main class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3 ">
-        <div class="row g-3">
-            {{#user}}
-                <h1 class="text-center display-3 fw-bold">{{Nombre_usuario}}
-                    {{#canEdit}}
-                        <a href="user&name={{Nombre_usuario}}/edit=userName">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                            </svg>
-                        </a>
-                    {{/canEdit}}
-                </h1>
+    <div class="row g-3">
+        {{#user}}
+            <h1 class="text-center display-3 fw-bold">{{Nombre_usuario}}</h1>
+            <h2 class="text-center">Puntaje máximo: {{Puntaje_max}}</h2>
+        <div class="col-md-5 d-flex justify-content-center">
+            {{#Foto_perfil}}<img src="/public/imagenes/{{Foto_perfil}}" height="300px" class="rounded d-block">{{/Foto_perfil}}
+            {{^Foto_perfil}}<img src="/public/imagenes/perfil.jpg" height="300px" class="rounded d-block">{{/Foto_perfil}}
+        </div>
+            <div class="col-md-4">
+                <p><strong>Nombre completo:</strong> {{Nombre_completo}}</p>
+                <p><strong>Género:</strong> {{Genero}}</p>
+                <p><strong>Fecha de Nacimiento:</strong> {{Fecha_nacimiento}}</p>
+                <p><strong>Correo:</strong> {{Mail}}</p>
+                {{#canEdit}}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEdit">
+                        Editar perfil
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"> <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/></svg>
+                    </button>
+                    <div class="modal fade" id="modalEdit">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Editar perfil de {{Nombre_usuario}}</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form action="/user/edit" method="post" enctype="multipart/form-data" class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Nombre completo:</label>
+                                            <input type="text" name="nameComplete" class="form-control" required value="{{Nombre_completo}}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Nueva foto de perfil:</label>
+                                            <input type="file" name="photo" class="form-control">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Fecha de nacimiento:</label>
+                                            <input type="date" name="birthDate" class="form-control" required min="1900-01-01" max="2013-12-31" value="{{Fecha_nacimiento}}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Sexo:</label>
+                                            <select name="sex" class="form-select" required>
+                                                <option value="{{Genero}}">{{Genero}}</option>
+                                                <option value="Masculino">Masculino</option>
+                                                <option value="Femenino">Femenino</option>
+                                                <option value="Prefiero no cargarlo">Prefiero no cargarlo</option>
+                                            </select>
+                                        </div>
+                                        <!-- <div class="col-md-6">
+                                            <label class="form-label">País:</label>
+                                            <select class="form-select" name="country" required>
+                                                <option value="{{Pais}}">{{Pais}}</option>
+                                                <option value="1">Argentina</option>
+                                                <option value="2">Bolivia</option>
+                                                <option value="3">Brasil</option>
+                                                <option value="4">Colombia</option>
+                                                <option value="5">Mexico</option>
+                                                <option value="6">Paraguay</option>
+                                                <option value="7">Peru</option>
+                                                <option value="8">Uruguay</option>
+                                                <option value="9">Venezuela</option>
+                                            </select>
+                                        </div>-->
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                            <input type="submit" value="Aplicar" class="btn btn-primary" data-bs-dismiss="modal">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/canEdit}}
 
-                <h2 class="text-center">Puntaje máximo: {{Puntaje_max}}</h2>
-                <div class="col-md-6 d-flex justify-content-center">
-                    <img src="/public/imagenes/perfil.jpg" width="200px" class="rounded d-block">
-                    {{#canEdit}}
-                        <a href="user&name={{Nombre_usuario}}/edit=photo">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                            </svg>
-                        </a>
-                    {{/canEdit}}
-                </div>
-                <div class="col-md-6 ">
-                    <p>• Nombre completo: {{Nombre_completo}}
-                        {{#canEdit}}
-                            <a href="user&name={{Nombre_usuario}}/edit=nameComplete">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                </svg>
-                            </a>
-                        {{/canEdit}}
-                    </p>
-                    <p>• Género: {{Genero}}
-                        {{#canEdit}}
-                            <a href="user&name={{Nombre_usuario}}/edit=sex">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                </svg>
-                            </a>
-                        {{/canEdit}}
-                    </p>
-                    <p>• Fecha de Nacimiento: {{Fecha_nacimiento}}
-                        {{#canEdit}}
-                            <a href="user&name={{Nombre_usuario}}/edit=birthDate">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                </svg>
-                            </a>
-                        {{/canEdit}}
-                    </p>
-                    <p>• Ubicación: {{Ciudad}}, {{Pais}} <img src="public/imagenes/pais.png" width="30px">
-                        {{#canEdit}}
-                            <a href="user&name={{Nombre_usuario}}/edit=ubi">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                </svg>
-                            </a>
-                        {{/canEdit}}
-                    </p>
-                    <p>• Correo: {{Mail}}
-                        {{#canEdit}}
-                            <a href="user&name={{Nombre_usuario}}/edit=mail">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                </svg>
-                            </a>
-                        {{/canEdit}}
-                    </p>
-                </div>
-            {{/user}}
-        </div>
-        <div class="mx-auto">
-            <br>
-            <h3>Partidas jugadas</h3>
-            <table class="table table-striped">
-                <thead>
+                {{lat}}
+                {{lng}}
+            </div>
+            <div class="col-md-3">
+
+                <img src="public/qr/{{Nombre_usuario}}.png" alt="Código QR">
+                <p class="fw-bold">Compartí el perfil con tus amigos</p>
+            </div>
+
+            <p><strong>Ubicación:</strong> {{Ciudad}}, {{Pais}} <img src="public/imagenes/{{Pais}}.png" width="35px"></p>
+
+            <div id="mapUser" style="width:1500px; height:400px;">
+
+
+            </div>
+        {{/user}}
+    </div>
+    <div class="mx-auto">
+        <br>
+        <h3>Partidas jugadas</h3>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Id Partida:</th>
+                <th>Puntaje obtenido:</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#games}}
                 <tr>
-                    <th>Id Partida:</th>
-                    <th>Puntaje obtenido:</th>
+                    <td># {{id}}</td>
+                    <td>{{puntaje}} puntos</td>
                 </tr>
-                </thead>
-                <tbody>
-                {{#games}}
-                    <tr>
-                        <td># {{id}}</td>
-                        <td>{{puntaje}} puntos</td>
-                    </tr>
-                {{/games}}
-                </tbody>
-            </table>
-        </div>
+            {{/games}}
+            </tbody>
+        </table>
+    </div>
     </div>
 </main>
+<script src="/public/js/userMapApi.js"></script>
+

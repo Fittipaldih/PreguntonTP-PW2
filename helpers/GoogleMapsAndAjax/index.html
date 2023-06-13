@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Uso de Google Maps</title>
+    <script src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyAiq3xISXSZYgkd9GDAOdajy4NK2d3L7dY"></script>
+    <script>
+        function loadMap() {
+
+            var mapOptions = {
+                center:new google.maps.LatLng(-34.6686986,-58.5614947),
+                zoom:12,
+                mapTypeId:google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(document.getElementById("mapa"),mapOptions);
+        }
+
+       //google.maps.event.addDomListener(window, 'load', loadMap);
+
+    </script>
+</head>
+<body onload="loadMap()">
+Hola, este es un peque&ntilde;o Tutorial acerca del uso de Google Maps<br/>
+<br/>
+
+
+<ul>
+    <li>Ejemplo nro 1. Lo mas Simple.</li>
+
+</ul>
+<div id="mapa" style="width:500px; height:400px;"></div>
+<br/>
+<b>Pasos</b><br/>
+<ul>
+    <li>Insertar la libreria (API) de Google Maps en el HEAD</li>
+    <li>Crear el contenedor, en este caso un DIV con id mapa</li>
+    <li>Creamos un objeto mapOptions donde ponemos las caracteristicas del mapa</li>
+    <li>Creamos un objeto map con dos parametros, el DIV y el objeto mapOptions </li>
+    <li>Luego caramos el mapa, en este caso llamando a la funcion loadMap en el BODY</li>
+</ul>
+<img src="imagenes/ejemplo1.png">
+<br/>
+<br/>
+<a href="index2.html">Siguiente </a>
+<br/>
+
+
+
+
+
+</body>
+</html>

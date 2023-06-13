@@ -13,7 +13,7 @@ class RankingController
 
     public function home()
     {
-        $data['userlogged']=$_SESSION["user"];
+        $data['userLogged']=$_SESSION["user"];
         $data['users'] = $this->rankingModel->getNameAndScoreByPositionOfUsers();
         $this->renderer->render("ranking", $data);
     }

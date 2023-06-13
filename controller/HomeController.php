@@ -27,12 +27,17 @@ class HomeController
             $this->setUserSession($userName, $pass, $userFound);
             if ($_SESSION["idRol"]==0) {
                 $data["hash"]=$userFound[0]["Hash"];
-                $this->renderer->render('/validarMail', $data);
-            } else {
+                $this->renderer->render('/registroExitoso', $data);
+            } elseif ($_SESSION["idRol"]==3) {
                 header("Location: /lobby");
                 exit();
             }
+            else {
+                header("location:/");
+                exit();
+            }
         }
+
     }
 
     public function logout()
@@ -55,8 +60,6 @@ class HomeController
     public function validateEmail()
     {
         $hash = $_GET["hash"];
-
-
         $verifedHashArray= $this->homeModel->getUserHash($hash);
         $hashobtained=$verifedHashArray[0]["Hash"];
 
@@ -72,7 +75,6 @@ class HomeController
 
     private function validateHash($hash, $userFound)
     {
-
         return $userFound[0]["Hash"] == $hash;
     }
 }

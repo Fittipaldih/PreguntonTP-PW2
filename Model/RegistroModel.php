@@ -43,7 +43,7 @@ class RegistroModel{
 
 
     }
-    public function saveUser($nameComplete, $birth, $sex, $country, $city, $mail, $nameUser, $photo, $pass, $passValidate)
+    public function saveUser($nameComplete, $birth, $sex, $country, $lat, $lng, $mail, $nameUser, $photo, $pass, $passValidate)
     {
         $ret = false;
         $passHash = md5($pass);
@@ -51,9 +51,9 @@ class RegistroModel{
         $validateHash = md5($token);
 
         if ($this->validateUser($mail, $nameUser)) {
-            $query = "INSERT INTO usuario (Nombre_completo, Fecha_nacimiento, Genero, Pais, Ciudad, Mail, Nombre_usuario, Foto_perfil, Hash, contrasenia_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO usuario (Nombre_completo, Fecha_nacimiento, Genero, idPais, lat, lng, Mail, Nombre_usuario, Foto_perfil, Hash, contrasenia_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->database->prepare($query);
-            $stmt->bind_param("ssssssssss", $nameComplete, $birth, $sex, $country, $city, $mail, $nameUser, $photo, $validateHash, $passHash);
+            $stmt->bind_param("sssiddsssss", $nameComplete, $birth, $sex, $country, $lat, $lng, $mail, $nameUser, $photo, $validateHash, $passHash);
             $stmt->execute();
             if ($stmt->affected_rows > 0) {
                 $ret = true;
@@ -83,4 +83,5 @@ class RegistroModel{
 
         return $resultado['Hash'];
     }
+
 }

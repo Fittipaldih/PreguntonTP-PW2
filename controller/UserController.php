@@ -13,57 +13,16 @@ class UserController
 
     public function home()
     {
-        if (isset($_GET['name'])){
-            $userName = $_GET['name']; // esto lo recibe de la view ranking Linea 18
-            $userLogged = $this->getNameUserBySession();
-            $canEdit = ($userName === $userLogged) ? true : false;
-            $data["canEdit"] = $canEdit;
-            $data["user"] = $this->getUserByName($userName);
-            $data["games"] = $this->getUserGamesByName($userName);
-            $data['userLogged'] = $userLogged;
-
-            $this->renderer->render("user", $data);
-        }
-        else {
-            header("Location: /");
-            exit();
-        }
-    }
-
-    private function edit()
-    {
-        $userName = $_GET['name'];
+        $userName = $_GET['name']; // esto lo recibe de la view ranking Linea 18
         $userLogged = $this->getNameUserBySession();
-        if ($userLogged === $userName) {
-            $edit = $_GET['edit'];
-            $new = $_GET['new'];
-            switch ($edit) {
-                case 'userName':
-                    $this->userModel->setUserName($userLogged, $new);
-                    break;
-                case 'photo':
-                    $this->userModel->setPhoto($userLogged, $new);
-                    break;
-                case 'nameComplete':
-                    $this->userModel->setNameComplete($userLogged, $new);
-                    break;
-                case 'sex':
-                    $this->userModel->setSex($userLogged, $new);
-                    break;
-                case 'birthDate':
-                    $this->userModel->setBirthDate($userLogged, $new);
-                    break;
-                case 'ubi':
-                    $this->userModel->setUbication($userLogged, $new);
-                    break;
-                case 'mail':
-                    $this->userModel->setMail($userLogged, $new);
-                    break;
-                default :
-                    header("Location: /lobby");
-                    exit();
-            }
-        }
+        $canEdit = ($userName === $userLogged) ? true : false;
+        $data["canEdit"] = $canEdit;
+        $data["user"] = $this->getUserByName($userName);
+        $data["games"] = $this->getUserGamesByName($userName);
+        $data['userLogged'] = $userLogged;
+
+        $this->generateQR();
+        $this->renderer->render("user", $data);
     }
 
     private function getNameUserBySession()
@@ -81,5 +40,47 @@ class UserController
         return $this->userModel->getUserByName($name);
     }
 
+    public function edit()
+    {
+        $userName = $this->getNameUserBySession();
 
+        $variables = ['nameComplete', 'birthDate', 'sex', 'city', 'country'];
+
+        foreach ($variables as $variable) {
+            if (isset($_POST[$variable])) {
+                ${$variable} = $_POST[$variable];
+                $this->userModel->setNameComplete($userName, $nameComplete);
+                $this->userModel->setBirthDate($userName, $birthDate);
+                $this->userModel->setSex($userName, $sex);
+
+                $this->userModel->setCountry($userName, $country);
+            }
+        }
+        if (isset($_FILES['photo'])) {
+            $photo = basename($_FILES['photo']['name']);
+            $imagePath = "/public/imagenes/" . $photo;
+            move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $imagePath);
+            $this->userModel->setPhoto($userName, $photo);
+        }
+        header("Location: /user&name=" . $userName);
+    }
+
+    private function generateQR()
+    {
+        $dir = 'public/qr/';
+
+        if (!file_exists($dir)) {
+            mkdir($dir);
+        }
+        $nameUser = $_GET['name'];
+        $filename = $dir . $nameUser . '.png';
+
+        if (!file_exists($filename)) {
+            $size = 9;
+            $level = 'M';
+            $frameSize = 1;
+            $content = "localhost/user&name=" . $nameUser;
+            QRcode::png($content, $filename, $level, $size, $frameSize);
+        }
+    }
 }

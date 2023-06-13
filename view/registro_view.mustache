@@ -1,82 +1,108 @@
-
 <link rel="stylesheet" href="/public/css/home.css">
 
 <main class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3">
         <h2 class="text-center display-3 fw-bold">¡Creá tu cuenta y divertite jugando!</h2>
-    <br>
+        <br>
         <form action="/registro/newAccount" method="post" enctype="multipart/form-data" class="row g-3">
 
-        <div class="col-md-6">
-            <label class="form-label">Nombre completo:</label>
-            <input type="text" name="nombre" class="form-control" required placeholder="Ingresar nombre">
-        </div>
+            <div class="col-md-6">
+                <label class="form-label">Nombre completo:</label>
+                <input type="text" name="nombre" class="form-control" required placeholder="Ingresar nombre">
+            </div>
 
-        <div class="col-md-6">
-            <label class="form-label">Fecha de nacimiento:</label>
-            <input type="date" name="fecha_nacimiento" class="form-control" required min="1900-01-01" max="2013-12-31">
-        </div>
+            <div class="col-md-6">
+                <label class="form-label">Fecha de nacimiento:</label>
+                <input type="date" name="fecha_nacimiento" class="form-control" required min="1900-01-01"
+                       max="2013-12-31">
+            </div>
 
-        <div class="col-md-6">
-            <label class="form-label">Sexo:</label>
-            <select name="sexo" class="form-select" required>
-                <option value="">Seleccionar sexo</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Femenino">Femenino</option>
-                <option value="Prefiero no cargarlo">Prefiero no cargarlo</option>
-            </select>
-        </div>
+            <div class="col-md-6">
+                <label class="form-label">Sexo:</label>
+                <select name="sexo" class="form-select" required>
+                    <option value="">Seleccionar sexo</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Prefiero no cargarlo">Prefiero no cargarlo</option>
+                </select>
+            </div>
 
-        <div class="col-md-6">
-            <label class="form-label">País:</label>
-            <select class="form-select" name="pais" required>
+            <div class="col-md-6">
+                <label class="form-label">País:</label>
+                <select class="form-select" name="pais" required>
                 <option value="">Seleccionar país</option>
-                <option value="Argentina">Argentina</option>
-                <option value="Brasil">Brasil</option>
-                <option value="Chile">Chile</option>
-            </select>
-        </div>
+                <option value="1">Argentina</option>
+                <option value="2">Bolivia</option>
+                <option value="3">Brasil</option>
+                <option value="4">Colombia</option>
+                <option value="5">Mexico</option>
+                <option value="6">Paraguay</option>
+                <option value="7">Peru</option>
+                <option value="8">Uruguay</option>
+                <option value="9">Venezuela</option>
+                </select>
+            </div>
 
-        <div class="col-md-6">
-            <label class="form-label">Ciudad:</label>
-            <input type="text" name="ciudad" class="form-control" required placeholder="Ingresar ciudad">
-        </div>
+            <div id="mapReg" style="width:1500px; height:400px;"></div>
+            <input type="hidden" name="lat" id="lat" value="">
+            <input type="hidden" name="lng" id="lng" value="">
 
-        <div class="col-md-6">
-            <label class="form-label">Correo electrónico:</label>
-            <input type="email" name="correo" class="form-control" required placeholder="Ingresar correo">
-        </div>
+            <div class="col-md-6">
+                <label class="form-label">Correo electrónico:</label>
+                <input type="email" name="correo" class="form-control" required placeholder="Ingresar correo">
+            </div>
 
-        <div class="col-md-6">
-            <label class="form-label">Nombre de usuario:</label>
-            <input type="text" name="nombre_usuario" class="form-control" required placeholder="¿Cómo querés ser reconocido dentro del juego?">
-        </div>
+            <div class="col-md-6">
+                <label class="form-label">Nombre de usuario:</label>
+                <input type="text" name="nombre_usuario" class="form-control" required
+                       placeholder="¿Cómo querés ser reconocido dentro del juego?">
+            </div>
 
-        <div class="col-md-6">
-            <label class="form-label">Foto de perfil:</label>
-            <input type="file" name="foto_perfil" class="form-control">
-        </div>
+            <div class="col-md-6">
+                <label class="form-label">Foto de perfil:</label>
+                <input type="file" name="foto_perfil" class="form-control">
+            </div>
 
-        <div class="col-md-6">
-            <label class="form-label">Contraseña:</label>
-            <input type="password" name="contrasenia" class="form-control" required placeholder="Ingresar contraseña segura">
-        </div>
+            <div class="col-md-6">
+                <label class="form-label">Contraseña:</label>
+                <input type="password" name="contrasenia" class="form-control" required
+                       placeholder="Ingresar contraseña segura">
+            </div>
 
-        <div class="col-md-6">
-            <label class="form-label">Repetir contraseña:</label>
-            <input type="password" name="confirmar_contrasenia" class="form-control" required placeholder="Confirmar contraseña">
-        </div>
+            <div class="col-md-6">
+                <label class="form-label">Repetir contraseña:</label>
+                <input type="password" name="confirmar_contrasenia" class="form-control" required
+                       placeholder="Confirmar contraseña">
+            </div>
 
-        <div class="col-12">
-            {{#message}}
-                <h2 class="alert alert-danger text-center">{{message}}</h2>
-            {{/message}}
-            <div class="d-flex justify-content-between">
-
-            <a href="/" class="btn btn-outline-primary btn-lg">Volver a inicio</a>
-                <input type="submit" value="Registrarse" class="btn btn-primary btn-lg">
+            <div class="col-12">
+                <div class="d-flex justify-content-between">
+                    <a href="/" class="btn btn-outline-primary btn-lg">Volver a inicio</a>
+                    <input type="submit" value="Registrarse" class="btn btn-primary btn-lg">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal" id="message">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h4 class="modal-title">Registro fallido</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/public/imagenes/brain2.png" width="400px" class="mx-auto d-block display-5" alt="">
+                    <p>Lo sentimos, {{message}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
             </div>
         </div>
-    </form>
-</div>
+    </div>
+
 </main>
+<script src="/public/js/regMapApi.js"></script>
+{{#showMessage}}
+    <script src="/public/js/messageReg.js.js"></script>
+{{/showMessage}}
