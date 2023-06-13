@@ -68,15 +68,32 @@
         </div>
 
         <div class="col-12">
-            {{#message}}
-                <h2 class="alert alert-danger text-center">{{message}}</h2>
-            {{/message}}
             <div class="d-flex justify-content-between">
-
             <a href="/" class="btn btn-outline-primary btn-lg">Volver a inicio</a>
                 <input type="submit" value="Registrarse" class="btn btn-primary btn-lg">
             </div>
         </div>
     </form>
 </div>
+    <div class="modal" id="message">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h4 class="modal-title">Registro fallido</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/public/imagenes/RegistroExitoso.png" width="400px" class="mx-auto d-block display-5" alt="">
+                    <p>Lo sentimos, {{message}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </main>
+{{#showMessage}}
+    <script src="/public/js/registro.js"></script>
+{{/showMessage}}

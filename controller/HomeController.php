@@ -27,7 +27,7 @@ class HomeController
             $this->setUserSession($userName, $pass, $userFound);
             if ($_SESSION["idRol"]==0) {
                 $data["hash"]=$userFound[0]["Hash"];
-                $this->renderer->render('/validarMail', $data);
+                $this->renderer->render('/registroExitoso', $data);
             } elseif ($_SESSION["idRol"]==3) {
                 header("Location: /lobby");
                 exit();

@@ -23,6 +23,7 @@ class PartidaController
 
     private function renderViewPerdiste()
     {
+        $_SESSION['lost'] = true;
         header("location: /lobby");
         exit();
     }

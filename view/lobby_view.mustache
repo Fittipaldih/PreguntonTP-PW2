@@ -30,4 +30,27 @@
             </table>
         </div>
     </div>
+
+    <div class="modal" id="lostModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Partida finalizada</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Lo sentimos, ¡Has perdido el juego!</p>
+                    <p>Cantidad de respuestas correctas: {{userCorrects}}</p>
+                    <p>¡Intentá nuevamente y lidera la clasificación!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </main>
+{{#showLostModal}}
+    <script src="/public/js/lostModal.js"></script>
+{{/showLostModal}}

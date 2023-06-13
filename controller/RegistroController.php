@@ -43,11 +43,13 @@ class RegistroController
                 $this->registroModel->sendValidateEmail($mail, $hash, $nameComplete);
                 $this->renderer->render("registroExitoso", $data);
             } else {
-                $data["message"] = "El usuario ya existe";
+                $data["message"] = "el usuario ya está registrado. Prueba con otro nombre o un mail distinto.";
+                $data['showMessage'] = true;
                 $this->renderer->render("registro", $data);
             }
         } else {
-            $data["message"] = "Las contraseñas no coinciden";
+            $data["message"] = "las contraseñas no coinciden. Intentá nuevamente. ";
+            $data['showMessage'] = true;
             $this->renderer->render("registro", $data);
         }
     }
