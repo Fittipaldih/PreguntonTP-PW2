@@ -49,6 +49,8 @@ class PartidaModel
         $this->registerQuestion($question[0]['id'], $idUser);
         //
 
+        $_SESSION['startTime'] = time();
+        $_SESSION['idPregunta'] = $question[0]['id'];
         return $question;
     }
     private function getUserSkilLevel($idUser)
@@ -143,6 +145,7 @@ class PartidaModel
         } else {
             return false;
         }
+
     }
 
     public function insertUserGamesByName($idUser, $puntaje)

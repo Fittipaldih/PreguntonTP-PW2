@@ -14,36 +14,23 @@ class PartidaController
 
     public function home($userCorrects = 0)
     {
+        $_SESSION['userCorrects'] = $userCorrects;
         $data['userLogged']=$_SESSION["user"];
-        $data += $this->renderAnswerAndQuestion($userCorrects);
         $this->renderer->render("Partida", $data);
 
     }
 
     private function renderViewLost()
     {
-        $_SESSION['lost'] = true;
+
         header("location: /lobby");
         exit();
     }
 
     private function renderAnswerAndQuestion($userCorrects)
     {
-        $question = $this->partidaModel->getQuestion();
-        $_SESSION['startTime'] = time();
-        $_SESSION['idPregunta'] = $question[0]['id'];
-        $_SESSION['userCorrects'] = $userCorrects;
-        $idQuestion= $_SESSION['idPregunta'];
-        $answer = $this->partidaModel->getOptions($idQuestion);
-        $this->questionData = [
-            'question' => $question[0]['descripcion'],
-            'question_id' => $question[0]['id'],
-            'opcionA' => $answer[0]['opcionA'],
-            'opcionB' => $answer[0]['opcionB'],
-            'opcionC' => $answer[0]['opcionC'],
-            'opcionD' => $answer[0]['opcionD'],
-            'userCorrects' => $userCorrects
-        ];
+        //$_SESSION['userCorrects'] = $userCorrects;
+
         return $this->questionData;
     }
 
@@ -66,18 +53,21 @@ class PartidaController
             $idUser = $_SESSION['idUser'];
 
             if ($this->partidaModel->checkAnswer($optionSelected, $idQuestion)) {
-                $userCorrects += 1;
+                $_SESSION['userCorrects'] += 1;
                 $this->partidaModel->registerCorrectAnswer($idQuestion, $idUser);
                 $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
                 $response['success'] = true;
 
+
             } else {
+                $_SESSION['lost'] = true;
                 $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
                 $this->partidaModel->insertUserGamesByName($idUser, $userCorrects);
                 $this->partidaModel->updateUserMaxScore($idUser);
                 $response['success'] = false;
+
             }
-            header('Content-Type: application/json');
+
             echo json_encode($response);
         }
 
