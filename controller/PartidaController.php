@@ -47,6 +47,16 @@ class PartidaController
         return $this->questionData;
     }
 
+
+    public function renderQuestionData()
+    {
+        $question= $this->partidaModel->getQuestion();
+
+        echo json_encode($question[0]);
+
+
+    }
+
     public function checkAnswer()
     {
         if (isset($_POST['optionSelected'])) {
@@ -59,14 +69,17 @@ class PartidaController
                 $userCorrects += 1;
                 $this->partidaModel->registerCorrectAnswer($idQuestion, $idUser);
                 $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
-                $this->home($userCorrects);
+                $response['success'] = true;
 
             } else {
                 $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
                 $this->partidaModel->insertUserGamesByName($idUser, $userCorrects);
                 $this->partidaModel->updateUserMaxScore($idUser);
-                $this->renderViewLost();
+                $response['success'] = false;
             }
+            header('Content-Type: application/json');
+            echo json_encode($response);
         }
+
     }
 }

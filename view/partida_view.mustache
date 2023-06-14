@@ -28,13 +28,13 @@
         <br>
 
         </body>
-        <h2 class="text-center display-6 fw-bold">{{question}}</h2>
+        <h2 class="text-center display-6 fw-bold" id="questionDescripcion"></h2>
         <div>
-            <form action="/partida/checkAnswer" method="post" enctype="multipart/form-data" class="d-grid gap-2 col-6 mx-auto mt-4">
-                <button class="btn btn-primary btn-lg" id="default" type="submit" name="optionSelected" value="A">A) {{opcionA}}</button>
-                <button class="btn btn-primary btn-lg" type="submit" name="optionSelected" value="B">B) {{opcionB}}</button>
-                <button class="btn btn-primary btn-lg" type="submit" name="optionSelected" value="C">C) {{opcionC}}</button>
-                <button class="btn btn-primary btn-lg" type="submit" name="optionSelected" value="D">D) {{opcionD}}</button>
+            <form action="/partida/checkAnswer" method="post" id="form" enctype="multipart/form-data" class="d-grid gap-2 col-6 mx-auto mt-4">
+                <button class="btn btn-primary btn-lg" id="opciona" type="submit" name="optionSelected" value="A">A) </button>
+                <button class="btn btn-primary btn-lg" id="opcionb" type="submit" name="optionSelected" value="B">B) </button>
+                <button class="btn btn-primary btn-lg" id="opcionc" type="submit" name="optionSelected" value="C">C) </button>
+                <button class="btn btn-primary btn-lg" id="opciond" type="submit" name="optionSelected" value="D">D) </button>
             </form>
             <p class="text-center">Cantidad de respuestas correctas: {{userCorrects}}</p>
             <button class="btn btn-outline-primary btn-lg"> Reportar</button>
@@ -42,6 +42,104 @@
     </div>
 </main>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+
+</script>
+
+<script>
+    c
+   /*
+    window.onload = function()  {
+        $.ajax({
+            url: 'http://localhost/partida/renderQuestionData',
+            method: 'GET',
+            dataType: 'json',
+            success: function (question) {
+                $('#questionDescripcion').text(question.descripcion);
+                $('#opciona').text(question.opcionA);
+                $('#opcionb').text(question.opcionB);
+                $('#opcionc').text(question.opcionC);
+                $('#opciond').text(question.opcionD);
+
+                console.log(question);
+            },
+            error: function (xhr, status, error) {
+                // Maneja los errores aquí
+                console.log(error);
+            }
+        });
+    }
+    */
+
+</script>
+
+<script>
+
+
+    $(document).ready(function() {
+        cargarAjax();
+        // Controlador de eventos para el evento "submit" del formulario
+        $('#form').submit(function(event) {
+            event.preventDefault(); // Evita el envío del formulario por defecto
+
+            // Realizar validación del formulario aquí
+            // ...
+
+            // Obtener los datos del formulario
+            var formData = $(this).serialize();
+
+            // Enviar la solicitud AJAX al backend
+            $.ajax({
+                url: 'http://localhost/partida/checkAnswer',
+                method: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+                    // Evaluar el resultado recibido del backend
+                    if (response.success) {
+                        // Cargar nuevamente la misma función de AJAX
+                        cargarAjax();
+                    } else {
+                        // Realizar otra acción en caso de error
+                        alert('Ha ocurrido un error en la validación del formulario');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        // Función para cargar la función de AJAX nuevamente
+        function cargarAjax() {
+            // Realizar cualquier preparación adicional antes de cargar la función de AJAX nuevamente
+            // ...
+
+            // Llamar a la función de AJAX nuevamente
+            $.ajax({
+                url: 'http://localhost/partida/renderQuestionData',
+                method: 'GET',
+                dataType: 'json',
+                success: function (question) {
+                    $('#questionDescripcion').text(question.descripcion);
+                    $('#opciona').text(question.opcionA);
+                    $('#opcionb').text(question.opcionB);
+                    $('#opcionc').text(question.opcionC);
+                    $('#opciond').text(question.opcionD);
+
+                    console.log(question);
+                },
+                error: function (xhr, status, error) {
+                    // Maneja los errores aquí
+                    console.log(error);
+                }
+            });
+        }
+    });
+</script>
+
+<!--
 <script>
 
     var i = 0;
@@ -50,13 +148,13 @@
             i = 1;
             var elem = document.getElementById("myBar");
             var width = 1;
-            var id = setInterval(frame, 103);
+            var id = setInterval(frame, 108);
             function frame() {
                 if (width >= 100) {
                     clearInterval(id);
                     i = 0;
                     console.log("asd");
-                    document.getElementById("default").click();
+                    document.getElementById("opciona").click();
                 } else {
                     width++;
                     elem.style.width = width + "%";
@@ -66,4 +164,4 @@
         }
     }
 
-</script>
+</script> -->
