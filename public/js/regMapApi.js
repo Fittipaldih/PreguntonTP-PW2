@@ -18,9 +18,7 @@ function loadMap() {
         var lat = event.latLng.lat();
         var lng = event.latLng.lng();
         marker.setPosition(new google.maps.LatLng(lat, lng));
-
         document.getElementById("lat").value = lat;
         document.getElementById("lng").value = lng;
     });
 }
-

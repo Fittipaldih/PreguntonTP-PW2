@@ -1,5 +1,5 @@
 <main class="py-5" id="main-content">
-    <div class="content container px-lg-5 p-4 bg-light rounded-3 position-relative ">
+    <div class="content container px-lg-5 p-4 bg-light rounded-3 ">
         {{#user}}
             <article class="row g-3 ">
                 <h1 id="userName" class="text-center text-primary display-2 fw-bold">{{Nombre_usuario}}
@@ -8,15 +8,11 @@
                 <br><br>
                 <section class="card">
                     <div class="row g-0">
-                        <div class="col-md-3 m-3 text-center position-absolute top-0 end-0">
-                            <img src="public/qr/{{Nombre_usuario}}.png" id="qr" alt="Código QR">
-                            <p class="fw-bold m-0 p-0">Compartí el perfil</p>
-                        </div>
-                        <div class="col-md-4 d-flex justify-content-center align-items-end position-relative">
+                        <div class="col-md-4 d-flex justify-content-center align-items-end">
                             {{#Foto_perfil}}
-                                <img src="/public/imagenes/{{Foto_perfil}}" class="imgPerfil m-0 rounded d-block"
+                                <img src="/public/imagenes/{{Foto_perfil}}" class="imgPerfil m-0 rounded "
                                      alt="Foto de perfil">{{/Foto_perfil}}
-                            {{^Foto_perfil}}<img src="/public/imagenes/perfil.jpg" class="imgPerfil rounded d-block"
+                            {{^Foto_perfil}}<img src="/public/imagenes/perfil.jpg" class="imgPerfil rounded"
                                                  alt="Foto de perfil">{{/Foto_perfil}}
                             {{#canEdit}}
                                 <div class="modal fade" id="modalEdit">
@@ -101,7 +97,7 @@
                                 </button>
                             {{/canEdit}}
                         </div>
-                        <article class="col-md-8">
+                        <article class="d-flex col-md-8">
                             <div class="card-body">
                                 <h2 class="card-title">Mejor puntaje: {{Puntaje_max}}</h2>
                                 <dl>
@@ -114,6 +110,10 @@
                                     <dt>Nombre completo</dt>
                                     <dd>- {{Nombre_completo}}</dd>
                                 </dl>
+                            </div>
+                            <div class="col-md-4 m-3 text-center">
+                                <img src="public/qr/{{Nombre_usuario}}.png" id="qr" alt="Código QR">
+                                <p class="fw-bold m-0 p-0">Compartí el perfil</p>
                             </div>
                         </article>
                     </div>

@@ -1,46 +1,39 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     background-image: url("/public/imagenes/fondo14.png");
-    height: 100%;
+    padding: 0;
+    margin: 0;
 }
-
-main {
-    min-height: calc(100vh - 20em);
-}
-
 .content {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    min-height: calc(100vh - 20em);
+    min-height: calc(100vh - 19.5em);
     align-items: center;
     padding: 30px;
+    width: 90%;
 }
-
+footer {
+    min-height: 9.5em;
+}
+/*VISTA HOME*/
+.imgPregunton{
+    width: 70%;
+}
 /* VISTA USUARIO */
 .imgPerfil {
-    height: 50vh;
-    width: 50vh;
+    max-width: 100%;
+    width: 500px
 }
-
 .card {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
-
 #qr {
-    height: 30vh;
-    width: 30vh;
+    max-width: 90%;
+    width: 400px
 }
-
 /* VISTA PARTIDA */
 #myProgress {
     width: 100%;
     background-color: #ddd;
 }
-
 #myBar {
     width: 1%;
     height: 30px;

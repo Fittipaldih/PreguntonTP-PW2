@@ -1,4 +1,5 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -7,43 +8,47 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
 
-class RegistroModel{
+class RegistroModel
+{
     private $database;
 
     public function __construct($database)
     {
         $this->database = $database;
     }
-    public function sendValidateEmail($email, $hash, $nameComplete){
+
+    public function sendValidateEmail($email, $hash, $nameComplete)
+    {
         $mail = new PHPMailer;
-        try{
+        try {
             $mail->SMTPDebug = 0;
-        $mail->isSMTP();
-        $mail->Host = 'mail.cinalent.com.ar';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'pregunton@cinalent.com.ar';
-        $mail->Password = 'q9aHxdjV[rj#';
-        $mail->SMTPSecure = 'tls';
-        $mail->Port = 587;
+            $mail->isSMTP();
+            $mail->Host = 'mail.cinalent.com.ar';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'pregunton@cinalent.com.ar';
+            $mail->Password = 'q9aHxdjV[rj#';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
 
 
-        $mail->setFrom('pregunton@cinalent.com.ar', 'Pregunton');
-        $mail->addAddress($email, $nameComplete);
-        $mail->Subject = '¡Valida tu cuenta para empezar a jugar!';
+            $mail->setFrom('pregunton@cinalent.com.ar', 'Pregunton');
+            $mail->addAddress($email, $nameComplete);
+            $mail->Subject = '¡Valida tu cuenta para empezar a jugar!';
 
 
-        $mail->isHTML(true);
-        $mail->Body = '<h1> Tu URL para el activar tu correo </h1>
+            $mail->isHTML(true);
+            $mail->Body = '<h1> Tu URL para el activar tu correo </h1>
                          Haz click <a href="' . $_SERVER['SERVER_NAME'] . '/Home/validateEmail?hash=' . $hash . '">en este link</a> para validar tu email';
-        $mail->AltBody = 'Si no puedes ver este mensaje, por favor, habilita el soporte para HTML en tu cliente de correo.';
-        $mail->send();
+            $mail->AltBody = 'Si no puedes ver este mensaje, por favor, habilita el soporte para HTML en tu cliente de correo.';
+            $mail->send();
         } catch (Exception $e) {
             echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
         }
 
 
     }
-    public function saveUser($nameComplete, $birth, $sex, $country, $lat, $lng, $mail, $nameUser, $photo, $pass, $passValidate)
+
+    public function saveUser($nameComplete, $birth, $sex, $country, $lat, $lng, $mail, $nameUser, $photo, $pass)
     {
         $ret = false;
         $passHash = md5($pass);
@@ -78,8 +83,14 @@ class RegistroModel{
         }
     }
 
-    public function getHash($email){
-        $resultado= $this->database->singleQuery("SELECT Hash FROM usuario WHERE mail = '$email'");
+    public function validatePassword($pass, $passValidate)
+    {
+        return $pass === $passValidate;
+    }
+
+    public function getHash($email)
+    {
+        $resultado = $this->database->singleQuery("SELECT Hash FROM usuario WHERE mail = '$email'");
 
         return $resultado['Hash'];
     }
