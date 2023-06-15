@@ -10,7 +10,7 @@ class PartidaModel
     }
 
     public function getIdByName($userName)
-    {   // tambien esta en el lobby, y user -> refactorizar
+    {
         return $this->database->query("SELECT Id FROM usuario WHERE Nombre_usuario = '$userName'");
     }
     public function getUserLevelByName($userName)
@@ -29,10 +29,8 @@ class PartidaModel
           WHERE id = $idQuestion");
     }
 
-
     public function getQuestion()
     {
-
         $result = $this->getIdByName($_SESSION['user']);
         $idUser = $result[0][0];
         $question = null;
@@ -41,7 +39,7 @@ class PartidaModel
             $question = $this->queryQuestionByDiff($idUser, $difficulty);
                 if(!$question)
                     $question= $this->queryQuestion($idUser);
-                    //con esto, si no encuentra preguntas de tu nivel, te devuelve una random
+                    //si no encuentra preguntas de tu nivel, te devuelve una random
             if ($question == null || empty($question)) {
                 $this->cleanTable($idUser);
             }
@@ -82,10 +80,6 @@ class PartidaModel
                  (SELECT 1 FROM usuario_pregunta WHERE id_usuario = '$idUser' AND pregunta.id = usuario_pregunta.id_pregunta) 
                    ORDER BY RAND() LIMIT 1"),
         };
-       /* return $this->database->query
-        ("SELECT * FROM pregunta WHERE NOT EXISTS
-        (SELECT 1 FROM usuario_pregunta WHERE id_usuario = '$idUser' AND pregunta.id = usuario_pregunta.id_pregunta) 
-        ORDER BY RAND() LIMIT 1"); */
     }
     public function queryQuestion($idUser){
         return $this->database->query
@@ -93,8 +87,6 @@ class PartidaModel
         (SELECT 1 FROM usuario_pregunta WHERE id_usuario = '$idUser' AND pregunta.id = usuario_pregunta.id_pregunta) 
         ORDER BY RAND() LIMIT 1");
     }
-
-
 
     public function cleanTable($idUser)
     {
@@ -145,7 +137,6 @@ class PartidaModel
         } else {
             return false;
         }
-
     }
 
     public function insertUserGamesByName($idUser, $puntaje)
@@ -163,5 +154,8 @@ class PartidaModel
         return $this->database->query("SELECT MAX(puntaje) FROM partida WHERE id_usuario=$idUser; ");
     }
 
-
+    public function getUserPhoto($nameUser)
+    {
+        return $this->database->singleQuery("SELECT Foto_perfil FROM usuario WHERE Nombre_usuario=$nameUser;");
+    }
 }

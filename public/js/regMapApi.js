@@ -1,7 +1,7 @@
 function loadMap() {
     var mapOptions = {
         center: new google.maps.LatLng(-34.6686986, -58.5614947),
-        zoom: 7,
+        zoom: 8,
         mapTypeControl: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -23,3 +23,4 @@ function loadMap() {
         document.getElementById("lng").value = lng;
     });
 }
+

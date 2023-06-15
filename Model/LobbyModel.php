@@ -28,11 +28,9 @@ class LobbyModel
     public function getUserGamesByName($user)
     { // tambien esta en el userModel -> refactorizar
         return $this->database->query("SELECT * FROM partida WHERE id_usuario =
-                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$user')");
+                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$user') ORDER BY id DESC LIMIT 50");
     }
     public function getUserMaxScore($userName){
         return $this->database->query("SELECT puntaje_max FROM usuario WHERE Nombre_usuario = '$userName'");
-
-
     }
 }

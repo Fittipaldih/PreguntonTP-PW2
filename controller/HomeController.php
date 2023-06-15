@@ -19,10 +19,9 @@ class HomeController
 
     public function login()
     {
-        $userName = $_POST['user'];
+        $userName = ucfirst(strtolower($_POST['user']));
         $pass = md5($_POST['pass']);
         $userFound = $this->homeModel->getUserByNameAndPass($userName, $pass);
-
         if (sizeof($userFound) > 0) {
             $this->setUserSession($userName, $pass, $userFound);
             if ($_SESSION["idRol"]==0) {

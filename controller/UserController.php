@@ -15,12 +15,11 @@ class UserController
     {
         $userName = $_GET['name']; // esto lo recibe de la view ranking Linea 18
         $userLogged = $this->getNameUserBySession();
-        $canEdit = ($userName === $userLogged) ? true : false;
+        $canEdit = (strtoupper($userName)) == (strtoupper($userLogged));
         $data["canEdit"] = $canEdit;
         $data["user"] = $this->getUserByName($userName);
         $data["games"] = $this->getUserGamesByName($userName);
         $data['userLogged'] = $userLogged;
-
         $this->generateQR();
         $this->renderer->render("user", $data);
     }
@@ -43,23 +42,33 @@ class UserController
     public function edit()
     {
         $userName = $this->getNameUserBySession();
-
         $variables = ['nameComplete', 'birthDate', 'sex', 'city', 'country'];
 
-        foreach ($variables as $variable) {
-            if (isset($_POST[$variable])) {
-                ${$variable} = $_POST[$variable];
-                $this->userModel->setNameComplete($userName, $nameComplete);
-                $this->userModel->setBirthDate($userName, $birthDate);
-                $this->userModel->setSex($userName, $sex);
+        $nameComplete = $_POST['nameComplete'] ?? null;
+        $birthDate = $_POST['birthDate'] ?? null;
+        $sex = $_POST['sex'] ?? null;
+        $country = $_POST['country'] ?? null;
 
-                $this->userModel->setCountry($userName, $country);
-            }
+        if ($nameComplete !== null) {
+            $this->userModel->setNameComplete($userName, $nameComplete);
         }
+
+        if ($birthDate !== null) {
+            $this->userModel->setBirthDate($userName, $birthDate);
+        }
+
+        if ($sex !== null) {
+            $this->userModel->setSex($userName, $sex);
+        }
+
+        if ($country !== null) {
+            $this->userModel->setCountry($userName, $country);
+        }
+
         if (isset($_FILES['photo'])) {
             $photo = basename($_FILES['photo']['name']);
-            $imagePath = "/public/imagenes/" . $photo;
-            move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $imagePath);
+            $imagePath = "./public/imagenes/" . $photo;
+            move_uploaded_file($_FILES['photo']['tmp_name'], $imagePath);
             $this->userModel->setPhoto($userName, $photo);
         }
         header("Location: /user&name=" . $userName);

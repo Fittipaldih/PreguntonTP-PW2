@@ -1,39 +1,35 @@
-<link rel="stylesheet" href="/public/css/home.css">
 <main class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3">
-        <h1 class="text-center display-3 fw-bold">
-            ¡{{welcome}} {{userLogged}}!
-        </h1>
-        <h2 class="text-center">Puntaje máximo: {{puntaje_max}}</h2>
-        <div class="d-grid gap-2 col-6 mx-auto mt-4">
+        <h1 class="text-center text-primary display-2 fw-bold">¡{{welcome}} {{userLogged}}!</h1>
+        <h2 class="text-center">Mejor puntaje: {{puntaje_max}}</h2>
+        <article class="d-grid gap-2 col-6 mx-auto mt-4">
             <a href="/partida" class="btn btn-primary btn-lg">Nueva partida</a>
             <a href="/ranking" class="btn btn-outline-primary btn-lg">Ver clasificación</a>
-            <a href="/" class="btn btn-outline-primary btn-lg">Crear preguntas</a>
-        </div>
-        <div class="mx-auto">
+            <a href="/" class="btn btn-outline-primary btn-lg">Sugerir preguntas</a>
+        </article>
+        <article class="mx-auto">
+            <br>
             <h3>Partidas jugadas</h3>
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Id Partida:</th>
-                    <th>Puntaje obtenido:</th>
+                    <th>Id:</th>
+                    <th>Puntaje:</th>
                 </tr>
                 </thead>
-                <tbody>
-                {{#games}}
+                <tbody>{{#games}}
                     <tr>
                         <td># {{id}}</td>
                         <td>{{puntaje}} puntos</td>
                     </tr>
-                {{/games}}
-                </tbody>
+                {{/games}}</tbody>
             </table>
-        </div>
+        </article>
     </div>
 
     <div class="modal" id="lostModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
+        <section class="modal-dialog">
+            <article class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Partida finalizada</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -46,11 +42,9 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
-            </div>
-        </div>
+            </article>
+        </section>
     </div>
-
 </main>
-{{#showLostModal}}
-    <script src="/public/js/lobbyLostModal.js"></script>
-{{/showLostModal}}
+
+{{#showLostModal}}<script src="/public/js/lobbyLostModal.js"></script>{{/showLostModal}}
