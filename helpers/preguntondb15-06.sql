@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3310
--- Tiempo de generación: 13-06-2023 a las 09:07:02
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 15-06-2023 a las 07:17:32
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -32,46 +32,6 @@ CREATE TABLE `categoria` (
   `descripcion` varchar(255) NOT NULL,
   `color` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ciudad`
---
-
-CREATE TABLE `ciudad` (
-  `id` int(11) NOT NULL,
-  `idPais` int(11) NOT NULL,
-  `nombre` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `ciudad`
---
-
-INSERT INTO `ciudad` (`id`, `idPais`, `nombre`) VALUES
-(23, 1, 'CABA'),
-(24, 1, 'Buenos aires'),
-(25, 1, 'Mar del Plata'),
-(26, 1, 'Rosario'),
-(27, 1, 'Salta'),
-(28, 1, 'Mendoza'),
-(29, 2, 'La Paz'),
-(30, 3, 'Bahia'),
-(31, 3, 'Santa Catarina'),
-(32, 3, 'Sao Paulo'),
-(33, 4, 'Bogota'),
-(34, 4, 'Medellin'),
-(35, 5, 'Monterrey'),
-(36, 5, 'Guadalajara'),
-(37, 6, 'Ciudad del este'),
-(38, 6, 'Asuncion'),
-(39, 7, 'Lima'),
-(40, 7, 'Arequipa'),
-(41, 8, 'Montevideo'),
-(42, 8, 'Colonia de Sacramento'),
-(43, 9, 'Caracas'),
-(44, 9, 'Maracaibo');
 
 -- --------------------------------------------------------
 
@@ -190,7 +150,15 @@ INSERT INTO `partida` (`id`, `id_usuario`, `puntaje`) VALUES
 (93, 22, 0),
 (94, 22, 2),
 (95, 22, 2),
-(96, 22, 0);
+(96, 22, 0),
+(97, 12, 1),
+(98, 12, 0),
+(99, 12, 2),
+(100, 12, 1),
+(101, 12, 1),
+(102, 12, 6),
+(103, 12, 5),
+(104, 12, 1);
 
 -- --------------------------------------------------------
 
@@ -220,16 +188,16 @@ CREATE TABLE `pregunta` (
 --
 
 INSERT INTO `pregunta` (`id`, `descripcion`, `estado`, `id_partida`, `id_categoria`, `id_respuesta`, `veces_mostrada`, `veces_correcta`, `porc_correc`, `opcionA`, `opcionB`, `opcionC`, `opcionD`, `resp_correcta`) VALUES
-(1, '¿Cuál es el elemento químico más abundante en el universo?', 0, 0, 0, 2, 36, 12, 33, 'Hidrógeno', 'Oxígeno', 'Carbono', 'Hierro', 'A'),
-(2, '¿Cuál es el río más largo del mundo?', 0, 0, 0, 3, 38, 24, 63, 'Amazonas', 'Nilo', 'Yangtsé', 'Misisipi', 'B'),
-(3, '¿Cuál es la capital de Australia?', 0, 0, 0, 4, 37, 17, 46, 'Sídney', 'Melbourne', 'Brisbane', 'Canberra', 'D'),
-(4, '¿Cuál es el planeta más grande del sistema solar?', 0, 0, 0, 5, 37, 21, 57, 'Mercurio', 'Venus', 'Júpiter', 'Marte', 'C'),
-(5, '¿Cuál es la montaña más alta del mundo?', 0, 0, 0, 6, 36, 21, 58, 'Mont Blanc', 'K2', 'Everest', 'Aconcagua', 'C'),
-(6, '¿Cuál es el país más poblado del mundo?', 0, 0, 0, 7, 36, 16, 44, 'Estados Unidos', 'China', 'India', 'Brasil', 'B'),
-(7, '¿Cuál es el símbolo químico del oro?', 0, 0, 0, 8, 35, 20, 57, 'Au', 'Ag', 'Fe', 'Hg', 'A'),
-(8, '¿Cuál es el océano más grande del mundo?', 0, 0, 0, 9, 36, 22, 61, 'Océano Atlántico\n', 'Océano Pacífico', 'Océano Índico\n', 'Océano Ártico\n', 'B'),
-(9, '¿Cuál es el animal terrestre más grande del mundo?', 0, 0, 0, 10, 36, 22, 61, 'Elefante africano', 'Rinoceronte blanco\n', 'Jirafa', 'Oso polar\n', 'A'),
-(10, '¿Cuál es el compuesto químico principal que constituye la atmósfera terrestre?', 0, 0, 0, 11, 41, 10, 24, 'Nitrógeno', 'Oxígeno\n', 'Dióxido de carbono\n', 'Argón', 'A');
+(1, '¿Cuál es el elemento químico más abundante en el universo?', 0, 0, 0, 2, 41, 17, 41, 'Hidrógeno', 'Oxígeno', 'Carbono', 'Hierro', 'A'),
+(2, '¿Cuál es el río más largo del mundo?', 0, 0, 0, 3, 43, 27, 63, 'Amazonas', 'Nilo', 'Yangtsé', 'Misisipi', 'B'),
+(3, '¿Cuál es la capital de Australia?', 0, 0, 0, 4, 43, 19, 44, 'Sídney', 'Melbourne', 'Brisbane', 'Canberra', 'D'),
+(4, '¿Cuál es el planeta más grande del sistema solar?', 0, 0, 0, 5, 42, 22, 52, 'Mercurio', 'Venus', 'Júpiter', 'Marte', 'C'),
+(5, '¿Cuál es la montaña más alta del mundo?', 0, 0, 0, 6, 42, 23, 55, 'Mont Blanc', 'K2', 'Everest', 'Aconcagua', 'C'),
+(6, '¿Cuál es el país más poblado del mundo?', 0, 0, 0, 7, 41, 18, 44, 'Estados Unidos', 'China', 'India', 'Brasil', 'B'),
+(7, '¿Cuál es el símbolo químico del oro?', 0, 0, 0, 8, 40, 24, 60, 'Au', 'Ag', 'Fe', 'Hg', 'A'),
+(8, '¿Cuál es el océano más grande del mundo?', 0, 0, 0, 9, 43, 24, 56, 'Océano Atlántico\n', 'Océano Pacífico', 'Océano Índico\n', 'Océano Ártico\n', 'B'),
+(9, '¿Cuál es el animal terrestre más grande del mundo?', 0, 0, 0, 10, 40, 23, 58, 'Elefante africano', 'Rinoceronte blanco\n', 'Jirafa', 'Oso polar\n', 'A'),
+(10, '¿Cuál es el compuesto químico principal que constituye la atmósfera terrestre?', 0, 0, 0, 11, 46, 16, 36, 'Nitrógeno', 'Oxígeno\n', 'Dióxido de carbono\n', 'Argón', 'A');
 
 -- --------------------------------------------------------
 
@@ -264,7 +232,8 @@ CREATE TABLE `usuario` (
   `Fecha_nacimiento` date NOT NULL,
   `Genero` varchar(30) NOT NULL,
   `idPais` int(30) NOT NULL,
-  `idCiudad` int(30) NOT NULL,
+  `lat` decimal(30,20) NOT NULL,
+  `lng` decimal(30,20) NOT NULL,
   `Mail` varchar(30) NOT NULL,
   `Nombre_usuario` varchar(30) NOT NULL,
   `Foto_perfil` varchar(30) NOT NULL,
@@ -281,9 +250,9 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`Id`, `Nombre_completo`, `Fecha_nacimiento`, `Genero`, `idPais`, `idCiudad`, `Mail`, `Nombre_usuario`, `Foto_perfil`, `Id_rol`, `Hash`, `contrasenia_hash`, `Puntaje_max`, `nivel`, `cant_respondidas`, `cant_acertadas`) VALUES
-(12, 'Marianita Aquino', '2001-03-23', 'Femenino', 1, 23, 'maraquino@gmail.com', 'Mar', '', 3, '7ce6b2286a5396e614b8484105d277e0', '81dc9bdb52d04dc20036dbd8313ed055', '7', 88, 8, 7),
-(71, 'Fitti', '1996-09-17', 'Masculino', 1, 41, 'fittipaldi.h@gmail.com', 'Fitti', '', 0, '962525b8046b7f2bb7d22a9613d32e2b', '81dc9bdb52d04dc20036dbd8313ed055', '', 0, 0, 0);
+INSERT INTO `usuario` (`Id`, `Nombre_completo`, `Fecha_nacimiento`, `Genero`, `idPais`, `lat`, `lng`, `Mail`, `Nombre_usuario`, `Foto_perfil`, `Id_rol`, `Hash`, `contrasenia_hash`, `Puntaje_max`, `nivel`, `cant_respondidas`, `cant_acertadas`) VALUES
+(12, 'Marianita Aquino', '2001-03-23', 'Femenino', 1, 0.00000000000000000000, 0.00000000000000000000, 'maraquino@gmail.com', 'Mar', '', 3, '7ce6b2286a5396e614b8484105d277e0', '81dc9bdb52d04dc20036dbd8313ed055', '7', 60, 59, 35),
+(73, 'Hernan', '1996-09-17', 'Masculino', 1, 0.00000000000000000000, 0.00000000000000000000, 'fittipaldi.h@gmail.com', 'Fitti', 'herni.jpg', 3, '9808b7f2d20818aaa41cca235dcfb8f8', '81dc9bdb52d04dc20036dbd8313ed055', '', 0, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -302,14 +271,6 @@ CREATE TABLE `usuario_pregunta` (
 --
 
 INSERT INTO `usuario_pregunta` (`id`, `id_usuario`, `id_pregunta`) VALUES
-(431, 12, 4),
-(432, 12, 6),
-(433, 12, 1),
-(434, 12, 3),
-(435, 12, 10),
-(436, 12, 7),
-(437, 12, 2),
-(438, 12, 9),
 (525, 37, 8),
 (526, 37, 2),
 (537, 58, 9),
@@ -320,7 +281,18 @@ INSERT INTO `usuario_pregunta` (`id`, `id_usuario`, `id_pregunta`) VALUES
 (542, 58, 2),
 (543, 58, 6),
 (544, 58, 1),
-(675, 22, 6);
+(675, 22, 6),
+(713, 73, 8),
+(714, 73, 3),
+(720, 12, 1),
+(721, 12, 5),
+(722, 12, 2),
+(723, 12, 8),
+(724, 12, 7),
+(725, 12, 3),
+(726, 12, 4),
+(727, 12, 6),
+(728, 12, 10);
 
 --
 -- Índices para tablas volcadas
@@ -330,12 +302,6 @@ INSERT INTO `usuario_pregunta` (`id`, `id_usuario`, `id_pregunta`) VALUES
 -- Indices de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `ciudad`
---
-ALTER TABLE `ciudad`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -375,7 +341,6 @@ ALTER TABLE `rol`
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`Id`),
   ADD UNIQUE KEY `Mail` (`Mail`),
-  ADD KEY `idCiudad` (`idCiudad`),
   ADD KEY `idPais` (`idPais`),
   ADD KEY `Id_rol` (`Id_rol`);
 
@@ -390,12 +355,6 @@ ALTER TABLE `usuario_pregunta`
 --
 
 --
--- AUTO_INCREMENT de la tabla `ciudad`
---
-ALTER TABLE `ciudad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
-
---
 -- AUTO_INCREMENT de la tabla `pais`
 --
 ALTER TABLE `pais`
@@ -405,7 +364,7 @@ ALTER TABLE `pais`
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta`
@@ -423,13 +382,13 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_pregunta`
 --
 ALTER TABLE `usuario_pregunta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=676;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=729;
 
 --
 -- Restricciones para tablas volcadas
@@ -439,7 +398,6 @@ ALTER TABLE `usuario_pregunta`
 -- Filtros para la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`idCiudad`) REFERENCES `ciudad` (`id`),
   ADD CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`idPais`) REFERENCES `pais` (`id`),
   ADD CONSTRAINT `usuario_ibfk_3` FOREIGN KEY (`Id_rol`) REFERENCES `rol` (`id`);
 COMMIT;
