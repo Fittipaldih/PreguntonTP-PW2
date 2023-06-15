@@ -4,53 +4,59 @@ class LobbyController
 {
     private $lobbyModel;
     private $renderer;
+    private $sessionManager;
 
-    public function __construct($model, $renderer)
+    public function __construct($model, $renderer, $sessionManager)
     {
         $this->lobbyModel = $model;
         $this->renderer = $renderer;
+        $this->sessionManager = $sessionManager;
     }
 
     public function home()
     {
-        $userName = $_SESSION["user"];
-        $genre = $this->lobbyModel->getUserSex($userName);
-        $data["games"] = $this->lobbyModel->getUserGamesByName($userName);
-        $data['welcome'] = $this->getWelcome($genre);
-        $data['userLogged'] = $userName;
+        $data = $this->prepareData();
+        $this->renderer->render("lobby", $data);
+    }
 
-        $score = $this->lobbyModel->getUserMaxScore($userName);
-        $scores = $score[0][0];
-        $data['puntaje_max'] = $scores;
+    public function prepareData()
+    {
+        $userName = $this->sessionManager->get("user");
+
+        $data = [
+            "welcome" => $this->getWelcome($userName),
+            "games" => $this->lobbyModel->getUserGamesByName($userName),
+            "puntaje_max" => $this->lobbyModel->getUserMaxScore($userName)[0][0],
+            "userLogged" => $userName,
+            "showLostModal" => false,
+        ];
 
         $lostModalData = $this->verifyLost();
         if ($lostModalData !== null) {
             $data['userCorrects'] = $lostModalData['userCorrects'];
             $data['showLostModal'] = true;
-        } else {
-            $data['showLostModal'] = false;
-        }
-        $this->renderer->render("lobby", $data);
-    }
-
-    private function verifyLost()
-    {
-        $data = null;
-        if (isset($_SESSION['lost']) && $_SESSION['lost']) {
-            $data['userCorrects'] = $_SESSION['userCorrects'];
-            unset($_SESSION['lost']);
         }
         return $data;
     }
 
     private function getWelcome($genre)
     {
-        $rt = 'Bienvenidx';
         if ($genre === 'Femenino') {
-            $rt = 'Bienvenida';
+            return 'Bienvenida';
         } elseif ($genre === 'Masculino') {
-            $rt = 'Bienvenido';
+            return 'Bienvenido';
+        } else {
+            return 'Bienvenidx';
         }
-        return $rt;
+    }
+
+    private function verifyLost()
+    {
+        $data = null;
+        if ($this->sessionManager->get('lost')) {
+            $data['userCorrects'] = $this->sessionManager->get('userCorrects');
+            $this->sessionManager->delete('lost');
+        }
+        return $data;
     }
 }
