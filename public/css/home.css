@@ -29,13 +29,3 @@ footer {
     max-width: 90%;
     width: 400px
 }
-/* VISTA PARTIDA */
-#myProgress {
-    width: 100%;
-    background-color: #ddd;
-}
-#myBar {
-    width: 1%;
-    height: 30px;
-    background-color: #0d6efd;
-}

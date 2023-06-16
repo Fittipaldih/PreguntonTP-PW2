@@ -6,21 +6,22 @@
         {{^Foto_perfil}}
             <img src="/public/imagenes/perfil.jpg" width="50px" class="rounded mx-auto d-block">
         {{/Foto_perfil}}
-        <div id="myProgress">
-            <div id="myBar"></div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myProgressBar"></div>
         </div>
+
         <h4 class="text-center">Responde antes de que se acabe el tiempo!</h4>
-        <br>
         <div class="text-center">
             <button class="btn btn-outline-primary btn-sm"> Reportar</button>
+            <br>
             <h2 class="display-6 fw-bold" id="questionDescripcion"></h2>
         </div>
         <div>
             <form action="/partida/checkAnswer" method="post" id="form" enctype="multipart/form-data" class="d-grid gap-2 col-6 mx-auto mt-4">
-                <button class="btn btn-primary btn-lg" id="opciona" onClick="selected(this.value)" type="button" name="optionSelected" value="A">A) </button>
-                <button class="btn btn-primary btn-lg" id="opcionb" onClick="selected(this.value)" type="button" name="optionSelected" value="B">B) </button>
-                <button class="btn btn-primary btn-lg" id="opcionc" onClick="selected(this.value)" type="button" name="optionSelected" value="C">C) </button>
-                <button class="btn btn-primary btn-lg" id="opciond" onClick="selected(this.value)" type="button" name="optionSelected" value="D">D) </button>
+                <button class="btn btn-primary btn-lg" id="opciona" type="button" name="optionSelected" value="A">A) </button>
+                <button class="btn btn-primary btn-lg" id="opcionb" type="button" name="optionSelected" value="B">B) </button>
+                <button class="btn btn-primary btn-lg" id="opcionc" type="button" name="optionSelected" value="C">C) </button>
+                <button class="btn btn-primary btn-lg" id="opciond" type="button" name="optionSelected" value="D">D) </button>
             </form>
             <p class="text-center">Cantidad de respuestas correctas: {{userCorrects}}</p>
         </div>
@@ -28,43 +29,4 @@
 </main>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-    function cargarAjax() {
-        $.ajax({
-            url: 'http://localhost/partida/renderQuestionData',
-            method: 'GET',
-            dataType: 'json',
-            success: function (question) {
-                $('#questionDescripcion').text(question.descripcion);
-                $('#opciona').text(question.opcionA);
-                $('#opcionb').text(question.opcionB);
-                $('#opcionc').text(question.opcionC);
-                $('#opciond').text(question.opcionD);
-            },
-            error: function (xhr, status, error) {
-                console.log(error);
-            }
-        });
-    }
-    function selected(value) {
-        console.log(value);
-        $.ajax({
-            url: 'http://localhost/partida/checkAnswer',
-            method: 'POST',
-            data: { 'optionSelected': value },
-            dataType: 'json'
-        }).done(function(response) {
-            if (response.success) {
-                cargarAjax();
-            } else {
-                window.location.href = "lobby";
-            }
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-            console.log(errorThrown);
-        });
-    }
-    $(document).ready(function() {
-        cargarAjax();
-    });
-</script>
+<script src="/public/js/partida.js"></script>

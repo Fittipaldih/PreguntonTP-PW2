@@ -34,9 +34,9 @@ class PartidaController
     {
         if (isset($_POST['optionSelected'])) {
             $optionSelected = $_POST['optionSelected'];
-            $userCorrects = $_SESSION['userCorrects'];
-            $idQuestion = $_SESSION['idPregunta'];
-            $idUser = $_SESSION['idUser'];
+            $userCorrects =  $this->sessionManager->get('userCorrects');
+            $idQuestion =  $this->sessionManager->get('idPregunta');
+            $idUser =  $this->sessionManager->get('idUser');
 
             $response = $this->processAnswer($optionSelected, $idQuestion, $idUser, $userCorrects);
             if ($response){
