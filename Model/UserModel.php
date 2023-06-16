@@ -17,35 +17,35 @@ class UserModel
               WHERE u.Nombre_usuario = '$userName'");
     }
 
-    public function getUserGamesByName($userName)
+    public function getUserGamesByName($username)
     {   // tambien esta en el lobby -> refactorizar
         return $this->database->query("SELECT * FROM partida WHERE id_usuario =
-                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$userName') ORDER BY id DESC LIMIT 10");
+                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$username') ORDER BY id DESC LIMIT 50");
     }
 
-    public function setNameComplete($userLogged, $new)
+    public function setNameComplete($username, $new)
     {
-        $this->database->update("UPDATE usuario SET Nombre_completo='$new' WHERE LOWER(Nombre_usuario) = LOWER('$userLogged')");
+        $this->database->update("UPDATE usuario SET Nombre_completo='$new' WHERE LOWER(Nombre_usuario) = LOWER('$username')");
     }
 
-    public function setBirthDate($userLogged, $new)
+    public function setBirthDate($username, $new)
     {
-        $this->database->update("UPDATE usuario SET Fecha_nacimiento='$new' WHERE LOWER(Nombre_usuario) = LOWER('$userLogged')");
+        $this->database->update("UPDATE usuario SET Fecha_nacimiento='$new' WHERE LOWER(Nombre_usuario) = LOWER('$username')");
     }
 
-    public function setSex($userLogged, $new)
+    public function setSex($username, $new)
     {
-        $this->database->update("UPDATE usuario SET Genero='$new' WHERE LOWER(Nombre_usuario) = LOWER('$userLogged')");
+        $this->database->update("UPDATE usuario SET Genero='$new' WHERE LOWER(Nombre_usuario) = LOWER('$username')");
     }
 
-    public function setCountry($userLogged, $new)
+    public function setCountry($username, $new)
     {
-        $this->database->update("UPDATE usuario SET idPais='$new' WHERE LOWER(Nombre_usuario) = LOWER('$userLogged')");
+        $this->database->update("UPDATE usuario SET idPais='$new' WHERE LOWER(Nombre_usuario) = LOWER('$username')");
     }
 
-    public function setPhoto($userLogged, $new)
+    public function setPhoto($username, $new)
     {
-        $this->database->update("UPDATE usuario SET Foto_perfil='$new' WHERE LOWER(Nombre_usuario) = LOWER('$userLogged')");
+        $this->database->update("UPDATE usuario SET Foto_perfil='$new' WHERE LOWER(Nombre_usuario) = LOWER('$username')");
     }
 
 }

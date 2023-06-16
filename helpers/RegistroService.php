@@ -1,6 +1,6 @@
 <?php
 
-class RegistroManager
+class RegistroService
 {
     public function receiveRegistrationForm($formData, $model, $renderer)
     {
@@ -17,26 +17,20 @@ class RegistroManager
         $pass = $formData["contrasenia"];
         $passValidate = $formData["confirmar_contrasenia"];
         $photo = null;
+
         if ($formData['foto_perfil']['name']) {
             $photo = basename($formData['foto_perfil']['name']);
             $imagePath = "./public/imagenes/" . $photo;
             move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $imagePath);
         }
-        if ($model->validatePassword($pass, $passValidate)) {
-
-            if ($this->createAccount($model, $pass, $nameComplete, $birth, $sex, $country, $lat, $lng, $mail, $nameUser, $photo)) {
-
-                $renderer->render("registroExitoso", $data);
-            } else {
-                $data["message"] = "El usuario ya está registrado. Prueba con otro nombre o un correo electrónico diferente.";
-                $data['showMessage'] = true;
-                $renderer->render("registro", $data);
-            }
-
+        if (!$this->validatePassword($model, $pass, $passValidate)) {
+            $this->renderRegistrationError($renderer, $data, "Las contraseñas no coinciden. Intentá nuevamente.");
         } else {
-            $data["message"] = "las contraseñas no coinciden. Intentá nuevamente. ";
-            $data['showMessage'] = true;
-            $renderer->render("registro", $data);
+            if (!$this->createAccount($model, $pass, $nameComplete, $birth, $sex, $country, $lat, $lng, $mail, $nameUser, $photo)) {
+                $this->renderRegistrationError($renderer, $data, "El usuario ya está registrado. Prueba con otro nombre o un correo electrónico diferente.");
+            } else {
+                $this->renderRegistrationSuccess($renderer, $data);
+            }
         }
     }
 
@@ -50,5 +44,22 @@ class RegistroManager
             }
         }
         return false;
+    }
+
+    private function validatePassword($model, $pass, $passValidate)
+    {
+        return $model->validatePassword($pass, $passValidate);
+    }
+
+    private function renderRegistrationSuccess($renderer, $data)
+    {
+        $renderer->render("registroExitoso", $data);
+    }
+
+    private function renderRegistrationError($renderer, $data, $message)
+    {
+        $data["message"] = $message;
+        $data['showMessage'] = true;
+        $renderer->render("registro", $data);
     }
 }

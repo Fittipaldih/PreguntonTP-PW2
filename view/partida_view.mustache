@@ -1,38 +1,159 @@
+<link rel="stylesheet" href="/public/css/home.css">
 <main class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3">
-        {{#userPhoto}}
-            <img src="/public/imagenes/{{userPhoto}}" width="50px" class="rounded mx-auto d-block" alt="Foto perfil">
-        {{/userPhoto}}
-        {{^userPhoto}}
-            <img src="/public/imagenes/perfil.jpg" width="50px" class="rounded mx-auto d-block" alt="Foto perfil">
-        {{/userPhoto}}
+        <div>
+            <img src="/public/imagenes/perfil.jpg" width="50px" class="rounded mx-auto d-block">
+        </div>
+       <style>
+            #myProgress {
+                width: 100%;
+                background-color: #ddd;
+            }
+
+            #myBar {
+                width: 1%;
+                height: 30px;
+                background-color: #0d6efd;
+            }
+        </style>
+
+        <body>
+        <h2 class="text-center display-6">Responde antes de que se te acabe el tiempo!</h2>
+
+
         <div id="myProgress">
             <div id="myBar"></div>
         </div>
-        <h5 class="text-center">Responde antes de que se acabe el tiempo!</h5>
+
         <br>
-        <section class="text-center">
-            <h2 class="display-6 fw-bold" id="questionDescripcion"></h2>
-            <button class="btn btn-outline-primary btn-sm"> Reportar</button>
-            <form class="d-grid gap-2 col-6 mx-auto mt-4" action="/partida/checkAnswer" method="post" id="form"
-                  enctype="multipart/form-data">
-                <button type="button" class="btn btn-primary btn-lg" name="optionSelected" id="opciona"
-                        onClick="selected(this.value)" value="A">A
-                </button>
-                <button type="button" class="btn btn-primary btn-lg" name="optionSelected" id="opcionb"
-                        onClick="selected(this.value)" value="B">B
-                </button>
-                <button type="button" class="btn btn-primary btn-lg" name="optionSelected" id="opcionc"
-                        onClick="selected(this.value)" value="C">C
-                </button>
-                <button type="button" class="btn btn-primary btn-lg" name="optionSelected" id="opciond"
-                        onClick="selected(this.value)" value="D">D
-                </button>
+
+        </body>
+        <h2 class="text-center display-6 fw-bold" id="questionDescripcion"></h2>
+        <div>
+            <script>
+                function cargarAjax() {
+
+
+                    // Llamar a la función de AJAX nuevamente
+                    $.ajax({
+                        url: 'http://localhost/partida/renderQuestionData',
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (question) {
+                            $('#questionDescripcion').text(question.descripcion);
+                            $('#opciona').text(question.opcionA);
+                            $('#opcionb').text(question.opcionB);
+                            $('#opcionc').text(question.opcionC);
+                            $('#opciond').text(question.opcionD);
+
+                            console.log(question);
+                        },
+                        error: function (xhr, status, error) {
+                            // Maneja los errores aquí
+                            console.log(error);
+                        }
+                    });
+                }
+
+
+            </script>
+            <script>
+                function selected(value) {
+                    console.log(value);
+                    $.ajax({
+                        url: 'http://localhost/partida/checkAnswer',
+                        method: 'POST',
+                        data: { 'optionSelected': value },
+                        dataType: 'json'
+                    }).done(function(response) {
+                        if (response.success) {
+                            cargarAjax();
+                        } else {
+                            window.location.href = "lobby";
+                        }
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                    });
+                }
+
+            </script>
+            <form action="/partida/checkAnswer" method="post" id="form" enctype="multipart/form-data" class="d-grid gap-2 col-6 mx-auto mt-4">
+                <button class="btn btn-primary btn-lg" id="opciona" onClick="selected(this.value)" type="button" name="optionSelected" value="A">A) </button>
+                <button class="btn btn-primary btn-lg" id="opcionb" onClick="selected(this.value)" type="button" name="optionSelected" value="B">B) </button>
+                <button class="btn btn-primary btn-lg" id="opcionc" onClick="selected(this.value)" type="button" name="optionSelected" value="C">C) </button>
+                <button class="btn btn-primary btn-lg" id="opciond" onClick="selected(this.value)" type="button" name="optionSelected" value="D">D) </button>
             </form>
-           <!-- <p class="text-center">Respuestas correctas: <span id="userCorrects">{{userCorrects}}</span></p>-->
-        </section>
+            <!-- <p class="text-center">Cantidad de respuestas correctas: {{userCorrects}}</p> -->
+            <button class="btn btn-outline-primary btn-lg"> Reportar</button>
+        </div>
     </div>
 </main>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="/public/js/partida.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+
+</script>
+
+<script>
+   /*
+    window.onload = function()  {
+        $.ajax({
+            url: 'http://localhost/partida/renderQuestionData',
+            method: 'GET',
+            dataType: 'json',
+            success: function (question) {
+                $('#questionDescripcion').text(question.descripcion);
+                $('#opciona').text(question.opcionA);
+                $('#opcionb').text(question.opcionB);
+                $('#opcionc').text(question.opcionC);
+                $('#opciond').text(question.opcionD);
+
+                console.log(question);
+            },
+            error: function (xhr, status, error) {
+                // Maneja los errores aquí
+                console.log(error);
+            }
+        });
+    }
+    */
+
+</script>
+
+
+<script>
+
+    $(document).ready(function() {
+        // Función para cargar la función de AJAX nuevamente
+        // Realizar cualquier preparación adicional antes de cargar la función de AJAX nuevamente
+        // ...
+        cargarAjax();
+    });
+</script>
+
+
+<!--
+<script>
+
+    var i = 0;
+    window.onload = function() {
+        if (i == 0) {
+            i = 1;
+            var elem = document.getElementById("myBar");
+            var width = 1;
+            var id = setInterval(frame, 108);
+            function frame() {
+                if (width >= 100) {
+                    clearInterval(id);
+                    i = 0;
+                    console.log("asd");
+                    document.getElementById("opciona").click();
+                } else {
+                    width++;
+                    elem.style.width = width + "%";
+
+                }
+            }
+        }
+    }
+
+</script> -->

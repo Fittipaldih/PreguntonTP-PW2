@@ -4,13 +4,13 @@ class RegistroController
 {
     private $registroModel;
     private $renderer;
-    private $registroManager;
+    private $registroService;
 
     public function __construct($model, $renderer)
     {
         $this->registroModel = $model;
         $this->renderer = $renderer;
-        $this->registroManager = new RegistroManager();
+        $this->registroService = new RegistroService();
     }
 
     public function home()
@@ -27,7 +27,7 @@ class RegistroController
             if (isset($_FILES['foto_perfil']) && isset($_FILES['foto_perfil']['name'])) {
                 $formData['foto_perfil']['name'] =  $_FILES['foto_perfil']['name'];
             }
-            $this->registroManager->receiveRegistrationForm($formData, $this->registroModel, $this->renderer);
+            $this->registroService->receiveRegistrationForm($formData, $this->registroModel, $this->renderer);
 
         } else {
             $data["message"] = "por favor, completa todos los campos. Solo es opcional la imagen de perfil.";

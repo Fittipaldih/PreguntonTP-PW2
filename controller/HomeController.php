@@ -15,23 +15,24 @@ class HomeController
 
     public function home()
     {
-        $data = [];
+        $data['mapa']=true;
         $this->renderer->render("home", $data);
     }
 
     public function login()
     {
-        $userName = ucfirst(strtolower($_POST['user']));
+        $userNameForm = ucfirst(strtolower($_POST['user']));
         $pass = md5($_POST['pass']);
-        $userFound = $this->homeModel->getUserByNameAndPass($userName, $pass);
 
-        if (sizeof($userFound) == 1) {
-            $this->setUserSession($userName, $pass, $userFound);
+        $userConnected = $this->homeModel->getUserByNameAndPass($userNameForm, $pass);
+
+        if (sizeof($userConnected) == 1) {
+            $this->setUserSession($userConnected);
             $idRol = $this->sessionManager->get("idRol");
 
             switch ($idRol) {
                 case 0:
-                    $data["hash"] = $userFound[0]["Hash"];
+                    $data["hash"] = $userConnected[0]["Hash"];
                     $this->renderer->render('/registroExitoso', $data);
                     break;
                 case 3:
@@ -49,13 +50,11 @@ class HomeController
         }
     }
 
-    private function setUserSession($userName, $pass, $userFound)
+    private function setUserSession($user)
     {
-        $this->sessionManager->set("idUser", $userFound[0]["Id"]);
-        $this->sessionManager->set("user", $userName);
-        $this->sessionManager->set("pass", $pass);
-        $this->sessionManager->set("isConnected", true);
-        $this->sessionManager->set("idRol", $userFound[0]["Id_rol"]);
+        $this->sessionManager->set("userName", $user[0]['Nombre_usuario']);
+        $this->sessionManager->set("idUser", $user[0]["Id"]);
+        $this->sessionManager->set("idRol", $user[0]["Id_rol"]);
     }
 
     public function validateEmail()

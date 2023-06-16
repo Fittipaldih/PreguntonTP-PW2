@@ -1,11 +1,9 @@
 function loadMap() {
-// Obtener los valores de los input hidden
     var lat = document.getElementById('lati').value;
     var lon = document.getElementById('long').value;
     var userNameElement = document.getElementById('userName');
     var userName = userNameElement.textContent; // o userNameElement.innerText
 
-// Utilizar los valores en tu lógica de JavaScript
     console.log('Latitud:', lat);
     console.log('Longitud:', lon);
 

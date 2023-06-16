@@ -10,7 +10,7 @@ class PartidaModel
     }
 
     public function getIdByName($userName)
-    {
+    {   // tambien esta en el lobby, y user -> refactorizar
         return $this->database->query("SELECT Id FROM usuario WHERE Nombre_usuario = '$userName'");
     }
     public function getUserLevelByName($userName)
@@ -29,9 +29,11 @@ class PartidaModel
           WHERE id = $idQuestion");
     }
 
+
     public function getQuestion()
     {
-        $result = $this->getIdByName($_SESSION['user']);
+
+        $result = $this->getIdByName($_SESSION['userName']);
         $idUser = $result[0][0];
         $question = null;
         $difficulty= $this->getUserSkilLevel($idUser);
@@ -39,7 +41,7 @@ class PartidaModel
             $question = $this->queryQuestionByDiff($idUser, $difficulty);
                 if(!$question)
                     $question= $this->queryQuestion($idUser);
-                    //si no encuentra preguntas de tu nivel, te devuelve una random
+                    //con esto, si no encuentra preguntas de tu nivel, te devuelve una random
             if ($question == null || empty($question)) {
                 $this->cleanTable($idUser);
             }
@@ -80,6 +82,10 @@ class PartidaModel
                  (SELECT 1 FROM usuario_pregunta WHERE id_usuario = '$idUser' AND pregunta.id = usuario_pregunta.id_pregunta) 
                    ORDER BY RAND() LIMIT 1"),
         };
+       /* return $this->database->query
+        ("SELECT * FROM pregunta WHERE NOT EXISTS
+        (SELECT 1 FROM usuario_pregunta WHERE id_usuario = '$idUser' AND pregunta.id = usuario_pregunta.id_pregunta) 
+        ORDER BY RAND() LIMIT 1"); */
     }
     public function queryQuestion($idUser){
         return $this->database->query
@@ -88,6 +94,8 @@ class PartidaModel
         ORDER BY RAND() LIMIT 1");
     }
 
+
+
     public function cleanTable($idUser)
     {
         $this->database->update("DELETE FROM usuario_pregunta WHERE id_usuario = '$idUser'");
@@ -95,7 +103,7 @@ class PartidaModel
 
     public function registerQuestion($idPregunta, $idUsuario)
     {
-        $result = $this->getIdByName($_SESSION['user']);
+        $result = $this->getIdByName($_SESSION['userName']);
         $idUser = $result[0][0];
         $this->database->update("INSERT INTO usuario_pregunta (id_usuario, id_pregunta) VALUES ('$idUser', '$idPregunta')");
         //suma una vez mostrada
@@ -137,6 +145,7 @@ class PartidaModel
         } else {
             return false;
         }
+
     }
 
     public function insertUserGamesByName($idUser, $puntaje)
@@ -154,8 +163,5 @@ class PartidaModel
         return $this->database->query("SELECT MAX(puntaje) FROM partida WHERE id_usuario=$idUser; ");
     }
 
-    public function getUserPhoto($nameUser)
-    {
-        return $this->database->singleQuery("SELECT Foto_perfil FROM usuario WHERE Nombre_usuario=$nameUser;");
-    }
+
 }

@@ -1,6 +1,6 @@
 <main class="py-5" id="main-content">
     <div class="content container px-lg-5 p-4 bg-light rounded-3 ">
-        {{#user}}
+        {{#userData}}
             <article class="row g-3 ">
                 <h1 id="userName" class="text-center text-primary display-2 fw-bold">{{Nombre_usuario}}
                     <img src="public/imagenes/{{nombrep}}.png" width="50px" alt="bandera pais">
@@ -10,10 +10,10 @@
                     <div class="row g-0">
                         <div class="col-md-4 d-flex justify-content-center align-items-end">
                             {{#Foto_perfil}}
-                                <img src="/public/imagenes/{{Foto_perfil}}" class="imgPerfil m-0 rounded "
-                                     alt="Foto de perfil">{{/Foto_perfil}}
-                            {{^Foto_perfil}}<img src="/public/imagenes/perfil.jpg" class="imgPerfil rounded"
-                                                 alt="Foto de perfil">{{/Foto_perfil}}
+                                <img src="/public/imagenes/{{Foto_perfil}}" class="imgPerfil m-0 rounded " alt="Foto de perfil">
+                            {{/Foto_perfil}}
+                            {{^Foto_perfil}}<img src="/public/imagenes/perfil.jpg" class="imgPerfil rounded" alt="Foto de perfil">
+                            {{/Foto_perfil}}
                             {{#canEdit}}
                                 <div class="modal fade" id="modalEdit">
                                     <div class="modal-dialog">
@@ -147,7 +147,7 @@
             <input type="hidden" name="lati" id="lati" value="{{lat}}">
             <input type="hidden" name="long" id="long" value="{{lng}}">
             <div id="mapUser" style="width:100%; height:50vh;"></div>
-        {{/user}}
+        {{/userData}}
     </div>
 </main>
 

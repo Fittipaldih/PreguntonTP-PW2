@@ -3,7 +3,9 @@ include_once('helpers/MySqlDatabase.php');
 include_once("helpers/MustacheRender.php");
 include_once('helpers/Router.php');
 include_once('helpers/SessionManager.php');
-include_once('helpers/RegistroManager.php');
+
+include_once('helpers/RegistroService.php');
+include_once('helpers/UserQRService.php');
 
 include_once("model/UserModel.php");
 include_once("model/HomeModel.php");

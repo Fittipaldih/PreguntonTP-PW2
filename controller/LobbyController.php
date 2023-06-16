@@ -21,17 +21,18 @@ class LobbyController
 
     public function prepareData()
     {
-        $userName = $this->sessionManager->get("user");
+        $userName = $this->sessionManager->get("userName");
+        $genre = $this->lobbyModel->getUserGenre($userName);
+        $lostModalData = $this->verifyLost();
 
         $data = [
-            "welcome" => $this->getWelcome($userName),
-            "games" => $this->lobbyModel->getUserGamesByName($userName),
+            "welcome" => $this->getWelcome($genre),
+            "games" => $this->lobbyModel->getFiveUserGames($userName),
             "puntaje_max" => $this->lobbyModel->getUserMaxScore($userName)[0][0],
-            "userLogged" => $userName,
+            "userName" => $userName,
             "showLostModal" => false,
         ];
 
-        $lostModalData = $this->verifyLost();
         if ($lostModalData !== null) {
             $data['userCorrects'] = $lostModalData['userCorrects'];
             $data['showLostModal'] = true;
@@ -41,13 +42,13 @@ class LobbyController
 
     private function getWelcome($genre)
     {
+        $rt ='Bienvenidx';
         if ($genre === 'Femenino') {
-            return 'Bienvenida';
+            $rt = 'Bienvenida';
         } elseif ($genre === 'Masculino') {
-            return 'Bienvenido';
-        } else {
-            return 'Bienvenidx';
+            $rt = 'Bienvenido';
         }
+        return $rt;
     }
 
     private function verifyLost()

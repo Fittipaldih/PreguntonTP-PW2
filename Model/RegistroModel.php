@@ -33,7 +33,7 @@ class RegistroModel
 
             $mail->setFrom('pregunton@cinalent.com.ar', 'Pregunton');
             $mail->addAddress($email, $nameComplete);
-            $mail->Subject = '¡Valida tu cuenta para empezar a jugar!';
+            $mail->Subject = 'Valida tu cuenta para empezar a jugar!';
 
 
             $mail->isHTML(true);
