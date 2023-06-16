@@ -5,43 +5,29 @@ class PartidaController
     private $partidaModel;
     private $renderer;
     private $questionData;
+    private $sessionManager;
 
-    public function __construct($model, $renderer)
+    public function __construct($model, $renderer, $sessionManager)
     {
         $this->partidaModel = $model;
         $this->renderer = $renderer;
+        $this->sessionManager = $sessionManager;
     }
 
     public function home($userCorrects = 0)
     {
-        $_SESSION['userCorrects'] = $userCorrects;
-        $data['userLogged']=$_SESSION["userName"];
-        $this->renderer->render("Partida", $data);
+        $userName=$this->sessionManager->get('userName');
 
-    }
+        $this->sessionManager->set('userCorrects', $userCorrects);
+        $data['userCorrects'] =  $this->sessionManager->get('userCorrects');
 
-    private function renderViewLost()
-    {
+        $data['userName'] = $userName;
 
-        header("location: /lobby");
-        exit();
-    }
-
-    private function renderAnswerAndQuestion($userCorrects)
-    {
-        //$_SESSION['userCorrects'] = $userCorrects;
-
-        return $this->questionData;
-    }
-
-
-    public function renderQuestionData()
-    {
-        $question= $this->partidaModel->getQuestion();
-
-        echo json_encode($question[0]);
-
-
+        $photo=$this->partidaModel->getUserPhoto($userName);
+        if($photo!=null) {
+            $data['userPhoto'] = $photo;
+        }
+        $this->renderer->render("partida", $data);
     }
 
     public function checkAnswer()
@@ -52,24 +38,45 @@ class PartidaController
             $idQuestion = $_SESSION['idPregunta'];
             $idUser = $_SESSION['idUser'];
 
-            if ($this->partidaModel->checkAnswer($optionSelected, $idQuestion)) {
-                $_SESSION['userCorrects'] += 1;
-                $this->partidaModel->registerCorrectAnswer($idQuestion, $idUser);
-                $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
-                $response['success'] = true;
-
-
-            } else {
-                $_SESSION['lost'] = true;
-                $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
-                $this->partidaModel->insertUserGamesByName($idUser, $userCorrects);
-                $this->partidaModel->updateUserMaxScore($idUser);
-                $response['success'] = false;
-
+            $response = $this->processAnswer($optionSelected, $idQuestion, $idUser, $userCorrects);
+            if ($response){
+                $this->sessionManager->set('lost', true);
             }
-
             echo json_encode($response);
         }
+    }
 
+    public function processAnswer($optionSelected, $idQuestion, $idUser, &$userCorrects)
+    {
+        $response = [];
+        if ( $this->partidaModel->checkAnswer($optionSelected, $idQuestion)) {
+            $this->partidaModel->registerCorrectAnswer($idQuestion, $idUser);
+            $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
+            $response['success'] = true;
+        } else {
+            $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
+            $this->partidaModel->insertUserGamesByName($idUser, $userCorrects);
+            $this->partidaModel->updateUserMaxScore($idUser);
+            $response['success'] = false;
+        }
+        return $response;
+    }
+
+    private function renderViewLost()
+    {
+        header("location: /lobby");
+        exit();
+    }
+
+    private function renderAnswerAndQuestion($userCorrects)
+    {
+        //$_SESSION['userCorrects'] = $userCorrects;
+        return $this->questionData;
+    }
+
+    public function renderQuestionData()
+    {
+        $question= $this->partidaModel->getQuestion();
+        echo json_encode($question[0]);
     }
 }

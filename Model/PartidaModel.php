@@ -162,6 +162,20 @@ class PartidaModel
     public function selectUserMaxScore($idUser){
         return $this->database->query("SELECT MAX(puntaje) FROM partida WHERE id_usuario=$idUser; ");
     }
+    public function getUserPhoto($userName)
+    {
+        $query = "SELECT Foto_perfil FROM usuario WHERE nombre_usuario = ?";
 
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("s", $userName);
+        $stmt->execute();
+
+        $rt = $stmt->get_result();
+        $fila = $rt->fetch_assoc();
+
+        $stmt->close();
+
+        return $fila['Foto_perfil'];
+    }
 
 }
