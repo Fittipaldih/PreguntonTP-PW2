@@ -12,15 +12,58 @@ function loadMap() {
         zoom:11,
         zoomControl: false,
         mapTypeControl:false,
-        mapTypeId:google.maps.MapTypeId.ROADMAP
+        styles: [
+            {
+                featureType: "all",
+                elementType: "labels.text.fill",
+                stylers: [{ saturation: -100 }, { color: "#ffffff" }],
+            },
+            {
+                featureType: "all",
+                elementType: "labels.text.stroke",
+                stylers: [{ visibility: "off" }],
+            },
+            {
+                featureType: "landscape",
+                elementType: "geometry",
+                stylers: [{ color: "#212121" }],
+            },
+            {
+                featureType: "poi",
+                elementType: "geometry",
+                stylers: [{ color: "#212121" }],
+            },
+            {
+                featureType: "road",
+                elementType: "geometry",
+                stylers: [{ color: "#A1A1A1" }],
+            },
+            {
+                featureType: "transit",
+                elementType: "geometry",
+                stylers: [{ color: "#212121" }],
+            },
+            {
+                featureType: "water",
+                elementType: "geometry",
+                stylers: [{ color: "#3B67A1" }],
+            },
+        ],
     };
 
     var map = new google.maps.Map(document.getElementById("mapUser"),mapOptions);
 
+    var iconSize = new google.maps.Size(80, 80);
+    var icon = {
+        url: '/public/imagenes/logo3.png',
+        scaledSize: iconSize
+    };
+
     var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(lat,lon),
+        position: new google.maps.LatLng(lat, lon),
         map: map,
-        animation:google.maps.Animation.BOUNCE
+        animation: google.maps.Animation.BOUNCE,
+        icon: icon
     });
 
     var info = new google.maps.InfoWindow({

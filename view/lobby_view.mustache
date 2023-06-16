@@ -1,7 +1,11 @@
 <main class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3">
         <h1 class="text-center text-primary display-2 fw-bold">¡{{welcome}} {{userName}}!</h1>
-        <h2 class="text-center">Mejor puntaje: {{puntaje_max}}</h2>
+        <h2 class="text-center">
+            {{#player}}Mejor puntaje: {{puntaje_max}}{{/player}}
+{{#edit}}¿Qué haremos hoy?{{/edit}}
+    {{#admin}}¿Qué necesita consultar hoy?{{/admin}}
+        </h2>
         <article class="d-grid gap-2 col-6 mx-auto mt-4">
            {{#player}}
                <a href="/partida" class="btn btn-primary btn-lg">Nueva partida</a>
@@ -26,7 +30,7 @@
                <a href="/" class="btn btn-outline-primary btn-lg">Filtrar por dia mes y año. Grafico PDF</a>
            {{/admin}}
         </article>
-        <article class="mx-auto">
+{{#player}}<article class="mx-auto">
             <br>
             <h3>Partidas jugadas</h3>
             <table class="table table-striped">
@@ -64,6 +68,7 @@
             </article>
         </section>
     </div>
+{{/player}}
 </main>
 
 {{#showLostModal}}<script src="/public/js/lobbyLostModal.js"></script>{{/showLostModal}}
