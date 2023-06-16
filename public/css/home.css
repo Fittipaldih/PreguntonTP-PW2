@@ -1,5 +1,6 @@
 body {
-    background-image: url("/public/imagenes/fondo14.png");
+    background: rgb(131,58,180);
+    background: radial-gradient(circle, rgba(131,58,180,1) 0%, rgba(40,231,197,1) 50%, rgba(49,140,231,1) 100%);
     padding: 0;
     margin: 0;
 }
@@ -25,6 +26,7 @@ footer {
 .card {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
+
 #qr {
     max-width: 90%;
     width: 400px

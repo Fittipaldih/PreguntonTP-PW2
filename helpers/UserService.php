@@ -1,6 +1,6 @@
 <?php
 
-class UserQRService
+class UserService
 {
     private $userModel;
 

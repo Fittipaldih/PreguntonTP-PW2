@@ -10,22 +10,20 @@
         <div class="progress">
             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myProgressBar"></div>
         </div>
-
-        <h5 class="text-center">Responde antes de que se acabe el tiempo!</h5>
-        <div class="text-center fw-bold display-2" id="cronometro"></div>
         <div class="text-center">
-            <button class="btn btn-outline-primary btn-sm"> Reportar</button>
-            <br>
+            <h5 class="text-center">Responde antes de que se acabe el tiempo!</h5>
+            <div class="text-primary text-center text-primary fw-bold display-2" id="cronometro"></div>
             <h2 class="display-6 fw-bold" id="questionDescripcion"></h2>
         </div>
-        <div>
+        <div class="text-center">
             <form action="/partida/checkAnswer" method="post" id="form" enctype="multipart/form-data" class="d-grid gap-2 col-6 mx-auto mt-4">
                 <button class="btn fw-bold btn-outline-primary btn-lg" id="opciona" type="button" name="optionSelected" value="A">A) </button>
                 <button class="btn fw-bold btn-outline-primary btn-lg" id="opcionb" type="button" name="optionSelected" value="B">B) </button>
                 <button class="btn fw-bold btn-outline-primary btn-lg" id="opcionc" type="button" name="optionSelected" value="C">C) </button>
                 <button class="btn fw-bold btn-outline-primary btn-lg" id="opciond" type="button" name="optionSelected" value="D">D) </button>
             </form>
-            <p class="text-center">Cantidad de respuestas correctas: {{userCorrects}}</p>
+            <p class="text-center">Respuestas correctas: {{userCorrects}}</p>
+            <button class="btn btn-outline-primary btn-sm"> Reportar</button>
         </div>
     </div>
 </main>

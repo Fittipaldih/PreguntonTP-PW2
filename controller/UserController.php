@@ -12,7 +12,7 @@ class UserController
         $this->userModel = $model;
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
-        $this->qrService = new UserQRService($this->userModel);
+        $this->qrService = new UserService($this->userModel);
     }
 
     public function home()
