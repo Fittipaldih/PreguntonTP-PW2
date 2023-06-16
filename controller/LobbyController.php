@@ -30,12 +30,16 @@ class LobbyController
             "games" => $this->lobbyModel->getFiveUserGames($userName),
             "puntaje_max" => $this->lobbyModel->getUserMaxScore($userName)[0][0],
             "userName" => $userName,
-            "showLostModal" => false,
+            "showLostModal" => isset($_SESSION['showLostModal']) && $_SESSION['showLostModal'] === 'true',
         ];
 
         if ($lostModalData !== null) {
             $data['userCorrects'] = $lostModalData['userCorrects'];
             $data['showLostModal'] = true;
+            $this->sessionManager->set('showLostModal', true);
+        }
+        else{
+            $this->sessionManager->delete('showLostModal');
         }
         return $data;
     }

@@ -24,8 +24,9 @@ function animateProgressBar() {
     const formattedTime = formatTime(remainingTime);
     cronometroElement.textContent = formattedTime;
 
-    if (currentWidth >= finalWidth) {
+    if (currentWidth >= finalWidth || remainingTime <= 0) {
         clearInterval(progressInterval);
+        window.location.href = "/lobby";
     }
 }
 
