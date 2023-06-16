@@ -2,25 +2,42 @@ $(document).ready(function() {
     cargarAjax();
 });
 
-
-let progressInterval = setInterval(animateProgressBar, 100);
+let progressInterval;
 const progressBar = document.getElementById("myProgressBar");
-const duration = 10010;
+const cronometroElement = document.getElementById("cronometro");
+const duration = 10000;
 const finalWidth = 100;
 const incrementWidth = (finalWidth / duration) * 100;
 let currentWidth = 0;
+let startTime;
 
 function animateProgressBar() {
     currentWidth += incrementWidth;
     progressBar.style.width = `${currentWidth}%`;
+
+    if (!startTime) {
+        startTime = Date.now();
+    }
+
+    const elapsedTime = Date.now() - startTime;
+    const remainingTime = duration - elapsedTime;
+    const formattedTime = formatTime(remainingTime);
+    cronometroElement.textContent = formattedTime;
+
     if (currentWidth >= finalWidth) {
         clearInterval(progressInterval);
     }
 }
 
+function formatTime(time) {
+    const seconds = Math.ceil(time / 1000);
+    return seconds.toString();
+}
+
 function resetProgressBar() {
     clearInterval(progressInterval);
     currentWidth = 0;
+    startTime = null;
     progressInterval = setInterval(animateProgressBar, 100);
 }
 
@@ -35,12 +52,14 @@ function cargarAjax() {
             $('#opcionb').text(question.opcionB);
             $('#opcionc').text(question.opcionC);
             $('#opciond').text(question.opcionD);
+            resetProgressBar();
         },
         error: function (xhr, status, error) {
             console.log(error);
         }
     });
 }
+
 function selected(value) {
     console.log(value);
     $.ajax({
@@ -51,7 +70,6 @@ function selected(value) {
     }).done(function(response) {
         if (response.success) {
             cargarAjax();
-            resetProgressBar();
         } else {
             window.location.href = "lobby";
         }
@@ -59,6 +77,7 @@ function selected(value) {
         console.log(errorThrown);
     });
 }
+
 document.addEventListener("DOMContentLoaded", function() {
     var opciona = document.getElementById("opciona");
     var opcionb = document.getElementById("opcionb");
