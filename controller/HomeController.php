@@ -31,14 +31,22 @@ class HomeController
             $idRol = $this->sessionManager->get("idRol");
 
             switch ($idRol) {
-                case 0:
+                case 0: // novalidado
                     $data["hash"] = $userConnected[0]["Hash"];
                     $this->renderer->render('/registroExitoso', $data);
                     break;
-                case 3:
+                case 1: // administrador
+                    $this->sessionManager->set('admin', true);
                     header("Location: /lobby");
                     exit();
-                    break;
+                case 2: // editor
+                    $this->sessionManager->set('edit', true);
+                    header("Location: /lobby");
+                    exit();
+                case 3: // jugador
+                    $this->sessionManager->set('player', true);
+                    header("Location: /lobby");
+                    exit();
                 default:
                     header("Location: /");
                     exit();

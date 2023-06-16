@@ -3,9 +3,28 @@
         <h1 class="text-center text-primary display-2 fw-bold">¡{{welcome}} {{userName}}!</h1>
         <h2 class="text-center">Mejor puntaje: {{puntaje_max}}</h2>
         <article class="d-grid gap-2 col-6 mx-auto mt-4">
-            <a href="/partida" class="btn btn-primary btn-lg">Nueva partida</a>
-            <a href="/ranking" class="btn btn-outline-primary btn-lg">Ver clasificación</a>
-            <a href="/" class="btn btn-outline-primary btn-lg">Sugerir preguntas</a>
+           {{#player}}
+               <a href="/partida" class="btn btn-primary btn-lg">Nueva partida</a>
+               <a href="/ranking" class="btn btn-outline-primary btn-lg">Ver clasificación</a>
+               <a href="/" class="btn btn-outline-primary btn-lg">Sugerir preguntas</a>
+           {{/player}}
+           {{#edit}}
+               <a href="/" class="btn btn-outline-primary btn-lg">Dar de alta nuevas preguntas</a>
+                <a href="/" class="btn btn-outline-primary btn-lg">Dar de baja preguntas</a>
+                <a href="/" class="btn btn-outline-primary btn-lg">Revisar preguntas sugeridas</a>
+           {{/edit}}
+           {{#admin}}
+               <a href="/" class="btn btn-outline-primary btn-lg">Total de jugadores registrados</a>
+                <a href="/" class="btn btn-outline-primary btn-lg">Total de partidas jugadas</a>
+                <a href="/" class="btn btn-outline-primary btn-lg">Total de preguntas</a>
+                <a href="/" class="btn btn-outline-primary btn-lg">Total de preguntas creadas</a>
+                <a href="/" class="btn btn-outline-primary btn-lg">Cantidad de usuarios nuevos</a>
+                <a href="/" class="btn btn-outline-primary btn-lg">Porcentaje de preguntas respondidas correctamente por usuario</a>
+               <a href="/" class="btn btn-outline-primary btn-lg">Cantidad de usuarios por pais</a>
+               <a href="/" class="btn btn-outline-primary btn-lg">Cantidad de usuarios por sexo</a>
+               <a href="/" class="btn btn-outline-primary btn-lg">Cantidad de usuarios por grupos de edad menor jubilado medio</a>
+               <a href="/" class="btn btn-outline-primary btn-lg">Filtrar por dia mes y año. Grafico PDF</a>
+           {{/admin}}
         </article>
         <article class="mx-auto">
             <br>
