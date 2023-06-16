@@ -33,6 +33,7 @@ class PartidaModel
     {
         return $this->database->singleQuery("SELECT resp_correcta FROM pregunta WHERE id = '$idQuestion'");
     }
+
     public function getOptions($idQuestion)
     {
         return $this->database->query("SELECT opcionA, opcionB, opcionC, opcionD FROM pregunta WHERE id = $idQuestion");
@@ -132,7 +133,7 @@ class PartidaModel
     {
         $correct=$this->getCorrectAnswer($idQuestion);
         $optionCorrect=$correct["resp_correcta"];
-        $endTime = $_SESSION["startTime"] + 10;
+        $endTime = $_SESSION["startTime"] + 12;
         if (time() <= $endTime) {
             return $optionSelected === $optionCorrect;
         } else {

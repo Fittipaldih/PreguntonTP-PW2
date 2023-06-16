@@ -41,6 +41,7 @@ class PartidaController
             $response = $this->processAnswer($optionSelected, $idQuestion, $idUser, $userCorrects);
             if ($response){
                 $this->sessionManager->set('lost', true);
+
             }
             echo json_encode($response);
         }
@@ -53,6 +54,7 @@ class PartidaController
             $this->partidaModel->registerCorrectAnswer($idQuestion, $idUser);
             $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
             $response['success'] = true;
+
         } else {
             $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
             $this->partidaModel->insertUserGamesByName($idUser, $userCorrects);

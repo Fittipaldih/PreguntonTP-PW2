@@ -15,7 +15,7 @@ class RegistroController
 
     public function home()
     {
-        $data = [];
+        $data['mapa']=true;
         $this->renderer->render("registro", $data);
     }
 

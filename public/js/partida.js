@@ -1,11 +1,11 @@
-$(document).ready(function() {
+$(document).ready(function () {
     cargarAjax();
 });
 
 let progressInterval;
 const progressBar = document.getElementById("myProgressBar");
 const cronometroElement = document.getElementById("cronometro");
-const duration = 10000;
+const duration = 11000;
 const finalWidth = 100;
 const incrementWidth = (finalWidth / duration) * 100;
 let currentWidth = 0;
@@ -32,7 +32,8 @@ function animateProgressBar() {
 
 function formatTime(time) {
     const seconds = Math.ceil(time / 1000);
-    return seconds.toString();
+    const adjustedSeconds = Math.max(seconds - 1, 0);
+    return adjustedSeconds.toString();
 }
 
 function resetProgressBar() {
@@ -66,35 +67,82 @@ function selected(value) {
     $.ajax({
         url: 'http://localhost/partida/checkAnswer',
         method: 'POST',
-        data: { 'optionSelected': value },
+        data: {'optionSelected': value},
         dataType: 'json'
-    }).done(function(response) {
+    }).done(function (response) {
         if (response.success) {
             cargarAjax();
         } else {
             window.location.href = "lobby";
         }
-    }).fail(function(jqXHR, textStatus, errorThrown) {
+    }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log(errorThrown);
     });
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     var opciona = document.getElementById("opciona");
     var opcionb = document.getElementById("opcionb");
     var opcionc = document.getElementById("opcionc");
     var opciond = document.getElementById("opciond");
 
-    opciona.addEventListener("click", function() {
-        selected(opciona.value);
+    opciona.addEventListener("click", function () {
+        opciona.classList.add("btn-dark");
+        opcionb.disabled = true;
+        opcionc.disabled = true;
+        opciond.disabled = true;
+        setTimeout(function () {
+            selected(opciona.value);
+            opciona.classList.remove("btn-dark" +
+                "");
+            opcionb.disabled = false;
+            opcionc.disabled = false;
+            opciond.disabled = false;
+        }, 500);
     });
-    opcionb.addEventListener("click", function() {
-        selected(opcionb.value);
+    opcionb.addEventListener("click", function () {
+        opcionb.classList.add("btn-dark" +
+            "");
+        opciona.disabled = true;
+        opcionc.disabled = true;
+        opciond.disabled = true;
+        setTimeout(function () {
+            selected(opcionb.value);
+            opcionb.classList.remove("btn-dark" +
+                "");
+            opciona.disabled = false;
+            opcionc.disabled = false;
+            opciond.disabled = false;
+        }, 500);
     });
-    opcionc.addEventListener("click", function() {
-        selected(opcionc.value);
+    opcionc.addEventListener("click", function () {
+        opcionc.classList.add("btn-dark" +
+            "");
+        opciona.disabled = true;
+        opcionb.disabled = true;
+        opciond.disabled = true;
+        setTimeout(function () {
+            selected(opcionc.value);
+            opcionc.classList.remove("btn-dark" +
+                "");
+            opciona.disabled = false;
+            opcionb.disabled = false;
+            opciond.disabled = false;
+        }, 500);
     });
-    opciond.addEventListener("click", function() {
-        selected(opciond.value);
+    opciond.addEventListener("click", function () {
+        opciond.classList.add("btn-dark" +
+            "");
+        opciona.disabled = true;
+        opcionb.disabled = true;
+        opcionc.disabled = true;
+        setTimeout(function () {
+            selected(opciond.value);
+            opciond.classList.remove("btn-dark" +
+                "");
+            opciona.disabled = false;
+            opcionb.disabled = false;
+            opcionc.disabled = false;
+        }, 500);
     });
 });
