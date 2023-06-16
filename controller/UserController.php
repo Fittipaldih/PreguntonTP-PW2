@@ -27,6 +27,7 @@ class UserController
         $data["canEdit"] = $canEdit;
         $data["userData"] = $this->getDataUserByName($userName);
         $data["games"] = $this->getUserGamesByName($userName);
+        $data["player"] = $this->sessionManager->get('player');
 
         $this->qrService->generateQRForUser();
         $this->renderer->render("user", $data);

@@ -99,7 +99,7 @@
                         </div>
                         <article class="d-flex col-md-8">
                             <div class="card-body">
-                                <h2 class="card-title">Mejor puntaje: {{Puntaje_max}}</h2>
+                               {{#player}} <h2 class="card-title">Mejor puntaje: {{Puntaje_max}}</h2> {{/player}}
                                 <dl>
                                     <dt>Correo</dt>
                                     <dd>- {{Mail}}</dd>
@@ -120,7 +120,7 @@
                 </section>
             </article>
 
-            <div class="mx-auto">
+           {{#player}} <div class="mx-auto">
                 <br>
                 <br>
                 <h3>Partidas jugadas</h3>
@@ -141,6 +141,7 @@
                     </tbody>
                 </table>
             </div>
+           {{/player}}
             <br>
             <br>
             <h3>Ubicacion</h3>
