@@ -38,6 +38,9 @@ class LobbyController
             "puntaje_max" => $this->lobbyModel->getUserMaxScore($userName)[0][0],
             "userName" => $userName,
             "showLostModal" => isset($_SESSION['showLostModal']) && $_SESSION['showLostModal'] === 'true',
+            "player" => $this->sessionManager->get('player'),
+            "edit" => $this->sessionManager->get('edit'),
+            "admin" => $this->sessionManager->get('admin'),
         ];
 
         if ($lostModalData !== null) {

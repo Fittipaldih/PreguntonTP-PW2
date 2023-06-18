@@ -12,7 +12,7 @@ class UserController
         $this->userModel = $model;
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
-        $this->qrService = new UserQRService($this->userModel);
+        $this->qrService = new UserService($this->userModel);
     }
 
     public function home()
@@ -27,6 +27,7 @@ class UserController
         $data["canEdit"] = $canEdit;
         $data["userData"] = $this->getDataUserByName($userName);
         $data["games"] = $this->getUserGamesByName($userName);
+        $data["player"] = $this->sessionManager->get('player');
 
         $this->qrService->generateQRForUser();
         $this->renderer->render("user", $data);
@@ -45,6 +46,7 @@ class UserController
     public function edit()
     {
         $userName = $this->sessionManager->get("userName");
+
 
         if (isset($_POST['nameComplete'])) {
             $nameComplete = $_POST['nameComplete'];

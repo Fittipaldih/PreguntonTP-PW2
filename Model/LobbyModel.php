@@ -12,17 +12,13 @@ class LobbyModel
     public function getUserGenre($userName)
     {
         $query = "SELECT Genero FROM usuario WHERE nombre_usuario = ?";
-
         $stmt = $this->database->prepare($query);
         $stmt->bind_param("s", $userName);
         $stmt->execute();
-
-        $rt = $stmt->get_result();
-        $fila = $rt->fetch_assoc();
-
+        $result = $stmt->get_result();
+        $row = mysqli_fetch_assoc($result);
         $stmt->close();
-
-        return $fila['Genero'];
+        return $row['Genero'];
     }
 
     public function getFiveUserGames($userName)

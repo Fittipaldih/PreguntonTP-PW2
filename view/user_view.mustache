@@ -6,9 +6,9 @@
                     <img src="public/imagenes/{{nombrep}}.png" width="50px" alt="bandera pais">
                 </h1>
                 <br><br>
-                <section class="card">
+                <section class="card p-3">
                     <div class="row g-0">
-                        <div class="col-md-4 d-flex justify-content-center align-items-end">
+                        <div class="col-md-3 d-flex justify-content-center align-items-end">
                             {{#Foto_perfil}}
                                 <img src="/public/imagenes/{{Foto_perfil}}" class="imgPerfil m-0 rounded " alt="Foto de perfil">
                             {{/Foto_perfil}}
@@ -97,9 +97,9 @@
                                 </button>
                             {{/canEdit}}
                         </div>
-                        <article class="d-flex col-md-8">
-                            <div class="card-body">
-                                <h2 class="card-title">Mejor puntaje: {{Puntaje_max}}</h2>
+                        <article class="d-flex col-md-9">
+                            <div class="card-body flex-column d-flex align-items-center justify-content-center">
+                               {{#player}} <h2 class="card-title">Mejor puntaje: {{Puntaje_max}}</h2> {{/player}}
                                 <dl>
                                     <dt>Correo</dt>
                                     <dd>- {{Mail}}</dd>
@@ -119,16 +119,24 @@
                     </div>
                 </section>
             </article>
+            <br> <br>
+            <input type="hidden" name="lati" id="lati" value="{{lat}}">
+            <input type="hidden" name="long" id="long" value="{{lng}}">
+            <div class=" card p-3">
+                <h3>Ubicacion aproximada</h3>
+                <div id="mapUser" class="rounded" style="width:100%; height:50vh;"></div>
+            </div>
 
-            <div class="mx-auto">
-                <br>
-                <br>
-                <h3>Partidas jugadas</h3>
+            <br>
+            <br>
+           {{#player}} <div class="mx-auto card p-3">
+                <h3>Ultimas 50 partidas jugadas</h3>
                 <table class="table table-striped">
                     <thead>
                     <tr>
                         <th>Id:</th>
                         <th>Puntaje:</th>
+                        <th>Fecha y hora:</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -136,17 +144,13 @@
                         <tr>
                             <td># {{id}}</td>
                             <td>{{puntaje}} punto(s)</td>
+                            <td>{{fecha}}</td>
                         </tr>
                     {{/games}}
                     </tbody>
                 </table>
             </div>
-            <br>
-            <br>
-            <h3>Ubicacion</h3>
-            <input type="hidden" name="lati" id="lati" value="{{lat}}">
-            <input type="hidden" name="long" id="long" value="{{lng}}">
-            <div id="mapUser" style="width:100%; height:50vh;"></div>
+           {{/player}}
         {{/userData}}
     </div>
 </main>

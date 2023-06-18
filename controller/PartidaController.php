@@ -6,12 +6,14 @@ class PartidaController
     private $renderer;
     private $questionData;
     private $sessionManager;
+    private $userService;
 
     public function __construct($model, $renderer, $sessionManager)
     {
         $this->partidaModel = $model;
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
+        $this->userService= new UserService($this->partidaModel);
     }
 
     public function home($userCorrects = 0)
@@ -28,6 +30,13 @@ class PartidaController
             $data['userPhoto'] = $photo;
         }
         $this->renderer->render("partida", $data);
+    }
+
+    public function getSessionData()
+    {
+        $sessionData = $this->sessionManager->getAll();
+        header('Content-Type: application/json');
+        echo json_encode($sessionData);
     }
 
     public function checkAnswer()

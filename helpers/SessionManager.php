@@ -30,6 +30,12 @@ class SessionManager
         return null;
     }
 
+    public function getAll()
+    {
+        $this->startSession();
+        return $_SESSION;
+    }
+
     public function delete($key)
     {
         $this->startSession();
