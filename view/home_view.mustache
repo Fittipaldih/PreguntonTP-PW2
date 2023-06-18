@@ -1,25 +1,21 @@
-<main>
-    <div class="container py-5">
-        <div class="content row bg-light rounded-3">
-            <div class="col-lg-8 ">
-
-                <h1 class="p-1 fw-bold">Preguntón</h1>
-                <h2 class="p-1 display-6 fw-bold"> ¿Qué esperás para empezar?</h2>
-                <p class="fs-4">¡Divertite con el juego de trivia más interesante!</p>
-                <p class="fs-5">Respondé todas las preguntas para subir en el ranking y desafíar a tus amigos.</p>
-            </div>
-            <div class="col-lg-4 p-4">
-                <a class="navbar-brand" href="/"><img width="300px" src="/public/imagenes/logo3.png"></a>
-                <form class="d-flex flex-column my-3" method="post" action="/Home/login" enctype="multipart/form-data">
-                    <input name="user" class="form-control mb-3" type="text" placeholder="Usuario">
-                    <input name="pass" class="form-control mb-3" type="password" placeholder="Contraseña">
-                    <button class="btn btn-primary">Iniciar sesión</button>
-                </form>
-
-                <p>¿Olvidaste tu contraseña? <a href="#">Recuperar contraseña</a></p>
-                <p>¿No estás registrado? <a href="/registro">Registrate</a></p>
-
-            </div>
-        </div>
-    </div>
+<main class="container py-5 d-flex align-items-center justify-content-center">
+    <section class="content row bg-light rounded-3">
+        <article class="col-lg-8">
+            <h1 class="p-1 text-center"><img class="imgPregunton" src="/public/imagenes/logo2.png" alt="logoPregunton"></h1>
+            <h2 class="p-1 text-center"> ¿Qué esperás para empezar?</h2>
+            <p class="text-center">¡Divertite con el juego de trivia más interesante!</p>
+            <p class="text-center">¡Subí en la clasificación y desafía a tus amigos!</p>
+        </article>
+        <article class="col-lg-4 p-4">
+            <form class="d-flex flex-column my-3" method="post" action="/Home/login" enctype="multipart/form-data">
+                <input name="user" aria-label="nombreUsuario" class="form-control mb-3" type="text"
+                       placeholder="Usuario">
+                <input name="pass" aria-label="contrasenia" class="form-control mb-3" type="password"
+                       placeholder="Contraseña">
+                <button class="btn btn-primary">Iniciar sesión</button>
+            </form>
+            <p>¿No estás registrado? <a href="/registro">Registrate</a></p>
+            <!-- <p>¿Olvidaste tu contraseña? <a href="#">Recuperar contraseña</a></p> -->
+        </article>
+    </section>
 </main>

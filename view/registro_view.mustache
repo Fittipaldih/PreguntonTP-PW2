@@ -1,81 +1,93 @@
-<link rel="stylesheet" href="/public/css/home.css">
-
 <main class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3">
         <h2 class="text-center display-3 fw-bold">¡Creá tu cuenta y divertite jugando!</h2>
         <br>
         <form action="/registro/newAccount" method="post" enctype="multipart/form-data" class="row g-3">
-
             <div class="col-md-6">
-                <label class="form-label">Nombre completo:</label>
-                <input type="text" name="nombre" class="form-control" required placeholder="Ingresar nombre">
+                <div class="col-md-12">
+                    <label for="nombreCompleto" class="form-label">Nombre completo:</label>
+                    <input id="nombreCompleto" type="text" name="nombre" class="form-control" required placeholder="Ingresar nombre">
+                </div>
+
+                <div class="col-md-12">
+                    <label for="NombreUsuario" class="form-label">Nombre de usuario:</label>
+                    <input id="NombreUsuario" type="text" name="nombre_usuario" class="form-control" required
+                           placeholder="¿Cómo querés ser reconocido dentro del juego?">
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Genero:</label>
+                    <br>
+                    <div class="btn-group w-100">
+                        <input class="btn-check" type="radio" name="sexo" id="masculino" value="Masculino" required>
+                        <label class="btn btn-outline-secondary" for="masculino">Masculino</label>
+
+                        <input class="btn-check" type="radio" name="sexo" id="femenino" value="Femenino" required>
+                        <label class="btn btn-outline-secondary" for="femenino">Femenino</label>
+
+                        <input class="btn-check" type="radio" name="sexo" id="no-cargarlo" value="Prefiero no cargarlo"
+                               required>
+                        <label class="btn btn-outline-secondary" for="no-cargarlo">No especificar</label>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <label for="FechaNacimiento" class="form-label">Fecha de nacimiento:</label>
+                    <input id="FechaNacimiento" type="date" name="fecha_nacimiento" class="form-control" required min="1900-01-01"
+                           max="2013-12-31">
+                </div>
+
+                <div class="col-md-12">
+                    <label for="pais" class="form-label">Nacionalidad:</label>
+                    <select id="pais" class="form-select" name="pais" required>
+                        <option value="">Seleccionar país</option>
+                        <option value="1">Argentina</option>
+                        <option value="2">Bolivia</option>
+                        <option value="3">Brasil</option>
+                        <option value="4">Colombia</option>
+                        <option value="5">Mexico</option>
+                        <option value="6">Paraguay</option>
+                        <option value="7">Peru</option>
+                        <option value="8">Uruguay</option>
+                        <option value="9">Venezuela</option>
+                    </select>
+                </div>
+
+                <div class="col-md-12">
+                    <label for="Correo" class="form-label">Correo electrónico:</label>
+                    <input id="Correo" type="email" name="correo" class="form-control" required
+                           placeholder="Ingresar correo valido">
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Foto de perfil:</label>
+                    <input type="file" name="foto_perfil" class="form-control">
+                </div>
+
+                <div class="col-md-12">
+                    <label for="Contrasenia" class="form-label">Contraseña:</label>
+                    <input id="Contrasenia" type="password" name="contrasenia" class="form-control" required
+                           placeholder="Ingresar contraseña segura">
+                </div>
+
+                <div class="col-md-12">
+                    <label for="RepetirContraseña" class="form-label">Repetir contraseña:</label>
+                    <input id="RepetirContraseña" type="password" name="confirmar_contrasenia" class="form-control" required
+                           placeholder="Confirmar contraseña">
+                </div>
+
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">Fecha de nacimiento:</label>
-                <input type="date" name="fecha_nacimiento" class="form-control" required min="1900-01-01"
-                       max="2013-12-31">
+                <div class="col-md-12" style="height: 95%">
+                    <label class="form-label">Selecciona tu ubicacion en el mapa:</label>
+                    <div id="mapReg" class="w-100 h-100"></div>
+                    <input type="hidden" name="lat" id="lat" value="">
+                    <input type="hidden" name="lng" id="lng" value="">
+                </div>
             </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Sexo:</label>
-                <select name="sexo" class="form-select" required>
-                    <option value="">Seleccionar sexo</option>
-                    <option value="Masculino">Masculino</option>
-                    <option value="Femenino">Femenino</option>
-                    <option value="Prefiero no cargarlo">Prefiero no cargarlo</option>
-                </select>
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">País:</label>
-                <select class="form-select" name="pais" required>
-                <option value="">Seleccionar país</option>
-                <option value="1">Argentina</option>
-                <option value="2">Bolivia</option>
-                <option value="3">Brasil</option>
-                <option value="4">Colombia</option>
-                <option value="5">Mexico</option>
-                <option value="6">Paraguay</option>
-                <option value="7">Peru</option>
-                <option value="8">Uruguay</option>
-                <option value="9">Venezuela</option>
-                </select>
-            </div>
-
-            <div id="mapReg" style="width:1500px; height:400px;"></div>
-            <input type="hidden" name="lat" id="lat" value="">
-            <input type="hidden" name="lng" id="lng" value="">
-
-            <div class="col-md-6">
-                <label class="form-label">Correo electrónico:</label>
-                <input type="email" name="correo" class="form-control" required placeholder="Ingresar correo">
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Nombre de usuario:</label>
-                <input type="text" name="nombre_usuario" class="form-control" required
-                       placeholder="¿Cómo querés ser reconocido dentro del juego?">
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Foto de perfil:</label>
-                <input type="file" name="foto_perfil" class="form-control">
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Contraseña:</label>
-                <input type="password" name="contrasenia" class="form-control" required
-                       placeholder="Ingresar contraseña segura">
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Repetir contraseña:</label>
-                <input type="password" name="confirmar_contrasenia" class="form-control" required
-                       placeholder="Confirmar contraseña">
-            </div>
-
             <div class="col-12">
+                <br>
                 <div class="d-flex justify-content-between">
                     <a href="/" class="btn btn-outline-primary btn-lg">Volver a inicio</a>
                     <input type="submit" value="Registrarse" class="btn btn-primary btn-lg">
@@ -84,8 +96,8 @@
         </form>
     </div>
     <div class="modal" id="message">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+        <section class="modal-dialog modal-dialog-centered">
+            <article class="modal-content">
                 <div class="modal-header bg-danger text-white">
                     <h4 class="modal-title">Registro fallido</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -97,12 +109,11 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
                 </div>
-            </div>
-        </div>
+            </article>
+        </section>
     </div>
-
 </main>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiq3xISXSZYgkd9GDAOdajy4NK2d3L7dY"></script>
 <script src="/public/js/regMapApi.js"></script>
-{{#showMessage}}
-    <script src="/public/js/messageReg.js.js"></script>
-{{/showMessage}}
+{{#showMessage}}<script src="/public/js/regMessage.js"></script>{{/showMessage}}

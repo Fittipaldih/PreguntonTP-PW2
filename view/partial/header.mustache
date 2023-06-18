@@ -2,45 +2,49 @@
 <html lang="es">
 <head>
     <title>Pregunton</title>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <meta name="autor" content="Aquino-Fittipaldi-Menu-Turrer">
+    <meta name="descripcion" content="TP Grupal WebII UNLaM MVC">
+    <meta name="keyboards" content="HTML, CSS, Bootstrap, Javascript, Ajax, jQuery, PHP, Mustache, Api QRCode, Api GoogleMaps, Api PHP Mailer">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="icon" href="/public/imagenes/logo.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="/public/css/home.css">
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAiq3xISXSZYgkd9GDAOdajy4NK2d3L7dY"></script>
 </head>
-<body onload="loadMap()">
+
+<body {{#mapa}}onload="loadMap()"{{/mapa}}>
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/lobby"><img width="200px" src="/public/imagenes/logo2.png"></a>
-        {{#userLogged}}
+        <a class="navbar-brand" href="/lobby"><img width="200px" src="/public/imagenes/logo2.png" alt="Logo preguntados"></a>
+        {{#userName}}
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mynavbar">
                 <div class="ms-auto">
-                    <a href="/user&name={{userLogged}}" class="btn btn-sm btn-dark p-1 m-2">
+                    <a href="/user&name={{userName}}" class="btn btn-sm btn-dark p-1 m-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
                          class="bi bi-person" viewBox="0 0 16 16">
                         <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
                     </svg>
-                    <p class="py-0 mb-0"> {{userLogged}}</p>
+                    <p class="py-0 mb-0"> {{userName}}</p>
                     </a>
                 </div>
+
                 <form class="d-flex" method="post" action="Home/logout" enctype="multipart/form-data">
                     <button class="btn btn-sm btn-primary p-1 m-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
-                             class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
-                            <path fill-rule="evenodd"
-                                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+                            <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
                         </svg>
                         <p class="py-0 mb-0">Cerrar sesión</p>
                     </button>
                 </form>
             </div>
-        {{/userLogged}}
+        {{/userName}}
     </div>
 </nav>
 

@@ -9,31 +9,38 @@ class PartidaModel
         $this->database = $database;
     }
 
+    public function getUserPhoto($userName)
+    {
+        $query = "SELECT Foto_perfil FROM usuario WHERE nombre_usuario = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("s", $userName);
+        $stmt->execute();
+        $rt = $stmt->get_result();
+        $fila = $rt->fetch_assoc();
+        $stmt->close();
+        return $fila['Foto_perfil'];
+    }
+
     public function getIdByName($userName)
-    {   // tambien esta en el lobby, y user -> refactorizar
+    {
         return $this->database->query("SELECT Id FROM usuario WHERE Nombre_usuario = '$userName'");
     }
     public function getUserLevelByName($userName)
     {
         return $this->database->query("SELECT nivel FROM usuario WHERE Nombre_usuario = '$userName'");
     }
-
     public function getCorrectAnswer($idQuestion)
     {
         return $this->database->singleQuery("SELECT resp_correcta FROM pregunta WHERE id = '$idQuestion'");
     }
+
     public function getOptions($idQuestion)
     {
-        return $this->database->query("SELECT opcionA, opcionB, opcionC, opcionD
-          FROM pregunta
-          WHERE id = $idQuestion");
+        return $this->database->query("SELECT opcionA, opcionB, opcionC, opcionD FROM pregunta WHERE id = $idQuestion");
     }
-
-
     public function getQuestion()
     {
-
-        $result = $this->getIdByName($_SESSION['user']);
+        $result = $this->getIdByName($_SESSION['userName']);
         $idUser = $result[0][0];
         $question = null;
         $difficulty= $this->getUserSkilLevel($idUser);
@@ -47,8 +54,9 @@ class PartidaModel
             }
         }
         $this->registerQuestion($question[0]['id'], $idUser);
-        //
 
+        $_SESSION['startTime'] = time();
+        $_SESSION['idPregunta'] = $question[0]['id'];
         return $question;
     }
     private function getUserSkilLevel($idUser)
@@ -63,7 +71,6 @@ class PartidaModel
             return "facil";
         }
     }
-
     public function queryQuestionByDiff($idUser, $difficulty)
     {
         return match ($difficulty) {
@@ -80,10 +87,6 @@ class PartidaModel
                  (SELECT 1 FROM usuario_pregunta WHERE id_usuario = '$idUser' AND pregunta.id = usuario_pregunta.id_pregunta) 
                    ORDER BY RAND() LIMIT 1"),
         };
-       /* return $this->database->query
-        ("SELECT * FROM pregunta WHERE NOT EXISTS
-        (SELECT 1 FROM usuario_pregunta WHERE id_usuario = '$idUser' AND pregunta.id = usuario_pregunta.id_pregunta) 
-        ORDER BY RAND() LIMIT 1"); */
     }
     public function queryQuestion($idUser){
         return $this->database->query
@@ -91,17 +94,13 @@ class PartidaModel
         (SELECT 1 FROM usuario_pregunta WHERE id_usuario = '$idUser' AND pregunta.id = usuario_pregunta.id_pregunta) 
         ORDER BY RAND() LIMIT 1");
     }
-
-
-
     public function cleanTable($idUser)
     {
         $this->database->update("DELETE FROM usuario_pregunta WHERE id_usuario = '$idUser'");
     }
-
     public function registerQuestion($idPregunta, $idUsuario)
     {
-        $result = $this->getIdByName($_SESSION['user']);
+        $result = $this->getIdByName($_SESSION['userName']);
         $idUser = $result[0][0];
         $this->database->update("INSERT INTO usuario_pregunta (id_usuario, id_pregunta) VALUES ('$idUser', '$idPregunta')");
         //suma una vez mostrada
@@ -121,7 +120,6 @@ class PartidaModel
                                  SET cant_acertadas = cant_acertadas + 1
                                  WHERE id = $idUsuario;");
     }
-
     public function updateSkillLevel($idPregunta, $idUsuario)
     {
         $this->database->update("UPDATE pregunta
@@ -131,25 +129,21 @@ class PartidaModel
                                  SET nivel = (cant_acertadas / cant_respondidas) * 100
                                  WHERE id = $idUsuario;");
     }
-    //tenemos que buscar la respuesta correcta dentro de la tabla pregunta, con el id pregunta traido del controller)
-    //el metodo va a comparar la letra elegida contra la letra de la respueta correcta
     public function checkAnswer($optionSelected, $idQuestion)
     {
         $correct=$this->getCorrectAnswer($idQuestion);
         $optionCorrect=$correct["resp_correcta"];
-        $endTime = $_SESSION["startTime"] + 10;
+        $endTime = $_SESSION["startTime"] + 12;
         if (time() <= $endTime) {
             return $optionSelected === $optionCorrect;
         } else {
             return false;
         }
     }
-
     public function insertUserGamesByName($idUser, $puntaje)
     {
         return $this->database->update("INSERT INTO partida (id_usuario, puntaje) VALUES('$idUser', '$puntaje') ");
     }
-
     public function updateUserMaxScore($idUser)
     {
         $puntajeMax= $this->selectUserMaxScore($idUser);
@@ -159,6 +153,4 @@ class PartidaModel
     public function selectUserMaxScore($idUser){
         return $this->database->query("SELECT MAX(puntaje) FROM partida WHERE id_usuario=$idUser; ");
     }
-
-
 }

@@ -1,7 +1,7 @@
 function loadMap() {
     var mapOptions = {
         center: new google.maps.LatLng(-34.6686986, -58.5614947),
-        zoom: 7,
+        zoom: 8,
         mapTypeControl: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -18,7 +18,6 @@ function loadMap() {
         var lat = event.latLng.lat();
         var lng = event.latLng.lng();
         marker.setPosition(new google.maps.LatLng(lat, lng));
-
         document.getElementById("lat").value = lat;
         document.getElementById("lng").value = lng;
     });

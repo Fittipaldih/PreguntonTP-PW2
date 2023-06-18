@@ -4,53 +4,64 @@ class LobbyController
 {
     private $lobbyModel;
     private $renderer;
+    private $sessionManager;
 
-    public function __construct($model, $renderer)
+    public function __construct($model, $renderer, $sessionManager)
     {
         $this->lobbyModel = $model;
         $this->renderer = $renderer;
+        $this->sessionManager = $sessionManager;
     }
 
     public function home()
     {
-        $userName = $_SESSION["user"];
-        $genre = $this->lobbyModel->getUserSex($userName);
-        $data["games"] = $this->lobbyModel->getUserGamesByName($userName);
-        $data['welcome'] = $this->getWelcome($genre);
-        $data['userLogged'] = $userName;
-
-        $score = $this->lobbyModel->getUserMaxScore($userName);
-        $scores = $score[0][0];
-        $data['puntaje_max'] = $scores;
-
-        $lostModalData = $this->verifyLost();
-        if ($lostModalData !== null) {
-            $data['userCorrects'] = $lostModalData['userCorrects'];
-            $data['showLostModal'] = true;
-        } else {
-            $data['showLostModal'] = false;
-        }
+        $data = $this->prepareData();
         $this->renderer->render("lobby", $data);
     }
 
-    private function verifyLost()
+    public function prepareData()
     {
-        $data = null;
-        if (isset($_SESSION['lost']) && $_SESSION['lost']) {
-            $data['userCorrects'] = $_SESSION['userCorrects'];
-            unset($_SESSION['lost']);
+        $userName = $this->sessionManager->get("userName");
+        $genre = $this->lobbyModel->getUserGenre($userName);
+        $lostModalData = $this->verifyLost();
+
+        $data = [
+            "welcome" => $this->getWelcome($genre),
+            "games" => $this->lobbyModel->getFiveUserGames($userName),
+            "puntaje_max" => $this->lobbyModel->getUserMaxScore($userName)[0][0],
+            "userName" => $userName,
+            "showLostModal" => isset($_SESSION['showLostModal']) && $_SESSION['showLostModal'] === 'true',
+        ];
+
+        if ($lostModalData !== null) {
+            $data['userCorrects'] = $lostModalData['userCorrects'];
+            $data['showLostModal'] = true;
+            $this->sessionManager->set('showLostModal', true);
+        }
+        else{
+            $this->sessionManager->delete('showLostModal');
         }
         return $data;
     }
 
     private function getWelcome($genre)
     {
-        $rt = 'Bienvenidx';
+        $rt ='Bienvenidx';
         if ($genre === 'Femenino') {
             $rt = 'Bienvenida';
         } elseif ($genre === 'Masculino') {
             $rt = 'Bienvenido';
         }
         return $rt;
+    }
+
+    private function verifyLost()
+    {
+        $data = null;
+        if ($this->sessionManager->get('lost')) {
+            $data['userCorrects'] = $this->sessionManager->get('userCorrects');
+            $this->sessionManager->delete('lost');
+        }
+        return $data;
     }
 }

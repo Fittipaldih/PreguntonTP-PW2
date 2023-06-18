@@ -1,120 +1,155 @@
-<link rel="stylesheet" href="/public/css/home.css">
-<main class="py-5">
+<main class="py-5" id="main-content">
     <div class="content container px-lg-5 p-4 bg-light rounded-3 ">
-    <div class="row g-3">
-        {{#user}}
-            <h1 class="text-center display-3 fw-bold">{{Nombre_usuario}}</h1>
-            <h2 class="text-center">Puntaje máximo: {{Puntaje_max}}</h2>
-        <div class="col-md-5 d-flex justify-content-center">
-            {{#Foto_perfil}}<img src="/public/imagenes/{{Foto_perfil}}" height="300px" class="rounded d-block">{{/Foto_perfil}}
-            {{^Foto_perfil}}<img src="/public/imagenes/perfil.jpg" height="300px" class="rounded d-block">{{/Foto_perfil}}
-        </div>
-            <div class="col-md-4">
-                <p><strong>Nombre completo:</strong> {{Nombre_completo}}</p>
-                <p><strong>Género:</strong> {{Genero}}</p>
-                <p><strong>Fecha de Nacimiento:</strong> {{Fecha_nacimiento}}</p>
-                <p><strong>Correo:</strong> {{Mail}}</p>
-                {{#canEdit}}
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEdit">
-                        Editar perfil
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"> <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/></svg>
-                    </button>
-                    <div class="modal fade" id="modalEdit">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <!-- Modal Header -->
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Editar perfil de {{Nombre_usuario}}</h4>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        {{#userData}}
+            <article class="row g-3 ">
+                <h1 id="userName" class="text-center text-primary display-2 fw-bold">{{Nombre_usuario}}
+                    <img src="public/imagenes/{{nombrep}}.png" width="50px" alt="bandera pais">
+                </h1>
+                <br><br>
+                <section class="card">
+                    <div class="row g-0">
+                        <div class="col-md-4 d-flex justify-content-center align-items-end">
+                            {{#Foto_perfil}}
+                                <img src="/public/imagenes/{{Foto_perfil}}" class="imgPerfil m-0 rounded " alt="Foto de perfil">
+                            {{/Foto_perfil}}
+                            {{^Foto_perfil}}<img src="/public/imagenes/perfil.jpg" class="imgPerfil rounded" alt="Foto de perfil">
+                            {{/Foto_perfil}}
+                            {{#canEdit}}
+                                <div class="modal fade" id="modalEdit">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Editar perfil de {{Nombre_usuario}}</h4>
+                                                <button type="button" class="btn-close"
+                                                        data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <!-- Modal body -->
+                                            <div class="modal-body">
+                                                <form action="/user/edit" method="post" enctype="multipart/form-data"
+                                                      class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <label for="nombreCompleto" class="form-label">Nombre
+                                                            completo:</label>
+                                                        <input id="nombreCompleto" type="text" name="nameComplete"
+                                                               class="form-control" required
+                                                               value="{{Nombre_completo}}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="fotoPerfil" class="form-label">Nueva foto de
+                                                            perfil:</label>
+                                                        <input id="fotoPerfil" type="file" name="photo"
+                                                               class="form-control">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="fechaNac" class="form-label">Fecha de
+                                                            nacimiento:</label>
+                                                        <input id="fechaNac" type="date" name="birthDate"
+                                                               class="form-control" required
+                                                               min="1900-01-01" max="2013-12-31"
+                                                               value="{{Fecha_nacimiento}}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="sexo" class="form-label">Sexo:</label>
+                                                        <select id="sexo" name="sex" class="form-select" required>
+                                                            <option value="{{Genero}}">{{Genero}}</option>
+                                                            <option value="Masculino">Masculino</option>
+                                                            <option value="Femenino">Femenino</option>
+                                                            <option value="Prefiero no cargarlo">Prefiero no cargarlo
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="pais" class="form-label">País:</label>
+                                                        <select id="pais" class="form-select" name="country" required>
+                                                            <option value="">{{nombrep}}</option>
+                                                            <option value="1">Argentina</option>
+                                                            <option value="2">Bolivia</option>
+                                                            <option value="3">Brasil</option>
+                                                            <option value="4">Colombia</option>
+                                                            <option value="5">Mexico</option>
+                                                            <option value="6">Paraguay</option>
+                                                            <option value="7">Peru</option>
+                                                            <option value="8">Uruguay</option>
+                                                            <option value="9">Venezuela</option>
+                                                        </select>
+                                                    </div>
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <input type="submit" value="Aplicar" class="btn btn-primary"
+                                                               data-bs-dismiss="modal">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!-- Modal body -->
-                                <div class="modal-body">
-                                    <form action="/user/edit" method="post" enctype="multipart/form-data" class="row g-3">
-                                        <div class="col-md-6">
-                                            <label class="form-label">Nombre completo:</label>
-                                            <input type="text" name="nameComplete" class="form-control" required value="{{Nombre_completo}}">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label">Nueva foto de perfil:</label>
-                                            <input type="file" name="photo" class="form-control">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label">Fecha de nacimiento:</label>
-                                            <input type="date" name="birthDate" class="form-control" required min="1900-01-01" max="2013-12-31" value="{{Fecha_nacimiento}}">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label">Sexo:</label>
-                                            <select name="sex" class="form-select" required>
-                                                <option value="{{Genero}}">{{Genero}}</option>
-                                                <option value="Masculino">Masculino</option>
-                                                <option value="Femenino">Femenino</option>
-                                                <option value="Prefiero no cargarlo">Prefiero no cargarlo</option>
-                                            </select>
-                                        </div>
-                                        <!-- <div class="col-md-6">
-                                            <label class="form-label">País:</label>
-                                            <select class="form-select" name="country" required>
-                                                <option value="{{Pais}}">{{Pais}}</option>
-                                                <option value="1">Argentina</option>
-                                                <option value="2">Bolivia</option>
-                                                <option value="3">Brasil</option>
-                                                <option value="4">Colombia</option>
-                                                <option value="5">Mexico</option>
-                                                <option value="6">Paraguay</option>
-                                                <option value="7">Peru</option>
-                                                <option value="8">Uruguay</option>
-                                                <option value="9">Venezuela</option>
-                                            </select>
-                                        </div>-->
-                                        <!-- Modal footer -->
-                                        <div class="modal-footer">
-                                            <input type="submit" value="Aplicar" class="btn btn-primary" data-bs-dismiss="modal">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                                <button type="button" class="btn btn-primary btn-content position-absolute"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalEdit">
+                                    Modificar
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                    </svg>
+                                </button>
+                            {{/canEdit}}
                         </div>
+                        <article class="d-flex col-md-8">
+                            <div class="card-body">
+                                <h2 class="card-title">Mejor puntaje: {{Puntaje_max}}</h2>
+                                <dl>
+                                    <dt>Correo</dt>
+                                    <dd>- {{Mail}}</dd>
+                                    <dt>Fecha de Nacimiento</dt>
+                                    <dd>- {{Fecha_nacimiento}}</dd>
+                                    <dt>Género</dt>
+                                    <dd>- {{Genero}}</dd>
+                                    <dt>Nombre completo</dt>
+                                    <dd>- {{Nombre_completo}}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-4 m-3 text-center">
+                                <img src="public/qr/{{Nombre_usuario}}.png" id="qr" alt="Código QR">
+                                <p class="fw-bold m-0 p-0">Compartí el perfil</p>
+                            </div>
+                        </article>
                     </div>
-                {{/canEdit}}
+                </section>
+            </article>
 
-                {{lat}}
-                {{lng}}
+            <div class="mx-auto">
+                <br>
+                <br>
+                <h3>Partidas jugadas</h3>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Id:</th>
+                        <th>Puntaje:</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#games}}
+                        <tr>
+                            <td># {{id}}</td>
+                            <td>{{puntaje}} punto(s)</td>
+                        </tr>
+                    {{/games}}
+                    </tbody>
+                </table>
             </div>
-            <div class="col-md-3">
-
-                <img src="public/qr/{{Nombre_usuario}}.png" alt="Código QR">
-                <p class="fw-bold">Compartí el perfil con tus amigos</p>
-            </div>
-
-            <p><strong>Ubicación:</strong> {{Ciudad}}, {{Pais}} <img src="public/imagenes/{{Pais}}.png" width="35px"></p>
-
-            <div id="mapUser" style="width:1500px; height:400px;">
-
-
-            </div>
-        {{/user}}
-    </div>
-    <div class="mx-auto">
-        <br>
-        <h3>Partidas jugadas</h3>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Id Partida:</th>
-                <th>Puntaje obtenido:</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{#games}}
-                <tr>
-                    <td># {{id}}</td>
-                    <td>{{puntaje}} puntos</td>
-                </tr>
-            {{/games}}
-            </tbody>
-        </table>
-    </div>
+            <br>
+            <br>
+            <h3>Ubicacion</h3>
+            <input type="hidden" name="lati" id="lati" value="{{lat}}">
+            <input type="hidden" name="long" id="long" value="{{lng}}">
+            <div id="mapUser" style="width:100%; height:50vh;"></div>
+        {{/userData}}
     </div>
 </main>
-<script src="/public/js/userMapApi.js"></script>
 
+<script src="/public/js/userMapApi.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiq3xISXSZYgkd9GDAOdajy4NK2d3L7dY"></script>

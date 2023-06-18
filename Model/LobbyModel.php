@@ -9,7 +9,7 @@ class LobbyModel
         $this->database = $database;
     }
 
-    public function getUserSex($userName)
+    public function getUserGenre($userName)
     {
         $query = "SELECT Genero FROM usuario WHERE nombre_usuario = ?";
 
@@ -25,14 +25,12 @@ class LobbyModel
         return $fila['Genero'];
     }
 
-    public function getUserGamesByName($user)
-    { // tambien esta en el userModel -> refactorizar
+    public function getFiveUserGames($userName)
+    {
         return $this->database->query("SELECT * FROM partida WHERE id_usuario =
-                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$user')");
+                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$userName') ORDER BY id DESC LIMIT 5");
     }
     public function getUserMaxScore($userName){
         return $this->database->query("SELECT puntaje_max FROM usuario WHERE Nombre_usuario = '$userName'");
-
-
     }
 }
