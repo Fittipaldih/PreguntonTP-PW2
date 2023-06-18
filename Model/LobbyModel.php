@@ -33,4 +33,8 @@ class LobbyModel
     public function getUserMaxScore($userName){
         return $this->database->query("SELECT puntaje_max FROM usuario WHERE Nombre_usuario = '$userName'");
     }
+
+    public function getAllQuestions(){
+        return $this->database->query("SELECT * FROM pregunta");
+    }
 }

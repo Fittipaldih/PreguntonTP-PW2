@@ -19,6 +19,13 @@ class LobbyController
         $this->renderer->render("lobby", $data);
     }
 
+    public function editor()
+    {
+        $data = $this->prepareData();
+        $data["questions"]=$this->lobbyModel->getAllQuestions();
+        $this->renderer->render("lobbyEditor", $data);
+    }
+
     public function prepareData()
     {
         $userName = $this->sessionManager->get("userName");

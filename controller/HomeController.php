@@ -35,14 +35,15 @@ class HomeController
                     $data["hash"] = $userConnected[0]["Hash"];
                     $this->renderer->render('/registroExitoso', $data);
                     break;
+                case 2:
+                    header("Location: /lobby/editor");
+                    exit();
                 case 3:
                     header("Location: /lobby");
                     exit();
-                    break;
                 default:
                     header("Location: /");
                     exit();
-                    break;
             }
         } else {
             header("location:/");
