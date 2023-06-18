@@ -52,8 +52,7 @@ class Configuration
     {
         return new RegistroController(
             new RegistroModel($this->getDatabase()),
-            $this->getRenderer(),
-            $this->getSessionManager());
+            $this->getRenderer());
     }
 
     public function getLobbyController()
@@ -61,7 +60,6 @@ class Configuration
         return new LobbyController(
             new LobbyModel($this->getDatabase()),
             $this->getRenderer(),
-            $this->getSessionManager(),
             $this->getSessionManager());
     }
 

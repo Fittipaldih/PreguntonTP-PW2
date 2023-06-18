@@ -47,6 +47,7 @@ class UserController
     {
         $userName = $this->sessionManager->get("userName");
 
+
         if (isset($_POST['nameComplete'])) {
             $nameComplete = $_POST['nameComplete'];
             $this->userModel->setNameComplete($userName, $nameComplete);

@@ -20,19 +20,18 @@ footer {
 }
 /* VISTA USUARIO */
 .imgPerfil {
-    max-width: 100%;
-    width: 500px
+    max-width: 70%;
+    width: 400px
 }
 .card {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 #qr {
-    max-width: 90%;
+    max-width: 70%;
     width: 400px
 }
 /* Mapa oscuro*/
-
 #mapReg {
     height: 100%;
     width: 100%;

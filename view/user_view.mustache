@@ -120,8 +120,6 @@
                 </section>
             </article>
             <br> <br>
-
-            <br>
             <input type="hidden" name="lati" id="lati" value="{{lat}}">
             <input type="hidden" name="long" id="long" value="{{lng}}">
             <div class=" card p-3">
@@ -138,6 +136,7 @@
                     <tr>
                         <th>Id:</th>
                         <th>Puntaje:</th>
+                        <th>Fecha y hora:</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -145,6 +144,7 @@
                         <tr>
                             <td># {{id}}</td>
                             <td>{{puntaje}} punto(s)</td>
+                            <td>{{fecha}}</td>
                         </tr>
                     {{/games}}
                     </tbody>
