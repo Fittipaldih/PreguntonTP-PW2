@@ -105,10 +105,10 @@
                         <td>{{opcionD}}</td>
                         <td>{{resp_correcta}}</td>
                         <td>
-                            <button id="{{id}}" class="editQuestion" style="border: none"><i class="fa-solid fa-pencil"></i></button>
+                            <button class="editQuestion" style="border: none"><i class="fa-solid fa-pencil"></i></button>
                         </td>
                         <td>
-                            <button id="{{id}}" class="deleteQuestion" style="border: none"><i class="fa-solid fa-trash-can"></i></button
+                            <button class="deleteQuestion" style="border: none"><i class="fa-solid fa-trash-can"></i></button
                         </td>
                     </tr>
                 {{/questions}}</tbody>
@@ -162,7 +162,7 @@
                         <h4 class="modal-title">Eliminar</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <form action="/partida/delete" method="post">
+                    <form action="/partida/delete&id={{id}}" method="post">
                         <div class="modal-body">
                             <p>¿Está seguro que desea elimnar esta pregunta?</p>
                         </div>
