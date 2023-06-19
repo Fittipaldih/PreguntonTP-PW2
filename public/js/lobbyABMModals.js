@@ -1,15 +1,3 @@
-document.addEventListener("DOMContentLoaded", function() {
-    //class name devuelve un array
-    var addElements = document.getElementsByClassName("addQuestion");
-    var modal=new bootstrap.Modal(document.getElementById("addModal"));
-
-    for (var i = 0; i < addElements.length; i++) {
-        addElements[i].addEventListener("click", function () {
-            modal.show();
-        });
-    }
-
-});
 
 document.addEventListener("DOMContentLoaded", function() {
     //class name devuelve un array
@@ -47,18 +35,15 @@ document.addEventListener("DOMContentLoaded", function() {
             opcionDInput.value=opcionD;
             respuestaCorrectaInput.value=respuestaCorrecta;
 
-            // Mostrar el modal de edición
             modal.show();
         });
     });
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    //class name devuelve un array
     var deleteElements = document.getElementsByClassName("deleteQuestion");
     var modal=new bootstrap.Modal(document.getElementById("deleteModal"));
 
-    //recorro array
     for (var i = 0; i < deleteElements.length; i++) {
         deleteElements[i].addEventListener("click", function () {
             modal.show();

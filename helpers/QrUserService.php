@@ -1,6 +1,6 @@
 <?php
 
-class UserService
+class QrUserService
 {
     private $userModel;
 

@@ -19,4 +19,5 @@ class RankingController
         $data['users'] = $this->rankingModel->getNameAndScoreByPositionOfUsers();
         $this->renderer->render("ranking", $data);
     }
+
 }

@@ -19,13 +19,6 @@ class LobbyController
         $this->renderer->render("lobby", $data);
     }
 
-    public function editor()
-    {
-        $data = $this->prepareData();
-        $data["questions"]=$this->lobbyModel->getAllQuestions();
-        $this->renderer->render("lobby", $data);
-    }
-
     public function prepareData()
     {
         $userName = $this->sessionManager->get("userName");
@@ -38,10 +31,18 @@ class LobbyController
             "puntaje_max" => $this->lobbyModel->getUserMaxScore($userName)[0][0],
             "userName" => $userName,
             "showLostModal" => isset($_SESSION['showLostModal']) && $_SESSION['showLostModal'] === 'true',
-            "player" => $this->sessionManager->get('player'),
-            "edit" => $this->sessionManager->get('edit'),
-            "admin" => $this->sessionManager->get('admin'),
         ];
+
+        if ($this->sessionManager->get('edit') !== null){
+            $data['edit'] = $this->sessionManager->get('edit');
+            $data["questions"]=$this->lobbyModel->getAllQuestions();
+        }
+        if ($this->sessionManager->get('player') !== null){
+            $data['player'] = $this->sessionManager->get('player');
+        }
+        if ($this->sessionManager->get('edit') !== null){
+            $data['admin'] = $this->sessionManager->get('admin');
+        }
 
         if ($lostModalData !== null) {
             $data['userCorrects'] = $lostModalData['userCorrects'];

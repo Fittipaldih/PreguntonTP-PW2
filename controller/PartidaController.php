@@ -13,7 +13,7 @@ class PartidaController
         $this->partidaModel = $model;
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
-        $this->userService= new UserService($this->partidaModel);
+        $this->userService= new QrUserService($this->partidaModel);
     }
 
     public function home($userCorrects = 0)

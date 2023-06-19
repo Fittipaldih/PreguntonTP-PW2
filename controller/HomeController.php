@@ -41,7 +41,7 @@ class HomeController
                     exit();
                 case 2: // editor
                     $this->sessionManager->set('edit', true);
-                    header("Location: /lobby/editor");
+                    header("Location: /lobby");
                     exit();
                 case 3: // jugador
                     $this->sessionManager->set('player', true);
@@ -80,11 +80,6 @@ class HomeController
         }
         exit();
     }
-    /*
-   private function validateHash($hash, $userFound)
-    {
-        return $userFound[0]["Hash"] == $hash;
-    }*/
 
     public function logout()
     {

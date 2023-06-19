@@ -10,13 +10,13 @@
            {{#player}}
                <a href="/partida" class="btn btn-primary btn-lg">Nueva partida</a>
                <a href="/ranking" class="btn btn-outline-primary btn-lg">Ver clasificación</a>
-               <a href="/" class="btn btn-outline-primary btn-lg">Sugerir preguntas</a>
+               <a href="/add" class="btn btn-outline-primary btn-lg">Sugerir preguntas</a>
            {{/player}}
            {{#edit}}
                <!--<a href="/" class="btn btn-outline-primary btn-lg">Dar de alta nuevas preguntas</a>-->
+               <a href="/add" class="btn btn-outline-primary btn-lg">Nueva pregunta</a>
                <a href="/pregunta/reportadas" class="btn btn-outline-primary btn-lg">Revisar preguntas reportadas</a>
                <a href="/pregunta/sugeridas" class="btn btn-outline-primary btn-lg">Revisar preguntas sugeridas</a>
-               <a href="/lobby/home" class="btn btn-outline-primary btn-lg">Jugar</a>
            {{/edit}}
            {{#admin}}
                <a href="/" class="btn btn-outline-primary btn-lg">Total de jugadores registrados</a>
@@ -79,7 +79,6 @@
             <br>
             <div class="d-flex">
                 <h3 class="col-9">Preguntas</h3>
-                <button class="addQuestion col-3 btn btn-primary btn-lg">Nueva Pregunta</button>
             </div>
             <table class="table table-striped">
                 <thead>
@@ -97,7 +96,7 @@
                 </thead>
                 <tbody>{{#questions}}
                     <tr >
-                        <td># {{id}}</td>
+                        <td>#{{id}}</td>
                         <td>{{descripcion}}</td>
                         <td>{{opcionA}}</td>
                         <td>{{opcionB}}</td>
@@ -108,51 +107,13 @@
                             <button class="editQuestion" style="border: none"><i class="fa-solid fa-pencil"></i></button>
                         </td>
                         <td>
-                            <button class="deleteQuestion" style="border: none"><i class="fa-solid fa-trash-can"></i></button
+                            <button class="deleteQuestion" style="border: none"><i class="fa-solid fa-trash-can"></i></button>
                         </td>
                     </tr>
                 {{/questions}}</tbody>
             </table>
         </article>
 
-        <div class="modal" id="addModal">
-            <section class="modal-dialog">
-                <article class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Nueva Pregunta</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <form action="/pregunta/add" method="post" enctype="multipart/form-data">
-
-                        <div class="modal-body">
-                            <input name="id" type="hidden">
-
-                            <label>Descripción</label>
-                            <input name="descripcion">
-
-                            <label>Respuesta A</label>
-                            <input name="opcionA">
-
-                            <label>Respuesta B</label>
-                            <input name="opcionB">
-
-                            <label>Respuesta C</label>
-                            <input name="opcionC">
-
-                            <label>Respuesta D</label>
-                            <input name="opcionD">
-
-                            <label>Respuesta Coreccta</label>
-                            <input name="respuestaCorrecta">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
-                        </div>
-                    </form>
-                </article>
-            </section>
-        </div>
 
         <div class="modal" id="editModal">
             <section class="modal-dialog">
@@ -200,9 +161,10 @@
                         <h4 class="modal-title">Eliminar</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <form action="/pregunta/delete&id={{id}}" method="post">
+                    <form action="/pregunta/delete" method="post">
+                        <input type="hidden" name="id" value="{{id}}">
                         <div class="modal-body">
-                            <p>¿Está seguro que desea elimnar esta pregunta?</p>
+                            <p>¿Está seguro que desea eliminar esta pregunta?</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar</button>
@@ -212,8 +174,6 @@
                 </article>
             </section>
         </div>
-    </main>
-
     <script src="/public/js/lobbyABMModals.js"></script>
 {{/edit}}
 </main>

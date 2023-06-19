@@ -1,5 +1,5 @@
 <?php
-
+/*
 class AdminService
 {
 session_start();
@@ -143,5 +143,3 @@ y agregar un botón de impresión en tu interfaz de usuario. Al hacer clic en el
 puedes abrir una ventana de impresión del navegador con los elementos deseados
 (gráficos, tablas de datos) listos para imprimir.
  */
-
-}

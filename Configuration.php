@@ -5,7 +5,7 @@ include_once('helpers/Router.php');
 include_once('helpers/SessionManager.php');
 
 include_once('helpers/RegistroService.php');
-include_once('helpers/UserService.php');
+include_once('helpers/QrUserService.php');
 
 include_once("model/UserModel.php");
 include_once("model/HomeModel.php");
@@ -14,6 +14,7 @@ include_once("model/LobbyModel.php");
 include_once("model/RankingModel.php");
 include_once("model/PartidaModel.php");
 include_once('model/PreguntaModel.php');
+include_once('model/AddModel.php');
 
 include_once('controller/UserController.php');
 include_once('controller/HomeController.php');
@@ -22,6 +23,7 @@ include_once('controller/LobbyController.php');
 include_once('controller/RankingController.php');
 include_once('controller/PartidaController.php');
 include_once('controller/PreguntaController.php');
+include_once('controller/AddController.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once('third-party/phpqrcode/qrlib.php');
@@ -86,6 +88,14 @@ class Configuration
         return new PreguntaController(
             new PreguntaModel($this->getDatabase()),
             $this->getRenderer());
+    }
+
+    public function getAddController()
+    {
+        return new AddController(
+            new AddModel($this->getDatabase()),
+            $this->getRenderer(),
+            $this->getSessionManager());
     }
 
     private function getArrayConfig()
