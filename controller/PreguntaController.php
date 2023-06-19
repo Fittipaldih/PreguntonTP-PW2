@@ -10,10 +10,25 @@ class PreguntaController
         $this->renderer = $renderer;
     }
 
-    public function editar()
+    public function add()
+    {
+        $addQuestion=$_POST;
+        $this->preguntaModel->update($addQuestion);
+        header("Location: /lobby/editor");
+        exit();
+    }
+
+    public function edit()
     {
         $updateQuestion=$_POST;
         $this->preguntaModel->update($updateQuestion);
+        header("Location: /lobby/editor");
+        exit();
+    }
+
+    public function delete($idQuestion)
+    {
+        $this->preguntaModel->delete($idQuestion);
         header("Location: /lobby/editor");
         exit();
     }

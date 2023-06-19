@@ -1,5 +1,18 @@
 document.addEventListener("DOMContentLoaded", function() {
     //class name devuelve un array
+    var addElements = document.getElementsByClassName("addQuestion");
+    var modal=new bootstrap.Modal(document.getElementById("addModal"));
+
+    for (var i = 0; i < addElements.length; i++) {
+        addElements[i].addEventListener("click", function () {
+            modal.show();
+        });
+    }
+
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    //class name devuelve un array
     var editElements = document.querySelectorAll(".editQuestion");
     var modal=new bootstrap.Modal(document.getElementById("editModal"));
 

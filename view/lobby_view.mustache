@@ -79,7 +79,7 @@
             <br>
             <div class="d-flex">
                 <h3 class="col-9">Preguntas</h3>
-                <a href="/pregunta/nuevaPregunta" class=" col-3 btn btn-primary btn-lg">Nueva Pregunta</a>
+                <button class="addQuestion col-3 btn btn-primary btn-lg">Nueva Pregunta</button>
             </div>
             <table class="table table-striped">
                 <thead>
@@ -115,6 +115,45 @@
             </table>
         </article>
 
+        <div class="modal" id="addModal">
+            <section class="modal-dialog">
+                <article class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Nueva Pregunta</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form action="/pregunta/add" method="post" enctype="multipart/form-data">
+
+                        <div class="modal-body">
+                            <input name="id" type="hidden">
+
+                            <label>Descripción</label>
+                            <input name="descripcion">
+
+                            <label>Respuesta A</label>
+                            <input name="opcionA">
+
+                            <label>Respuesta B</label>
+                            <input name="opcionB">
+
+                            <label>Respuesta C</label>
+                            <input name="opcionC">
+
+                            <label>Respuesta D</label>
+                            <input name="opcionD">
+
+                            <label>Respuesta Coreccta</label>
+                            <input name="respuestaCorrecta">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+                        </div>
+                    </form>
+                </article>
+            </section>
+        </div>
+
         <div class="modal" id="editModal">
             <section class="modal-dialog">
                 <article class="modal-content">
@@ -122,10 +161,9 @@
                         <h4 class="modal-title">Editar</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <form action="/pregunta/editar" method="post" enctype="multipart/form-data">
+                    <form action="/pregunta/edit" method="post" enctype="multipart/form-data">
 
                         <div class="modal-body">
-                            <label>Id</label>
                             <input name="id" type="hidden">
 
                             <label>Descripción</label>
@@ -162,13 +200,13 @@
                         <h4 class="modal-title">Eliminar</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <form action="/partida/delete&id={{id}}" method="post">
+                    <form action="/pregunta/delete&id={{id}}" method="post">
                         <div class="modal-body">
                             <p>¿Está seguro que desea elimnar esta pregunta?</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
                         </div>
                     </form>
                 </article>
@@ -176,7 +214,7 @@
         </div>
     </main>
 
-    <script src="/public/js/lobbyEditModal.js"></script>
+    <script src="/public/js/lobbyABMModals.js"></script>
 {{/edit}}
 </main>
 
