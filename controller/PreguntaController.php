@@ -13,8 +13,11 @@ class PreguntaController
     public function editar()
     {
         var_dump($_POST);
-        $data["mensaje"]="editado";
-        $this->renderer->render("/lobbyEditor", $data);
+        //$updateQuestion=$_POST;
+        //$this->preguntaModel->update($updateQuestion);
+        $this->renderer->render("/editado");
+       /* header("Location: /lobby/editor");
+        exit();*/
     }
 
 

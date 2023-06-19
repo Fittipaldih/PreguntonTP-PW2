@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
             var row = button.closest("tr");
 
             // Obtener los valores de los campos de la fila
-            var id = row.querySelector("td:nth-child(1)").textContent;
+            var id = (row.querySelector("td:nth-child(1)").textContent).replace("# ", "");
             var descripcion = row.querySelector("td:nth-child(2)").textContent;
             var opcionA = row.querySelector("td:nth-child(3)").textContent;
             var opcionB = row.querySelector("td:nth-child(4)").textContent;

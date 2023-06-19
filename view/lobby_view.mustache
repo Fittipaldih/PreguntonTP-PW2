@@ -3,8 +3,8 @@
         <h1 class="text-center text-primary display-2 fw-bold">¡{{welcome}} {{userName}}!</h1>
         <h2 class="text-center">
             {{#player}}Mejor puntaje: {{puntaje_max}}{{/player}}
-{{#edit}}¿Qué haremos hoy?{{/edit}}
-    {{#admin}}¿Qué necesita consultar hoy?{{/admin}}
+            {{#edit}}¿Qué haremos hoy?{{/edit}}
+            {{#admin}}¿Qué necesita consultar hoy?{{/admin}}
         </h2>
         <article class="d-grid gap-2 col-6 mx-auto mt-4">
            {{#player}}
@@ -13,9 +13,10 @@
                <a href="/" class="btn btn-outline-primary btn-lg">Sugerir preguntas</a>
            {{/player}}
            {{#edit}}
-               <a href="/" class="btn btn-outline-primary btn-lg">Dar de alta nuevas preguntas</a>
-                <a href="/" class="btn btn-outline-primary btn-lg">Dar de baja preguntas</a>
-                <a href="/" class="btn btn-outline-primary btn-lg">Revisar preguntas sugeridas</a>
+               <!--<a href="/" class="btn btn-outline-primary btn-lg">Dar de alta nuevas preguntas</a>-->
+               <a href="/pregunta/reportadas" class="btn btn-outline-primary btn-lg">Revisar preguntas reportadas</a>
+               <a href="/pregunta/sugeridas" class="btn btn-outline-primary btn-lg">Revisar preguntas sugeridas</a>
+               <a href="/lobby/home" class="btn btn-outline-primary btn-lg">Jugar</a>
            {{/edit}}
            {{#admin}}
                <a href="/" class="btn btn-outline-primary btn-lg">Total de jugadores registrados</a>
@@ -71,6 +72,112 @@
         </section>
     </div>
 {{/player}}
+
+
+{{#edit}}
+        <article class="mx-auto">
+            <br>
+            <div class="d-flex">
+                <h3 class="col-9">Preguntas</h3>
+                <a href="/pregunta/nuevaPregunta" class=" col-3 btn btn-primary btn-lg">Nueva Pregunta</a>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Id:</th>
+                    <th>Pregunta:</th>
+                    <th>Opcion A:</th>
+                    <th>Opcion B:</th>
+                    <th>Opcion C:</th>
+                    <th>Opcion D:</th>
+                    <th>Respuesta Correcta:</th>
+                    <th> </th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>{{#questions}}
+                    <tr >
+                        <td># {{id}}</td>
+                        <td>{{descripcion}}</td>
+                        <td>{{opcionA}}</td>
+                        <td>{{opcionB}}</td>
+                        <td>{{opcionC}}</td>
+                        <td>{{opcionD}}</td>
+                        <td>{{resp_correcta}}</td>
+                        <td>
+                            <button id="{{id}}" class="editQuestion" style="border: none"><i class="fa-solid fa-pencil"></i></button>
+                        </td>
+                        <td>
+                            <button id="{{id}}" class="deleteQuestion" style="border: none"><i class="fa-solid fa-trash-can"></i></button
+                        </td>
+                    </tr>
+                {{/questions}}</tbody>
+            </table>
+        </article>
+
+        <div class="modal" id="editModal">
+            <section class="modal-dialog">
+                <article class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Editar</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form action="/pregunta/editar" method="post" enctype="multipart/form-data">
+
+                        <div class="modal-body">
+                            <label>Id</label>
+                            <input name="id" type="hidden">
+
+                            <label>Descripción</label>
+                            <input name="descripcion">
+
+                            <label>Respuesta A</label>
+                            <input name="opcionA">
+
+                            <label>Respuesta B</label>
+                            <input name="opcionB">
+
+                            <label>Respuesta C</label>
+                            <input name="opcionC">
+
+                            <label>Respuesta D</label>
+                            <input name="opcionD">
+
+                            <label>Respuesta Coreccta</label>
+                            <input name="respuestaCorrecta">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+                        </div>
+                    </form>
+                </article>
+            </section>
+        </div>
+
+        <div class="modal" id="deleteModal">
+            <section class="modal-dialog">
+                <article class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Eliminar</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form action="/partida/delete" method="post">
+                        <div class="modal-body">
+                            <p>¿Está seguro que desea elimnar esta pregunta?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                        </div>
+                    </form>
+                </article>
+            </section>
+        </div>
+    </main>
+
+    <script src="/public/js/lobbyEditModal.js"></script>
+{{/edit}}
 </main>
 
 {{#showLostModal}}<script src="/public/js/lobbyLostModal.js"></script>{{/showLostModal}}

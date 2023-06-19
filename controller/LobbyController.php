@@ -23,7 +23,7 @@ class LobbyController
     {
         $data = $this->prepareData();
         $data["questions"]=$this->lobbyModel->getAllQuestions();
-        $this->renderer->render("lobbyEditor", $data);
+        $this->renderer->render("lobby", $data);
     }
 
     public function prepareData()
