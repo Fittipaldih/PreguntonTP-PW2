@@ -13,7 +13,6 @@ include_once("model/RegistroModel.php");
 include_once("model/LobbyModel.php");
 include_once("model/RankingModel.php");
 include_once("model/PartidaModel.php");
-include_once('model/AddModel.php');
 include_once('model/QuestionModel.php');
 
 include_once('controller/UserController.php');
@@ -22,7 +21,6 @@ include_once('controller/RegistroController.php');
 include_once('controller/LobbyController.php');
 include_once('controller/RankingController.php');
 include_once('controller/PartidaController.php');
-include_once('controller/AddController.php');
 include_once('controller/QuestionController.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
@@ -77,13 +75,6 @@ class Configuration
             $this->getSessionManager());
     }
 
-    public function getAddController()
-    {
-        return new AddController(
-            new AddModel($this->getDatabase()),
-            $this->getRenderer(),
-            $this->getSessionManager());
-    }
     public function getQuestionController()
     {
         return new QuestionController(

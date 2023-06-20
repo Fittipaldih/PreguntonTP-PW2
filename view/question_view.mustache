@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                 <!-- Preguntas sugeridas -->
-                {{#questionsS}}
+                {{#questionsSuggested}}
                     <tr>
                         <td>{{descripcion}}</td>
                         <td>{{opcionA}}</td>
@@ -46,9 +46,9 @@
                             </form>
                         </td>
                     </tr>
-                {{/questionsS}}
+                {{/questionsSuggested}}
                 <!-- Preguntas reportadas -->
-                {{#questionsR}}
+                {{#questionsReported}}
                     <tr>
                         <td>{{descripcion}}</td>
                         <td>{{opcionA}}</td>
@@ -71,9 +71,9 @@
                             </form>
                         </td>
                     </tr>
-                {{/questionsR}}
+                {{/questionsReported}}
                 <!-- Preguntas aceptadas y disponibles -->
-                {{#questionsE}}
+                {{#questionsAccepted}}
                     <tr>
                         <td>{{descripcion}}</td>
                         <td>{{opcionA}}</td>
@@ -82,36 +82,36 @@
                         <td>{{opcionD}}</td>
                         <td>{{resp_correcta}}</td>
                         <td>
-                            <form action="/question/actions" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="idQuestion" value="{{id}}">
-                                <button type="submit" name="action" value="decline" class="btn btn-primary deleteQuestion">
-                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                </button>
-                                <button type="submit" name="action" value="edit" class="btn btn-primary">
+                            <input type="hidden" name="idQuestion" value="{{id}}">
+                            <button id="{{id}}" type="submit" name="action" value="decline" class="btn btn-primary deleteQuestion">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </button>
+                            <form action="/question/edit&id={{id}}" method="post" enctype="multipart/form-data">
+                            <button type="submit" name="action" value="edit" class="btn btn-primary">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </button>
                             </form>
                         </td>
                     </tr>
-                {{/questionsE}}
+                {{/questionsAccepted}}
                 </tbody>
             </table>
             <!-- Mensajes de ausencia de preguntas -->
-            {{^questionsS}}
+            {{^questionsSuggested}}
                 {{#suggested}}
                     <p class="text-center fw-bold display-5"> No hay preguntas sugeridas en este momento</p>
                 {{/suggested}}
-            {{/questionsS}}
-            {{^questionsR}}
+            {{/questionsSuggested}}
+            {{^questionsReported}}
                 {{#repport}}
                     <p class="text-center fw-bold display-5"> No hay preguntas reportadas en este momento</p>
                 {{/repport}}
-            {{/questionsR}}
-            {{^questionsE}}
+            {{/questionsReported}}
+            {{^questionsAccepted}}
                 {{#edit}}
                     <p class="text-center fw-bold display-5"> No hay preguntas disponibles en partidas en este momento</p>
                 {{/edit}}
-            {{/questionsE}}
+            {{/questionsAccepted}}
         </article>
         <div class="d-flex justify-content-center">
             <br>
@@ -126,13 +126,15 @@
                     <h4 class="modal-title">Eliminar</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    <p>¿Estás seguro que deseas eliminar esta pregunta?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
-                </div>
+                <form method="get" id="deleteForm">
+                    <div class="modal-body">
+                        <p>¿Estás seguro que deseas eliminar esta pregunta?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Confirmar</button>
+                    </div>
+                </form>
             </article>
         </section>
     </div>
