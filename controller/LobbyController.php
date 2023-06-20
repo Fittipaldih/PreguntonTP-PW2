@@ -23,7 +23,7 @@ class LobbyController
         if ($this->sessionManager->get('player') !== null){
             $this->renderer->render("lobbyPlayer", $data);
         }
-        if ($this->sessionManager->get('edit') !== null){
+        if ($this->sessionManager->get('admi') !== null){
             $this->renderer->render("lobbyAdmi", $data);
         }
 

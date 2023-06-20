@@ -59,7 +59,7 @@ class QuestionController
         if ($idQuestion !== null){
             $data['question'] =  $this->questionModel->searchQuestionById($idQuestion);
         }
-        $this->renderer->render("add", $data);
+        $this->renderer->render("edit", $data);
     }
 
     public function editQuestion()

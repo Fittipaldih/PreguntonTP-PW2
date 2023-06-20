@@ -1,0 +1,82 @@
+<main class="py-5">
+    <div class="content container px-lg-5 p-4 bg-light rounded-3">
+            <h1 class="text-center text-primary display-2 fw-bold">{{userName}},
+                modifica la pregunta</h1>
+            <br>
+            <h4 class="text-center fw-bold">La pregunta será aprobada automáticamente y pasará a formar parte de las
+                partidas.</h4>
+            <br>
+        <form action="/question/editQuestion" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="form-group">
+                        <input type="hidden" name="idQuestion" class="form-control" {{#question}}
+                               value="{{id}}"
+                        {{/question}}>
+                        <label>Pregunta</label>
+                        <input required name="descripcion" class="form-control" {{#question}}
+                               value="{{descripcion}}"
+                        {{/question}}>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Respuesta A</label>
+                        <input required name="opcionA" class="form-control"
+                            {{#question}}
+                               value="{{opcionA}}"
+                            {{/question}}
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label>Respuesta B</label>
+                        <input required name="opcionB" class="form-control"
+                            {{#question}}
+                               value="{{opcionB}}"
+                            {{/question}}
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label>Respuesta C</label>
+                        <input required name="opcionC" class="form-control"
+                            {{#question}}
+                               value="{{opcionC}}"
+                            {{/question}}>
+                    </div>
+                    <div class="form-group">
+                        <label>Respuesta D</label>
+                        <input required name="opcionD" class="form-control"  {{#question}}
+                               value="{{opcionD}}"
+                        {{/question}}>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select name="idCategoria" class="form-control" required>
+                            {{#question}}
+                                <option value="{{id_categoria}}" selected>No modificar categoria</option>
+                            {{/question}}
+                            <option value="1">Conocimiento general</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Respuesta correcta</label>
+                        <select name="respuestaCorrecta" class="form-control" required>
+                            {{#question}}
+                                <option value="{{resp_correcta}}" selected>{{resp_correcta}}</option>
+                            {{/question}}
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <br>
+                        <a href="/lobby" class="btn btn-primary m-3">Volver al lobby</a>
+                        <button type="submit" class="btn btn-primary m-3">
+                            {{#question}}Guardar cambios {{/question}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
