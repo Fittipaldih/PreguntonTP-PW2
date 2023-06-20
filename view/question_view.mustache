@@ -84,7 +84,7 @@
                         <td>
                             <form action="/question/actions" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="idQuestion" value="{{id}}">
-                                <button type="submit" name="action" value="decline" class="btn btn-primary">
+                                <button type="submit" name="action" value="decline" class="btn btn-primary deleteQuestion">
                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                 </button>
                                 <button type="submit" name="action" value="edit" class="btn btn-primary">
@@ -118,4 +118,23 @@
             <a href="/lobby" class="btn btn-lg btn-primary m-3">Volver al lobby</a>
         </div>
     </div>
+
+    <div class="modal" id="deleteModal">
+        <section class="modal-dialog">
+            <article class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Eliminar</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro que deseas eliminar esta pregunta?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </article>
+        </section>
+    </div>
+    <script src="/public/js/deleteModal.js"></script>
 </main>
