@@ -90,4 +90,9 @@ class PartidaController
         $question= $this->partidaModel->getQuestion();
         echo json_encode($question[0]);
     }
+    public function repportQuestion(){
+        $questionId = $_POST['idQuestion'];
+        $this->partidaModel->repportQuestion($questionId);
+        $this->renderViewLost();
+    }
 }

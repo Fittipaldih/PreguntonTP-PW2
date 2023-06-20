@@ -47,12 +47,15 @@ class QuestionController
                     header("location: /question");
                     exit();
                 case 'edit':
-                    header("location: /question");
+                    $this->sessionManager->set('idQuestionEdit', $id);
+                    header("location: /add");
                     exit();
                 default:
                     header("location: /question");
                     exit();
             }
+            unset($_POST['idQuestion']);
+            unset($_POST['action']);
         } else {
             echo("No se pudo realizar la acción, reporte el problema con el programador");
         }

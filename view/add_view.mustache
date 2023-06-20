@@ -3,13 +3,16 @@
         {{#player}}
             <h1 class="text-center text-primary display-2 fw-bold">{{userName}}, sugerí una pregunta</h1>
             <br>
-            <h4 class="text-center fw-bold">Si tu pregunta es interesante y no se encuentra en el juego, será aprobada en las proximas 48hs hábiles</h4>
+            <h4 class="text-center fw-bold">Si tu pregunta es interesante y no se encuentra en el juego, será aprobada
+                en las proximas 48hs hábiles</h4>
             <br>
         {{/player}}
         {{#edit}}
-            <h1 class="text-center text-primary display-2 fw-bold">{{userName}}, creá la pregunta</h1>
+            <h1 class="text-center text-primary display-2 fw-bold">{{userName}},
+            {{^question}} creá{{/question}}
+                {{#question}} modifica{{/question}} la pregunta</h1>
             <br>
-            <h4 class="text-center fw-bold">La pregunta será aprobada automaticamente y pasará a formar parte de las
+            <h4 class="text-center fw-bold">La pregunta será aprobada automáticamente y pasará a formar parte de las
                 partidas.</h4>
             <br>
         {{/edit}}
@@ -18,59 +21,72 @@
                 <div class="col-md-6 offset-md-3">
                     <div class="form-group">
                         <label>Pregunta</label>
-                        <input required name="descripcion" class="form-control"
-                               placeholder="Por ejemplo.. ¿Cómo se llama el mejor juego de trivia?">
+                        <input required name="descripcion" class="form-control" {{#question}}
+                               value="{{descripcion}}"
+                        {{/question}}
+                            {{^question}}
+                               placeholder="Por ejemplo.. ¿Cómo se llama el mejor juego de trivia?"
+                            {{/question}}>
                     </div>
                     <div class="form-group">
                         <label>Respuesta A</label>
-                        <input required name="opcionA" class="form-control" placeholder="Pregunton">
+                        <input required name="opcionA" class="form-control"
+                            {{#question}}
+                               value="{{opcionA}}"
+                            {{/question}}
+                            {{^question}}
+                               placeholder="Pregunton"
+                            {{/question}}
+                        >
                     </div>
                     <div class="form-group">
                         <label>Respuesta B</label>
-                        <input required name="opcionB" class="form-control" placeholder="Preguntitas">
+                        <input required name="opcionB" class="form-control"
+                            {{#question}}
+                               value="{{opcionB}}"
+                            {{/question}}{{^question}}  placeholder="Preguntitas"{{/question}}
+                        >
                     </div>
                     <div class="form-group">
                         <label>Respuesta C</label>
-                        <input required name="opcionC" class="form-control" placeholder="Yo soy pregunton">
+                        <input required name="opcionC" class="form-control"
+                            {{#question}}
+                               value="{{opcionC}}"
+                            {{/question}}{{^question}}placeholder="Yo soy pregunton"{{/question}}>
                     </div>
                     <div class="form-group">
                         <label>Respuesta D</label>
-                        <input required name="opcionD" class="form-control" placeholder="Preguntonton">
-                    </div>
-                    <div class="form-group">
-                        <br>
-                        <label>Respuesta Correcta</label><br>
-                        <div class="form-check form-check-inline">
-                            <input type="radio" name="respuestaCorrecta" id="opcionA" value="A" class="form-check-input"
-                                   required>
-                            <label for="opcionA" class="form-check-label">A</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="radio" name="respuestaCorrecta" id="opcionB" value="B" class="form-check-input"
-                                   required>
-                            <label for="opcionB" class="form-check-label">B</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="radio" name="respuestaCorrecta" id="opcionC" value="C" class="form-check-input"
-                                   required>
-                            <label for="opcionC" class="form-check-label">C</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="radio" name="respuestaCorrecta" id="opcionD" value="D" class="form-check-input"
-                                   required>
-                            <label for="opcionD" class="form-check-label">D</label>
-                        </div>
+                        <input required name="opcionD" class="form-control"  {{#question}}
+                               value="{{opcionD}}"
+                        {{/question}}{{^question}}placeholder="Preguntonton"{{/question}}>
                     </div>
                     <div class="form-group">
                         <label>Categoria</label>
                         <select name="idCategoria" class="form-control" required>
-                            <option value="1" selected>Conocimiento general</option>
+                            {{#question}}
+                                <option value="{{id_categoria}}" selected>No modificar categoria</option>
+                            {{/question}}
+                            <option value="1">Conocimiento general</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Respuesta correcta</label>
+                        <select name="respuestaCorrecta" class="form-control" required>
+                            {{#question}}
+                                <option value="{{resp_correcta}}" selected>{{resp_correcta}}</option>
+                            {{/question}}
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
                         </select>
                     </div>
                     <div class="d-flex justify-content-center">
                         <br>
                         <a href="/lobby" class="btn btn-primary m-3">Volver al lobby</a>
-                        <button type="submit" class="btn btn-primary m-3">Crear pregunta</button>
+                        <button type="submit" class="btn btn-primary m-3">
+{{^question}}Crear pregunta  {{/question}}
+{{#question}}Guardar cambios {{/question}}</button>
                     </div>
                 </div>
             </div>

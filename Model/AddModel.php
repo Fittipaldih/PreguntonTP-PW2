@@ -28,4 +28,12 @@ class AddModel
         }
     }
 
+    public function searchQuestionById($id){
+        return $this->database->query("SELECT * FROM pregunta WHERE id = '$id'");
+    }
+
+    public function updateQuestionById($id, $idCategoria, $descripcion, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta){
+        $this->database->update("UPDATE pregunta SET id_categoria = '$idCategoria', descripcion = '$descripcion', opcionA='$opcionA', opcionB='$opcionB',
+                                    opcionC='$opcionC', opcionD='$opcionD', resp_correcta = '$respuestaCorrecta' WHERE id = '$id'");
+    }
 }

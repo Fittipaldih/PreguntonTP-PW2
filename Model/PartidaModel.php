@@ -153,4 +153,8 @@ class PartidaModel
     public function selectUserMaxScore($idUser){
         return $this->database->query("SELECT MAX(puntaje) FROM partida WHERE id_usuario=$idUser; ");
     }
+
+    public function repportQuestion($id){
+        $this->database->update("UPDATE pregunta SET id_estado = 3 WHERE id = '$id' ");
+    }
 }

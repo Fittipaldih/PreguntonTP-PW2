@@ -54,6 +54,7 @@ function cargarAjax() {
             $('#opcionb').text(question.opcionB);
             $('#opcionc').text(question.opcionC);
             $('#opciond').text(question.opcionD);
+            $('#idQuestionHidden').val(question.id);
             resetProgressBar();
         },
         error: function (xhr, status, error) {
