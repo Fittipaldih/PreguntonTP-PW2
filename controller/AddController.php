@@ -24,28 +24,27 @@ class AddController
     public function addQuestion()
     {
         $idRol = $this->sessionManager->get("idRol");
-        if (
-            isset($_POST['idCategoria']) &&
-            isset($_POST['descripcion']) &&
-            isset($_POST['opcionA']) &&
-            isset($_POST['opcionB']) &&
-            isset($_POST['opcionC']) &&
-            isset($_POST['opcionD']) &&
-            isset($_POST['respuestaCorrecta'])
-        ) {
-            $idCategoria = $_POST['idCategoria'];
-            $descripcion = $_POST['descripcion'];
-            $opcionA = $_POST['opcionA'];
-            $opcionB = $_POST['opcionB'];
-            $opcionC = $_POST['opcionC'];
-            $opcionD = $_POST['opcionD'];
-            $respuestaCorrecta = $_POST['respuestaCorrecta'];
-            $this->addModel->addQuestion($idRol, $idCategoria, $descripcion, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta);
-            echo "Exitoso";
-            header("Location: /lobby");
-            exit();
-        } else {
-            echo "Error: Todos los campos son obligatorios";
+
+        $required = ['idCategoria', 'descripcion', 'opcionA', 'opcionB', 'opcionC', 'opcionD', 'respuestaCorrecta'];
+        $errorMessage = "Error: Todos los campos son obligatorios";
+
+        foreach ($required as $field) {
+            if (!isset($_POST[$field]) || empty($_POST[$field])) {
+                echo $errorMessage;
+                return;
+            }
         }
+        $idCategoria = $_POST['idCategoria'];
+        $descripcion = $_POST['descripcion'];
+        $opcionA = $_POST['opcionA'];
+        $opcionB = $_POST['opcionB'];
+        $opcionC = $_POST['opcionC'];
+        $opcionD = $_POST['opcionD'];
+        $respuestaCorrecta = $_POST['respuestaCorrecta'];
+
+        $this->addModel->addQuestion($idRol, $idCategoria, $descripcion, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta);
+
+        header("Location: /lobby");
+        exit();
     }
 }

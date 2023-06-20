@@ -1,36 +1,40 @@
 <main class="py-5">
-    <div class="content container px-lg-5 p-4 bg-light rounded-3">
-        <h1 class="text-center text-primary display-2 fw-bold">¡{{welcome}} {{userName}}!</h1>
-        <h2 class="text-center">
-            {{#player}}Mejor puntaje: {{puntaje_max}}{{/player}}
-            {{#edit}}¿Qué haremos hoy?{{/edit}}
-            {{#admin}}¿Qué necesita consultar hoy?{{/admin}}
-        </h2>
-        <article class="d-grid gap-2 col-6 mx-auto mt-4">
-           {{#player}}
-               <a href="/partida" class="btn btn-primary btn-lg">Nueva partida</a>
-               <a href="/ranking" class="btn btn-outline-primary btn-lg">Ver clasificación</a>
-               <a href="/add" class="btn btn-outline-primary btn-lg">Sugerir preguntas</a>
-           {{/player}}
-           {{#edit}}
-               <a href="/add" class="btn btn-primary btn-lg">Nueva pregunta</a>
-               <a href="/suggested" class="btn btn-outline-primary btn-lg">Preguntas reportadas</a>
-               <a href="/suggested" class="btn btn-outline-primary btn-lg">Preguntas sugeridas</a>
-           {{/edit}}
-           {{#admin}}
-               <a href="/" class="btn btn-outline-primary btn-lg">Total de jugadores registrados</a>
-                <a href="/" class="btn btn-outline-primary btn-lg">Total de partidas jugadas</a>
-                <a href="/" class="btn btn-outline-primary btn-lg">Total de preguntas</a>
-                <a href="/" class="btn btn-outline-primary btn-lg">Total de preguntas creadas</a>
-                <a href="/" class="btn btn-outline-primary btn-lg">Cantidad de usuarios nuevos</a>
-                <a href="/" class="btn btn-outline-primary btn-lg">Porcentaje de preguntas respondidas correctamente por usuario</a>
-               <a href="/" class="btn btn-outline-primary btn-lg">Cantidad de usuarios por pais</a>
-               <a href="/" class="btn btn-outline-primary btn-lg">Cantidad de usuarios por sexo</a>
-               <a href="/" class="btn btn-outline-primary btn-lg">Cantidad de usuarios por grupos de edad menor jubilado medio</a>
-               <a href="/" class="btn btn-outline-primary btn-lg">Filtrar por dia mes y año. Grafico PDF</a>
-           {{/admin}}
-        </article>
-{{#player}}<article class="mx-auto">
+<div class="content container px-lg-5 p-4 bg-light rounded-3">
+    <h1 class="text-center text-primary display-2 fw-bold">¡{{welcome}} {{userName}}!</h1>
+    <h2 class="text-center">
+        {{#player}}Mejor puntaje: {{puntaje_max}}{{/player}}
+        {{#edit}}¿Qué haremos hoy?{{/edit}}
+        {{#admin}}¿Qué necesita consultar hoy?{{/admin}}
+    </h2>
+    <article class="d-grid gap-2 col-6 mx-auto mt-4">
+        {{#player}}
+            <a href="/partida" class="btn btn-primary btn-lg">Nueva partida</a>
+            <a href="/ranking" class="btn btn-outline-primary btn-lg">Ver clasificación</a>
+            <a href="/add" class="btn btn-outline-primary btn-lg">Sugerir preguntas</a>
+        {{/player}}
+        {{#edit}}
+            <a href="/add" class="btn btn-primary btn-lg">Crear nueva pregunta</a>
+            <a href="/suggested&r" class="btn btn-outline-primary btn-lg">Ver preguntas reportadas</a>
+            <a href="/suggested&s" class="btn btn-outline-primary btn-lg">Ver preguntas sugeridas</a>
+            <a href="/suggested&e" class="btn btn-outline-primary btn-lg">Ver preguntas aceptadas</a>
+        {{/edit}}
+        {{#admin}}
+            <a href="/" class="btn btn-outline-primary btn-lg">Total de jugadores registrados</a>
+            <a href="/" class="btn btn-outline-primary btn-lg">Total de partidas jugadas</a>
+            <a href="/" class="btn btn-outline-primary btn-lg">Total de preguntas</a>
+            <a href="/" class="btn btn-outline-primary btn-lg">Total de preguntas creadas</a>
+            <a href="/" class="btn btn-outline-primary btn-lg">Cantidad de usuarios nuevos</a>
+            <a href="/" class="btn btn-outline-primary btn-lg">Porcentaje de preguntas respondidas correctamente por
+                usuario</a>
+            <a href="/" class="btn btn-outline-primary btn-lg">Cantidad de usuarios por pais</a>
+            <a href="/" class="btn btn-outline-primary btn-lg">Cantidad de usuarios por sexo</a>
+            <a href="/" class="btn btn-outline-primary btn-lg">Cantidad de usuarios por grupos de edad menor jubilado
+                medio</a>
+            <a href="/" class="btn btn-outline-primary btn-lg">Filtrar por dia mes y año. Grafico PDF</a>
+        {{/admin}}
+    </article>
+    {{#player}}
+        <article class="mx-auto">
             <br>
             <h3>Ultimas 5 partidas jugadas</h3>
             <table class="table table-striped">
@@ -52,104 +56,29 @@
         </article>
     </div>
 
-    <div class="modal" id="lostModal">
-        <section class="modal-dialog">
-            <article class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Partida finalizada</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Lo sentimos, ¡Has perdido el juego!</p>
-                    <p>Cantidad de respuestas correctas: {{userCorrects}}</p>
-                    <p>¡Intentá nuevamente y lidera la clasificación!</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </article>
-        </section>
-    </div>
-{{/player}}
-
-
-{{#edit}}
-        <article class="mx-auto">
-            <br>
-            <div class="d-flex">
-                <h3 class="col-9">Preguntas aceptadas</h3>
-            </div>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Id:</th>
-                    <th>Pregunta:</th>
-                    <th>Opcion A:</th>
-                    <th>Opcion B:</th>
-                    <th>Opcion C:</th>
-                    <th>Opcion D:</th>
-                    <th>Respuesta Correcta:</th>
-                    <th> </th>
-                    <th> </th>
-                </tr>
-                </thead>
-                <tbody>{{#questions}}
-                    <tr >
-                        <td>#{{id}}</td>
-                        <td>{{descripcion}}</td>
-                        <td>{{opcionA}}</td>
-                        <td>{{opcionB}}</td>
-                        <td>{{opcionC}}</td>
-                        <td>{{opcionD}}</td>
-                        <td>{{resp_correcta}}</td>
-                        <td>
-                            <button class="editQuestion" style="border: none"><i class="fa-solid fa-pencil"></i></button>
-                        </td>
-                        <td>
-                            <button class="deleteQuestion" style="border: none"><i class="fa-solid fa-trash-can"></i></button>
-                        </td>
-                    </tr>
-                {{/questions}}</tbody>
-            </table>
-        </article>
-        <div class="modal" id="editModal">
+        <div class="modal" id="lostModal">
             <section class="modal-dialog">
                 <article class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Editar</h4>
+                        <h4 class="modal-title">Partida finalizada</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <form action="/pregunta/edit" method="post" enctype="multipart/form-data">
-
-                        <div class="modal-body">
-                            <input name="id" type="hidden">
-
-                            <label>Descripción</label>
-                            <input name="descripcion">
-
-                            <label>Respuesta A</label>
-                            <input name="opcionA">
-
-                            <label>Respuesta B</label>
-                            <input name="opcionB">
-
-                            <label>Respuesta C</label>
-                            <input name="opcionC">
-
-                            <label>Respuesta D</label>
-                            <input name="opcionD">
-
-                            <label>Respuesta Coreccta</label>
-                            <input name="respuestaCorrecta">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
-                        </div>
-                    </form>
+                    <div class="modal-body">
+                        <p>Lo sentimos, ¡Has perdido el juego!</p>
+                        <p>Cantidad de respuestas correctas: {{userCorrects}}</p>
+                        <p>¡Intentá nuevamente y lidera la clasificación!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
                 </article>
             </section>
         </div>
+    {{/player}}
+
+    {{#edit}}
+
+
         <div class="modal" id="deleteModal">
             <section class="modal-dialog">
                 <article class="modal-content">
@@ -158,19 +87,21 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <form action="/pregunta/delete" method="post">
-                        <input type="hidden" name="id" value="{{id}}">
+                        <input type="hidden" name="idQuestion" value="{{id}}">
                         <div class="modal-body">
                             <p>¿Está seguro que desea eliminar esta pregunta?</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar
+                            </button>
                             <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
                         </div>
                     </form>
                 </article>
             </section>
         </div>
-    <script src="/public/js/lobbyABMModals.js"></script>
-{{/edit}}
+    {{/edit}}
 </main>
-{{#showLostModal}}<script src="/public/js/lobbyLostModal.js"></script>{{/showLostModal}}
+{{#showLostModal}}
+    <script src="/public/js/lobbyLostModal.js"></script>
+{{/showLostModal}}
