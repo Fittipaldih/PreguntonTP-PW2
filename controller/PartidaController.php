@@ -75,7 +75,7 @@ class PartidaController
 
     private function renderViewLost()
     {
-        header("location: /lobby");
+        header("location: /lobbyPlayer");
         exit();
     }
 

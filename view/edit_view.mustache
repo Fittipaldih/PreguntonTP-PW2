@@ -1,68 +1,47 @@
 <main class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3">
-            <h1 class="text-center text-primary display-2 fw-bold">{{userName}},
-                modifica la pregunta</h1>
-            <br>
-            <h4 class="text-center fw-bold">La pregunta será aprobada automáticamente y pasará a formar parte de las
-                partidas.</h4>
-            <br>
+        <h1 class="text-center text-primary display-2 fw-bold">{{userName}},
+            modifica la pregunta</h1>
+        <br>
+        <h4 class="text-center fw-bold">La pregunta será aprobada automáticamente y pasará a formar parte de las
+            partidas.</h4>
+        <br>
         <form action="/question/editQuestion" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <div class="form-group">
-                        <input type="hidden" name="idQuestion" class="form-control" {{#question}}
-                               value="{{id}}"
-                        {{/question}}>
+                        {{#question}}
+                        <input type="hidden" name="idQuestion" class="form-control" value="{{id}}">
                         <label>Pregunta</label>
-                        <input required name="descripcion" class="form-control" {{#question}}
-                               value="{{descripcion}}"
-                        {{/question}}>
-
+                        <input required name="descripcion" class="form-control" value="{{descripcion}}">
                     </div>
                     <div class="form-group">
                         <label>Respuesta A</label>
-                        <input required name="opcionA" class="form-control"
-                            {{#question}}
-                               value="{{opcionA}}"
-                            {{/question}}
-                        >
+                        <input required name="opcionA" class="form-control" value="{{opcionA}}">
                     </div>
                     <div class="form-group">
                         <label>Respuesta B</label>
-                        <input required name="opcionB" class="form-control"
-                            {{#question}}
-                               value="{{opcionB}}"
-                            {{/question}}
-                        >
+                        <input required name="opcionB" class="form-control" value="{{opcionB}}">
                     </div>
                     <div class="form-group">
                         <label>Respuesta C</label>
-                        <input required name="opcionC" class="form-control"
-                            {{#question}}
-                               value="{{opcionC}}"
-                            {{/question}}>
+                        <input required name="opcionC" class="form-control" value="{{opcionC}}">
                     </div>
                     <div class="form-group">
                         <label>Respuesta D</label>
-                        <input required name="opcionD" class="form-control"  {{#question}}
-                               value="{{opcionD}}"
-                        {{/question}}>
+                        <input required name="opcionD" class="form-control" value="{{opcionD}}">
                     </div>
                     <div class="form-group">
                         <label>Categoria</label>
-                        <select name="idCategoria" class="form-control" required>
-                            {{#question}}
-                                <option value="{{id_categoria}}" selected>No modificar categoria</option>
-                            {{/question}}
+                        <select name="id_categoria" class="form-control" required>
+                            <option value="{{id_categoria}}" selected>{{id_categoria}}</option>
                             <option value="1">Conocimiento general</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Respuesta correcta</label>
-                        <select name="respuestaCorrecta" class="form-control" required>
-                            {{#question}}
-                                <option value="{{resp_correcta}}" selected>{{resp_correcta}}</option>
-                            {{/question}}
+                        <select name="resp_correcta" class="form-control" required>
+                            <option value="{{resp_correcta}}" selected>{{resp_correcta}}</option>
                             <option value="A">A</option>
                             <option value="B">B</option>
                             <option value="C">C</option>
@@ -72,8 +51,8 @@
                     <div class="d-flex justify-content-center">
                         <br>
                         <a href="/lobby" class="btn btn-primary m-3">Volver al lobby</a>
-                        <button type="submit" class="btn btn-primary m-3">
-                            {{#question}}Guardar cambios {{/question}}</button>
+                        <button type="submit" class="btn btn-primary m-3">Guardar cambios</button>
+                        {{/question}}
                     </div>
                 </div>
             </div>
