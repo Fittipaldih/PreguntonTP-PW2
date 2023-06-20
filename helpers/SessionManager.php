@@ -14,16 +14,13 @@ class SessionManager
         }
     }
 
-    /* Al tener this start session en todos los metodos, se llama explicitamente */
     public function set($key, $value)
     {
-        $this->startSession();
         $_SESSION[$key] = $value;
     }
 
     public function get($key)
     {
-        $this->startSession();
         if (isset($_SESSION[$key])) {
             return $_SESSION[$key];
         }
@@ -32,13 +29,11 @@ class SessionManager
 
     public function getAll()
     {
-        $this->startSession();
         return $_SESSION;
     }
 
     public function delete($key)
     {
-        $this->startSession();
         if (isset($_SESSION[$key])) {
             unset($_SESSION[$key]);
         }
@@ -46,7 +41,6 @@ class SessionManager
 
     public function destroy()
     {
-        $this->startSession();
         session_unset();
         session_destroy();
     }

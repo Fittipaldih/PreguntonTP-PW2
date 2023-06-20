@@ -28,12 +28,8 @@ class LobbyController
         }
 
     }
-    public function editor()
-    {
-        $data = $this->prepareData();
-        $this->renderer->render("lobbyEditor", $data);
-    }
-    public function prepareData()
+
+    private function prepareData()
     {
         $userName = $this->sessionManager->get("userName");
         $genre = $this->lobbyModel->getUserGenre($userName);
@@ -56,25 +52,6 @@ class LobbyController
             "showLostModal" => isset($_SESSION['showLostModal']) && $_SESSION['showLostModal'] === 'true',
         ];
 
-        /*if ($this->sessionManager->get('edit') !== null){
-            $data['edit'] = $this->sessionManager->get('edit');
-            $data["questions"]=$this->lobbyModel->getAllQuestions();
-        }
-        if ($this->sessionManager->get('player') !== null){
-            $data['player'] = $this->sessionManager->get('player');
-        }
-        if ($this->sessionManager->get('edit') !== null){
-            $data['admin'] = $this->sessionManager->get('admin');
-        }
-
-        if ($lostModalData !== null) {
-            $data['userCorrects'] = $lostModalData['userCorrects'];
-            $data['showLostModal'] = true;
-            $this->sessionManager->set('showLostModal', true);
-        }
-        else{
-            $this->sessionManager->delete('showLostModal');
-        }*/
         return $data;
     }
 

@@ -15,35 +15,22 @@ class QuestionController
 
     public function home()
     {
-        $data['userName'] = $this->sessionManager->get("userName");
-       /*$data['userName'] = $this->sessionManager->get("userName");
-       if ( isset($_GET['s'])){
-           $data["questionsS"] = $this->questionModel->getSuggestedQuestions();
-           $data["suggested"] = true;
-       }
-       if ( isset($_GET['r'])){
-           $data["questionsR"] = $this->questionModel->getRepportQuestions();
-           $data["repport"] = true;
-       }
-        if ( isset($_GET['e'])){
-            $data["questionsE"] = $this->questionModel->getAcceptedQuestions();
-            $data["edit"] = true;
+        if ($this->sessionManager->get('newQuestion')) {
+            $data['showNewQuestionModal'] = true;
+            $this->sessionManager->delete('newQuestion');
         }
-        $this->renderer->render("question", $data);*/
         $data["questionsAccepted"] = $this->questionModel->getAcceptedQuestions();
         $data["edit"] = true;
         $this->renderer->render("question", $data);
     }
 
     public function reported(){
-        $data['userName'] = $this->sessionManager->get("userName");
         $data["questionsReported"] = $this->questionModel->getRepportQuestions();
         $data["repport"] = true;
         $this->renderer->render("question", $data);
     }
 
     public function suggested(){
-        $data['userName'] = $this->sessionManager->get("userName");
         $data["questionsSuggested"] = $this->questionModel->getSuggestedQuestions();
         $data["suggested"] = true;
         $this->renderer->render("question", $data);
@@ -74,36 +61,7 @@ class QuestionController
         }
         $this->renderer->render("add", $data);
     }
-    /*public function actions()
-    {
-        if (isset($_POST['action'])) {
-            $action = $_POST['action'];
-            $id = $_POST['idQuestion'];
 
-            switch ($action) {
-                case 'accept':
-                    $this->questionModel->acceptQuestion($id);
-                    header("location: /question");
-                    exit();
-                case 'decline':
-                    $this->questionModel->declineQuestion($id);
-                    header("location: /question");
-                    exit();
-                case 'edit':
-                    $this->sessionManager->set('idQuestionEdit', $id);
-                    header("location: /question/add");
-                    exit();
-                default:
-                    header("location: /question");
-                    exit();
-            }
-            unset($_POST['idQuestion']);
-            unset($_POST['action']);
-        } else {
-            echo("No se pudo realizar la acción, reporte el problema con el programador");
-        }
-    }
-*/
     public function editQuestion()
     {
         $requiredParams = ['idQuestion', 'descripcion', 'id_categoria', 'opcionA', 'opcionB', 'opcionC', 'opcionD', 'resp_correcta'];
@@ -163,22 +121,15 @@ class QuestionController
         $opcionD = $_POST['opcionD'];
         $respuestaCorrecta = $_POST['respuestaCorrecta'];
 
-        if ($this->sessionManager->get('idQuestionEdit') !== null){
-            $id = $this->sessionManager->get('idQuestionEdit');
-            $this->questionModel->updateQuestionById($id, $idCategoria, $descripcion, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta);
+        $idRol = $this->sessionManager->get("idRol");
+        $this->questionModel->addQuestion($idRol, $idCategoria, $descripcion, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta);
+
+        if ($idRol==3){
+            $this->renderer->render("newQuestionSuccess");
+        } else{
+            $this->sessionManager->set('newQuestion', true);
+            header("Location: /question");
+            exit();
         }
-        else{
-            $idRol = $this->sessionManager->get("idRol");
-            $this->questionModel->addQuestion($idRol, $idCategoria, $descripcion, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta);
-        }
-        unset($_POST['idCategoria']);
-        unset($_POST['descripcion']);
-        unset($_POST['opcionA']);
-        unset($_POST['opcionB']);
-        unset($_POST['opcionC']);
-        unset($_POST['opcionD']);
-        unset($_POST['respuestaCorrecta']);
-        header("Location: /lobby");
-        exit();
     }
 }
