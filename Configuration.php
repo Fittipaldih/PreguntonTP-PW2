@@ -13,9 +13,8 @@ include_once("model/RegistroModel.php");
 include_once("model/LobbyModel.php");
 include_once("model/RankingModel.php");
 include_once("model/PartidaModel.php");
-include_once('model/PreguntaModel.php');
 include_once('model/AddModel.php');
-include_once('model/SuggestedModel.php');
+include_once('model/QuestionModel.php');
 
 include_once('controller/UserController.php');
 include_once('controller/HomeController.php');
@@ -23,9 +22,8 @@ include_once('controller/RegistroController.php');
 include_once('controller/LobbyController.php');
 include_once('controller/RankingController.php');
 include_once('controller/PartidaController.php');
-include_once('controller/PreguntaController.php');
 include_once('controller/AddController.php');
-include_once('controller/SuggestedController.php');
+include_once('controller/QuestionController.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once('third-party/phpqrcode/qrlib.php');
@@ -78,12 +76,6 @@ class Configuration
             $this->getRenderer(),
             $this->getSessionManager());
     }
-    public function getPreguntaController()
-    {
-        return new PreguntaController(
-            new PreguntaModel($this->getDatabase()),
-            $this->getRenderer());
-    }
 
     public function getAddController()
     {
@@ -92,10 +84,10 @@ class Configuration
             $this->getRenderer(),
             $this->getSessionManager());
     }
-    public function getSuggestedController()
+    public function getQuestionController()
     {
-        return new SuggestedController(
-            new SuggestedModel($this->getDatabase()),
+        return new QuestionController(
+            new QuestionModel($this->getDatabase()),
             $this->getRenderer(),
             $this->getSessionManager());
     }

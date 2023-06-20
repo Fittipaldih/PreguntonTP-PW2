@@ -1,14 +1,14 @@
 <?php
 
-class SuggestedController
+class QuestionController
 {
-    private $suggestedModel;
+    private $questionModel;
     private $renderer;
     private $sessionManager;
 
     public function __construct($model, $renderer, $sessionManager)
     {
-        $this->suggestedModel = $model;
+        $this->questionModel = $model;
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
     }
@@ -17,18 +17,18 @@ class SuggestedController
     {
         $data['userName'] = $this->sessionManager->get("userName");
        if ( isset($_GET['s'])){
-           $data["questionsS"] = $this->suggestedModel->getSuggestedQuestions();
+           $data["questionsS"] = $this->questionModel->getSuggestedQuestions();
            $data["suggested"] = true;
        }
        if ( isset($_GET['r'])){
-           $data["questionsR"] = $this->suggestedModel->getRepportQuestions();
+           $data["questionsR"] = $this->questionModel->getRepportQuestions();
            $data["repport"] = true;
        }
         if ( isset($_GET['e'])){
-            $data["questionsE"] = $this->suggestedModel->getAcceptedQuestions();
+            $data["questionsE"] = $this->questionModel->getAcceptedQuestions();
             $data["edit"] = true;
         }
-        $this->renderer->render("suggested", $data);
+        $this->renderer->render("question", $data);
     }
 
     public function actions()
@@ -39,20 +39,20 @@ class SuggestedController
 
             switch ($action) {
                 case 'accept':
-                    $this->suggestedModel->acceptQuestion($id);
-                    break;
+                    $this->questionModel->acceptQuestion($id);
+                    header("location: /question");
+                    exit();
                 case 'decline':
-                    $this->suggestedModel->declineQuestion($id);
-                    break;
+                    $this->questionModel->declineQuestion($id);
+                    header("location: /question");
+                    exit();
                 case 'edit':
-                    // Lógica para la acción de editar
-                    break;
+                    header("location: /question");
+                    exit();
                 default:
-                    echo("Acción inválida");
-                    break;
+                    header("location: /question");
+                    exit();
             }
-
-            $this->home();
         } else {
             echo("No se pudo realizar la acción, reporte el problema con el programador");
         }
@@ -76,7 +76,7 @@ class SuggestedController
         $opcionD = $_POST['opcionD'];
         $respCorrecta = $_POST['resp_correcta'];
 
-        $this->suggestedModel->editQuestion($id, $descripcion, $idCategoria, $opcionA, $opcionB, $opcionC, $opcionD, $respCorrecta);
+        $this->questionModel->editQuestion($id, $descripcion, $idCategoria, $opcionA, $opcionB, $opcionC, $opcionD, $respCorrecta);
 
         // Restablece los parámetros a su estado original
         foreach ($requiredParams as $param) {

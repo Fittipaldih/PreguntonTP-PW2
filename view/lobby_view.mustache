@@ -14,9 +14,9 @@
         {{/player}}
         {{#edit}}
             <a href="/add" class="btn btn-primary btn-lg">Crear nueva pregunta</a>
-            <a href="/suggested&r" class="btn btn-outline-primary btn-lg">Ver preguntas reportadas</a>
-            <a href="/suggested&s" class="btn btn-outline-primary btn-lg">Ver preguntas sugeridas</a>
-            <a href="/suggested&e" class="btn btn-outline-primary btn-lg">Ver preguntas aceptadas</a>
+            <a href="/question&r" class="btn btn-outline-primary btn-lg">Ver preguntas reportadas</a>
+            <a href="/question&s" class="btn btn-outline-primary btn-lg">Ver preguntas sugeridas</a>
+            <a href="/question&e" class="btn btn-outline-primary btn-lg">Ver preguntas aceptadas</a>
         {{/edit}}
         {{#admin}}
             <a href="/" class="btn btn-outline-primary btn-lg">Total de jugadores registrados</a>
@@ -55,7 +55,6 @@
             </table>
         </article>
     </div>
-
         <div class="modal" id="lostModal">
             <section class="modal-dialog">
                 <article class="modal-content">
@@ -66,7 +65,7 @@
                     <div class="modal-body">
                         <p>Lo sentimos, ¡Has perdido el juego!</p>
                         <p>Cantidad de respuestas correctas: {{userCorrects}}</p>
-                        <p>¡Intentá nuevamente y lidera la clasificación!</p>
+                        <p>¡Intentá nuevamente y liderá la clasificación!</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
@@ -75,32 +74,6 @@
             </section>
         </div>
     {{/player}}
-
-    {{#edit}}
-
-
-        <div class="modal" id="deleteModal">
-            <section class="modal-dialog">
-                <article class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Eliminar</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <form action="/pregunta/delete" method="post">
-                        <input type="hidden" name="idQuestion" value="{{id}}">
-                        <div class="modal-body">
-                            <p>¿Está seguro que desea eliminar esta pregunta?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar
-                            </button>
-                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
-                        </div>
-                    </form>
-                </article>
-            </section>
-        </div>
-    {{/edit}}
 </main>
 {{#showLostModal}}
     <script src="/public/js/lobbyLostModal.js"></script>
