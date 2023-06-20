@@ -49,6 +49,22 @@ function cargarAjax() {
         method: 'GET',
         dataType: 'json',
         success: function (question) {
+            var categoria = question.id_categoria;
+            if (categoria === '1') {
+                $('#contPartida').css('background-color', '#5fe03e');
+            } else if (categoria === '2') {
+                $('#contPartida').css('background-color', '#e87800');
+            } else if (categoria === '3') {
+                $('#contPartida').css('background-color', '#cf5787');
+            } else if (categoria === '4') {
+                $('#contPartida').css('background-color', '#964396');
+            } else if (categoria === '5') {
+                $('#contPartida').css('background-color', '#f7f358');
+            } else {
+                $('#contPartida').css('background-color', '#B8B0B0');
+            }
+
+            $('#questionCategory').text(question.catDescripcion);
             $('#questionDescripcion').text(question.descripcion);
             $('#opciona').text(question.opcionA);
             $('#opcionb').text(question.opcionB);

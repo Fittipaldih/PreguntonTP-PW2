@@ -74,24 +74,42 @@ class PartidaModel
     public function queryQuestionByDiff($idUser, $difficulty)
     {
         return match ($difficulty) {
-            'dificil' =>  $this->database->query
-                             ("SELECT * FROM pregunta WHERE porc_correc < 30 AND NOT EXISTS
-                                (SELECT 1 FROM usuario_pregunta WHERE id_usuario = '$idUser' AND pregunta.id = usuario_pregunta.id_pregunta) 
-                                  ORDER BY RAND() LIMIT 1"),
-            'facil' => $this->database->query
-            ("SELECT * FROM pregunta WHERE porc_correc > 70 AND  NOT EXISTS
-                 (SELECT 1 FROM usuario_pregunta WHERE id_usuario = '$idUser' AND pregunta.id = usuario_pregunta.id_pregunta) 
-                   ORDER BY RAND() LIMIT 1"),
-            default => $this->database->query
-            ("SELECT * FROM pregunta WHERE porc_correc >= 30 AND porc_correc <= 70  AND NOT EXISTS
-                 (SELECT 1 FROM usuario_pregunta WHERE id_usuario = '$idUser' AND pregunta.id = usuario_pregunta.id_pregunta) 
-                   ORDER BY RAND() LIMIT 1"),
+            'dificil' => $this->database->query("
+            SELECT p.*, c.descripcion AS catDescripcion
+            FROM pregunta p
+            JOIN categoria c ON c.id = p.id_categoria
+            WHERE p.porc_correc < 30 AND NOT EXISTS (
+                SELECT 1 FROM usuario_pregunta up
+                WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta
+            )
+            ORDER BY RAND() LIMIT 1"),
+
+            'facil' => $this->database->query("
+            SELECT p.*, c.descripcion AS catDescripcion
+            FROM pregunta p
+            JOIN categoria c ON c.id = p.id_categoria
+            WHERE p.porc_correc > 70 AND NOT EXISTS (
+                SELECT 1 FROM usuario_pregunta up
+                WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta
+            )
+            ORDER BY RAND() LIMIT 1"),
+
+            default => $this->database->query("
+            SELECT p.*, c.descripcion AS catDescripcion
+            FROM pregunta p
+            JOIN categoria c ON c.id = p.id_categoria
+            WHERE p.porc_correc >= 30 AND p.porc_correc <= 70 AND NOT EXISTS (
+                SELECT 1 FROM usuario_pregunta up
+                WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta
+            )
+            ORDER BY RAND() LIMIT 1"),
         };
     }
+
     public function queryQuestion($idUser){
         return $this->database->query
-        ("SELECT * FROM pregunta WHERE pregunta.id_estado = 2 AND NOT EXISTS
-        (SELECT 1 FROM usuario_pregunta WHERE id_usuario = '$idUser' AND pregunta.id = usuario_pregunta.id_pregunta) 
+        ("SELECT p.*, c.descripcion AS catDescripcion FROM pregunta p JOIN categoria c ON c.id = p.id_categoria WHERE p.id_estado = 2 AND NOT EXISTS
+        (SELECT 1 FROM usuario_pregunta up WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta) 
         ORDER BY RAND() LIMIT 1");
     }
     public function cleanTable($idUser)

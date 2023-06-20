@@ -1,4 +1,4 @@
-<main class="py-5">
+<main id="contPartida" class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3">
         {{#Foto_perfil}}
             <img src="/public/imagenes/{{Foto_perfil}}" width="50px" class="rounded mx-auto d-block">
@@ -11,8 +11,9 @@
             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myProgressBar"></div>
         </div>
         <div class="text-center">
-            <h5 class="text-center">Responde antes de que se acabe el tiempo!</h5>
+            <h5>Responde antes de que se acabe el tiempo!</h5>
             <div class="text-primary text-center text-primary fw-bold display-2" id="cronometro"></div>
+            <h5 id="questionCategory"></h5>
             <h2 class="display-6 fw-bold" id="questionDescripcion"></h2>
         </div>
         <div class="text-center">
