@@ -41,6 +41,7 @@ class AddController
             $opcionD = $_POST['opcionD'];
             $respuestaCorrecta = $_POST['respuestaCorrecta'];
             $this->addModel->addQuestion($idRol, $idCategoria, $descripcion, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta);
+            echo "Exitoso";
             header("Location: /lobby");
             exit();
         } else {

@@ -1,0 +1,51 @@
+<main class="py-5">
+    <div class="content container px-lg-5 p-4 bg-light rounded-3">
+        <article class="mx-auto">
+            <br>
+            {{#questions}}
+                <div class="d-flex">
+                    <h3 class="col-9">Preguntas sugeridas por jugadores</h3>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Pregunta:</th>
+                        <th>Opcion A:</th>
+                        <th>Opcion B:</th>
+                        <th>Opcion C:</th>
+                        <th>Opcion D:</th>
+                        <th>Respuesta Correcta:</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{descripcion}}</td>
+                        <td>{{opcionA}}</td>
+                        <td>{{opcionB}}</td>
+                        <td>{{opcionC}}</td>
+                        <td>{{opcionD}}</td>
+                        <td>{{resp_correcta}}</td>
+                        <td>
+                            <form action="suggested/accept" method="post" enctype="multipart/form-data">
+                                <input type="submit" value="Aceptar">
+                                <input type="hidden" name="idQuestion" value="{{id}}">
+                            </form>
+                        </td>
+                        <td>
+                            <form action="/suggested/decline" method="post" enctype="multipart/form-data">
+                                <input type="submit" value="Rechazar">
+                                <input type="hidden" name="idQuestion" value="{{id}}">
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            {{/questions}}</tbody>
+            {{^questions}}
+                <p class="text-center fw-bold display-5"> No hay preguntas sugeridas en este momento</p>
+            {{/questions}}
+
+        </article>
+    </div>
+</main>

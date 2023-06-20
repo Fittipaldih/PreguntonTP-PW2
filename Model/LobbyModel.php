@@ -31,6 +31,6 @@ class LobbyModel
     }
 
     public function getAllQuestions(){
-        return $this->database->query("SELECT * FROM pregunta");
+        return $this->database->query("SELECT * FROM pregunta WHERE id_estado = 2");
     }
 }

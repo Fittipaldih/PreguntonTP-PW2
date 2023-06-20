@@ -90,7 +90,7 @@ class PartidaModel
     }
     public function queryQuestion($idUser){
         return $this->database->query
-        ("SELECT * FROM pregunta WHERE NOT EXISTS
+        ("SELECT * FROM pregunta WHERE pregunta.id_estado = 2 AND NOT EXISTS
         (SELECT 1 FROM usuario_pregunta WHERE id_usuario = '$idUser' AND pregunta.id = usuario_pregunta.id_pregunta) 
         ORDER BY RAND() LIMIT 1");
     }

@@ -15,6 +15,7 @@ include_once("model/RankingModel.php");
 include_once("model/PartidaModel.php");
 include_once('model/PreguntaModel.php');
 include_once('model/AddModel.php');
+include_once('model/SuggestedModel.php');
 
 include_once('controller/UserController.php');
 include_once('controller/HomeController.php');
@@ -24,6 +25,7 @@ include_once('controller/RankingController.php');
 include_once('controller/PartidaController.php');
 include_once('controller/PreguntaController.php');
 include_once('controller/AddController.php');
+include_once('controller/SuggestedController.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once('third-party/phpqrcode/qrlib.php');
@@ -35,15 +37,12 @@ class Configuration
     public function __construct()
     {
     }
-
-    public function getUserController()
+    public function getRegistroController()
     {
-        return new UserController(
-            new UserModel($this->getDatabase()),
-            $this->getRenderer(),
-            $this->getSessionManager());
+        return new RegistroController(
+            new RegistroModel($this->getDatabase()),
+            $this->getRenderer());
     }
-
     public function getHomeController()
     {
         return new HomeController(
@@ -51,14 +50,6 @@ class Configuration
             $this->getRenderer(),
             $this->getSessionManager());
     }
-
-    public function getRegistroController()
-    {
-        return new RegistroController(
-            new RegistroModel($this->getDatabase()),
-            $this->getRenderer());
-    }
-
     public function getLobbyController()
     {
         return new LobbyController(
@@ -66,7 +57,13 @@ class Configuration
             $this->getRenderer(),
             $this->getSessionManager());
     }
-
+    public function getUserController()
+    {
+        return new UserController(
+            new UserModel($this->getDatabase()),
+            $this->getRenderer(),
+            $this->getSessionManager());
+    }
     public function getRankingController()
     {
         return new RankingController(
@@ -74,7 +71,6 @@ class Configuration
             $this->getRenderer(),
             $this->getSessionManager());
     }
-
     public function getPartidaController()
     {
         return new PartidaController(
@@ -82,7 +78,6 @@ class Configuration
             $this->getRenderer(),
             $this->getSessionManager());
     }
-
     public function getPreguntaController()
     {
         return new PreguntaController(
@@ -97,17 +92,21 @@ class Configuration
             $this->getRenderer(),
             $this->getSessionManager());
     }
-
+    public function getSuggestedController()
+    {
+        return new SuggestedController(
+            new SuggestedModel($this->getDatabase()),
+            $this->getRenderer(),
+            $this->getSessionManager());
+    }
     private function getArrayConfig()
     {
         return parse_ini_file($this->configFile);
     }
-
     private function getRenderer()
     {
         return new MustacheRender('view/partial');
     }
-
     public function getDatabase()
     {
         $config = $this->getArrayConfig();
@@ -117,7 +116,6 @@ class Configuration
             $config['password'],
             $config['database']);
     }
-
     public function getRouter()
     {
         return new Router(
@@ -125,7 +123,6 @@ class Configuration
             "getHomeController",
             "home");
     }
-
     public function getSessionManager()
     {
         return new SessionManager();
