@@ -1,6 +1,7 @@
 $(document).ready(function () {
     cargarAjax();
 });
+
 let progressInterval;
 const progressBar = document.getElementById("myProgressBar");
 const cronometroElement = document.getElementById("cronometro");
@@ -9,26 +10,32 @@ const finalWidth = 100;
 const incrementWidth = (finalWidth / duration) * 100;
 let currentWidth = 0;
 let startTime;
+
 function animateProgressBar() {
     currentWidth += incrementWidth;
     progressBar.style.width = `${currentWidth}%`;
+
     if (!startTime) {
         startTime = Date.now();
     }
+
     const elapsedTime = Date.now() - startTime;
     const remainingTime = duration - elapsedTime;
     const formattedTime = formatTime(remainingTime);
     cronometroElement.textContent = formattedTime;
+
     if (currentWidth >= finalWidth || remainingTime <= 0) {
         clearInterval(progressInterval);
         window.location.href = "/lobby";
     }
 }
+
 function formatTime(time) {
     const seconds = Math.ceil(time / 1000);
     const adjustedSeconds = Math.max(seconds - 1, 0);
     return adjustedSeconds.toString();
 }
+
 function cargarAjax() {
     $.ajax({
         url: 'http://localhost/partida/renderQuestionData',
@@ -37,6 +44,7 @@ function cargarAjax() {
         success: function (question) {
             resetProgressBar();
             setDataQuestion(question);
+
         },
         error: function (xhr, status, error) {
             console.log(error);
@@ -49,6 +57,7 @@ function resetProgressBar() {
     startTime = null;
     progressInterval = setInterval(animateProgressBar, 100);
 }
+
 function setDataQuestion(question) {
     $('#questionCategory').text(question.catDescripcion);
     $('#questionDescripcion').text(question.descripcion);
@@ -59,6 +68,7 @@ function setDataQuestion(question) {
     $('#idQuestionHidden').val(question.id);
     setContainerColor(question);
 }
+
 function setContainerColor(question) {
     var categoria = question.id_categoria;
     switch (categoria) {
@@ -82,6 +92,7 @@ function setContainerColor(question) {
             break;
     }
 }
+
 function selected(value) {
     console.log(value);
     $.ajax({
@@ -99,6 +110,7 @@ function selected(value) {
         console.log(errorThrown);
     });
 }
+
 document.addEventListener("DOMContentLoaded", function () {
     var opciona = document.getElementById("opciona");
     var opcionb = document.getElementById("opcionb");
