@@ -46,6 +46,7 @@ class PartidaController
             $userCorrects =  $this->sessionManager->get('userCorrects');
             $idQuestion =  $this->sessionManager->get('idPregunta');
             $idUser =  $this->sessionManager->get('idUser');
+            $this->sessionManager->set('userCorrects', $userCorrects+1);
 
             $response = $this->processAnswer($optionSelected, $idQuestion, $idUser, $userCorrects);
             if ($response){
