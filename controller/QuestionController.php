@@ -56,6 +56,14 @@ class QuestionController
         exit();
     }
 
+    public function accept(){
+        $id=$_GET["id"];
+        $this->questionModel->acceptQuestion($id);
+        header("location: /question");
+        exit();
+    }
+
+
     public function edit(){
         $idQuestion=$_GET["id"];
         $data['userName']= $this->sessionManager->get("userName");
@@ -66,7 +74,7 @@ class QuestionController
         }
         $this->renderer->render("add", $data);
     }
-    public function actions()
+    /*public function actions()
     {
         if (isset($_POST['action'])) {
             $action = $_POST['action'];
@@ -95,7 +103,7 @@ class QuestionController
             echo("No se pudo realizar la acción, reporte el problema con el programador");
         }
     }
-
+*/
     public function editQuestion()
     {
         $requiredParams = ['idQuestion', 'descripcion', 'id_categoria', 'opcionA', 'opcionB', 'opcionC', 'opcionD', 'resp_correcta'];
