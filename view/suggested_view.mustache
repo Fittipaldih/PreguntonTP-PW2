@@ -18,8 +18,7 @@
                     <th>C</th>
                     <th>D</th>
                     <th>Correcta</th>
-                    <th></th>
-                    <th></th>
+                    <th>Accion a realizar</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -33,24 +32,19 @@
                         <td>{{opcionD}}</td>
                         <td>{{resp_correcta}}</td>
                         <td>
-                            <form action="/suggested/decline" method="post" enctype="multipart/form-data">
-                                <button type="submit" class="btn btn-primary">
-                                    Rechazar
+                            <form action="/suggested/actions" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="idQuestion" value="{{id}}">
+                                <button type="submit" name="action" value="decline" class="btn btn-primary">
                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                 </button>
-                                <input type="hidden" name="idQuestion" value="{{id}}">
-                            </form>
-                        </td>
-                        <td>
-                            <form action="suggested/accept" method="post" enctype="multipart/form-data">
-                                <button type="submit" class="btn btn-primary">
-                                     Aceptar
-                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                <button type="submit" name="action" value="edit" class="btn btn-primary">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </button>
-                                <input type="hidden" name="idQuestion" value="{{id}}">
+                                <button type="submit" name="action" value="accept" class="btn btn-primary">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </button>
                             </form>
                         </td>
-
                     </tr>
                 {{/questionsS}}
                 <!-- Preguntas reportadas -->
@@ -63,21 +57,17 @@
                         <td>{{opcionD}}</td>
                         <td>{{resp_correcta}}</td>
                         <td>
-                            <form action="suggested/accept" method="post" enctype="multipart/form-data">
-                                <input type="submit" value="Volver a aceptar">
+                            <form action="/suggested/actions" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="idQuestion" value="{{id}}">
-                            </form>
-                        </td>
-                        <td>
-                            <form action="/suggested/editQuestion" method="post" enctype="multipart/form-data">
-                                <input type="submit" value="Editar">
-                                <input type="hidden" name="idQuestion" value="{{id}}">
-                            </form>
-                        </td>
-                        <td>
-                            <form action="/suggested/decline" method="post" enctype="multipart/form-data">
-                                <input type="submit" value="Eliminar">
-                                <input type="hidden" name="idQuestion" value="{{id}}">
+                                <button type="submit" name="action" value="decline" class="btn btn-primary">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                                <button type="submit" name="action" value="edit" class="btn btn-primary">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </button>
+                                <button type="submit" name="action" value="accept" class="btn btn-primary">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>
@@ -92,10 +82,15 @@
                         <td>{{opcionD}}</td>
                         <td>{{resp_correcta}}</td>
                         <td>
-                            <button class="editQuestion" style="border: none"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                        </td>
-                        <td>
-                            <button class="deleteQuestion" style="border: none"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                            <form action="/suggested/actions" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="idQuestion" value="{{id}}">
+                                <button type="submit" name="action" value="decline" class="btn btn-primary">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                                <button type="submit" name="action" value="edit" class="btn btn-primary">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 {{/questionsE}}

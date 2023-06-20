@@ -31,27 +31,30 @@ class SuggestedController
         $this->renderer->render("suggested", $data);
     }
 
-    public function accept()
+    public function actions()
     {
-        if (isset($_POST['idQuestion'])) {
+        if (isset($_POST['action'])) {
+            $action = $_POST['action'];
             $id = $_POST['idQuestion'];
-            $this->suggestedModel->acceptQuestion($id);
-            unset($_POST['idQuestion']);
-            $this->home();
-        } else {
-            echo("No se pudo aceptar, reporte el problema con el programador");
-        }
-    }
 
-    public function decline()
-    {
-        if (isset($_POST['idQuestion'])) {
-            $id = $_POST['idQuestion'];
-            $this->suggestedModel->declineQuestion($id);
-            unset($_POST['idQuestion']);
+            switch ($action) {
+                case 'accept':
+                    $this->suggestedModel->acceptQuestion($id);
+                    break;
+                case 'decline':
+                    $this->suggestedModel->declineQuestion($id);
+                    break;
+                case 'edit':
+                    // Lógica para la acción de editar
+                    break;
+                default:
+                    echo("Acción inválida");
+                    break;
+            }
+
             $this->home();
         } else {
-            echo("No se pudo eliminar, reporte el problema con el programador");
+            echo("No se pudo realizar la acción, reporte el problema con el programador");
         }
     }
 
