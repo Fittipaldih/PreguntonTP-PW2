@@ -21,6 +21,10 @@ class QuestionModel
     public function acceptQuestion($id){
         $this->database->update("UPDATE pregunta SET id_estado = 2 WHERE id = '$id'");
     }
+
+    public function getStatusById($id){
+        $this->database->query("SELECT id_estado FROM pregunta WHERE id='$id'");
+    }
     public function declineQuestion($id){
         $this->database->update("UPDATE pregunta SET id_estado = 4 WHERE id = '$id'");
     }

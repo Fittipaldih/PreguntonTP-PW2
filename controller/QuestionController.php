@@ -38,16 +38,43 @@ class QuestionController
 
     public function delete(){
         $id=$_GET["id"];
+        $idEstado=$this->questionModel->searchQuestionById($id);
         $this->questionModel->declineQuestion($id);
-        header("location: /question");
-        exit();
+        switch ($idEstado[0]["id_estado"]){
+            case 1:
+                header("location: /question/suggested");
+                exit();
+            case 2:
+                header("location: /question");
+                exit();
+            case 3:
+                header("location: /question/reported");
+                exit();
+            default:
+                header("location: /question");
+                exit();
+        }
+
     }
 
     public function accept(){
         $id=$_GET["id"];
+        $idEstado=$this->questionModel->searchQuestionById($id);
         $this->questionModel->acceptQuestion($id);
-        header("location: /question");
-        exit();
+        switch ($idEstado[0]["id_estado"]){
+            case 1:
+                header("location: /question/suggested");
+                exit();
+            case 2:
+                header("location: /question");
+                exit();
+            case 3:
+                header("location: /question/reported");
+                exit();
+            default:
+                header("location: /question");
+                exit();
+        }
     }
 
 
@@ -79,6 +106,7 @@ class QuestionController
         $opcionC = $_POST['opcionC'];
         $opcionD = $_POST['opcionD'];
         $respCorrecta = $_POST['resp_correcta'];
+        $idEstado=$this->questionModel->searchQuestionById($id);
 
         $this->questionModel->editQuestion($id, $descripcion, $idCategoria, $opcionA, $opcionB, $opcionC, $opcionD, $respCorrecta);
 
@@ -86,7 +114,21 @@ class QuestionController
         foreach ($requiredParams as $param) {
             unset($_POST[$param]);
         }
-        $this->home();
+
+        switch ($idEstado[0]["id_estado"]){
+            case 1:
+                header("location: /question/suggested");
+                exit();
+            case 2:
+                header("location: /question");
+                exit();
+            case 3:
+                header("location: /question/reported");
+                exit();
+            default:
+                header("location: /question");
+                exit();
+        }
     }
 
     public function add()
