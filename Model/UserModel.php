@@ -17,12 +17,11 @@ class UserModel
               WHERE u.Nombre_usuario = '$userName'");
     }
 
-    public function getUserGamesByName($username)
-    {   // tambien esta en el lobby -> refactorizar
-        return $this->database->query("SELECT * FROM partida WHERE id_usuario =
-                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$username') ORDER BY id DESC LIMIT 50");
+    public function getUserPhoto($userName)
+    {
+        $rt=$this->database->query("SELECT Foto_perfil FROM usuario WHERE nombre_usuario = '$userName'");
+        return $rt['Foto_perfil'];
     }
-
 
     public function setNameComplete($username, $new)
     {

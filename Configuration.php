@@ -6,6 +6,8 @@ include_once('helpers/SessionManager.php');
 
 include_once('helpers/RegistroService.php');
 include_once('helpers/QrUserService.php');
+include_once('helpers/UserService.php');
+include_once('helpers/QuestionService.php');
 
 include_once("model/UserModel.php");
 include_once("model/HomeModel.php");
@@ -58,7 +60,8 @@ class Configuration
         return new UserController(
             new UserModel($this->getDatabase()),
             $this->getRenderer(),
-            $this->getSessionManager());
+            $this->getSessionManager(),
+        $this->getUserService());
     }
 
     public function getRankingController()
@@ -73,7 +76,23 @@ class Configuration
         return new PartidaController(
             new PartidaModel($this->getDatabase()),
             $this->getRenderer(),
-            $this->getSessionManager());
+            $this->getSessionManager(),
+        $this->getUserService(),
+        $this->getQuestionService()
+        );
+    }
+
+    public function getUserService()
+    {
+        return new UserService(
+            $this->getDatabase(),
+            new UserModel( $this->getDatabase()));
+    }
+    public function getQuestionService()
+    {
+        return new QuestionService(
+            $this->getDatabase()
+        );
     }
 
     public function getQuestionController()

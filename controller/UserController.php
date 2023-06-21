@@ -6,13 +6,15 @@ class UserController
     private $renderer;
     private $sessionManager;
     private $qrService;
+    private $userService;
 
-    public function __construct($model, $renderer, $sessionManager)
+    public function __construct($model, $renderer, $sessionManager, $userService)
     {
         $this->userModel = $model;
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
         $this->qrService = new QrUserService($this->userModel);
+        $this->userService = $userService;
     }
 
     public function home()
@@ -35,7 +37,7 @@ class UserController
 
     private function getUserGamesByName($userName)
     {
-        return $this->userModel->getUserGamesByName($userName);
+        return $this->userService->getUserGamesByName($userName);
     }
 
     private function getDataUserByName($userName)

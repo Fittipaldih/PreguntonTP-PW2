@@ -7,13 +7,14 @@ class PartidaController
     private $questionData;
     private $sessionManager;
     private $userService;
-
-    public function __construct($model, $renderer, $sessionManager)
+    private $questionService;
+    public function __construct($model, $renderer, $sessionManager, $userService, $questionService)
     {
         $this->partidaModel = $model;
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
-        $this->userService = new QrUserService($this->partidaModel);
+        $this->userService = $userService;
+        $this->questionService = $questionService;
     }
 
     public function home()
@@ -25,9 +26,9 @@ class PartidaController
     private function prepareData()
     {
         $userName = $this->sessionManager->get('userName');
-        $photo = $this->partidaModel->getUserPhoto($userName);
+       // $photo = $this->userService->getPhoto($userName);
         $data['userName'] = $userName;
-        $data['userPhoto'] = $photo;
+      //  $data['userPhoto'] = $photo;
 
         return $data;
     }
@@ -58,48 +59,47 @@ class PartidaController
     public function processAnswer($optionSelected, $idQuestion, $idUser, &$userCorrects)
     {
         $response = [];
-        if ($this->partidaModel->checkAnswer($optionSelected, $idQuestion)) {
-            $this->partidaModel->registerCorrectAnswer($idQuestion, $idUser);
-            $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
+        if ($this->questionService->checkAnswer($optionSelected, $idQuestion)) {
+            $this->questionService->updateCorrectAnswer($idQuestion);
+            $this->userService->updateCorrectAnswer($idUser);
+            $this->userService->updateLevelUserById($idUser);
+            $this->questionService->updateLevelQuestionById($idQuestion);
             $response['success'] = true;
 
         } else {
-            $correctAnswer = $this->partidaModel->getDescriptionForCorrectAnswer($idQuestion);
+            $correctAnswer = $this->questionService->getDescriptionForCorrectAnswer($idQuestion);
             $this->sessionManager->set('correctAnswer', $correctAnswer['correcta']);
             $this->sessionManager->set('question', $correctAnswer['descripcion']);
 
-            $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
+            $this->userService->updateLevelUserById($idUser);
+            $this->questionService->updateLevelQuestionById($idQuestion);
             $this->partidaModel->insertUserGamesByName($idUser, $userCorrects);
-            $this->partidaModel->updateUserMaxScore($idUser);
+            $this->userService->updateUserMaxScore($idUser);
             $response['success'] = false;
         }
         return $response;
     }
-
     private function renderViewLost()
     {
         header("location: /lobby");
         exit();
     }
-
     private function renderAnswerAndQuestion($userCorrects)
     {
         return $this->questionData;
     }
-
     public function getQuestionData()
     {
         $countCorrect = $_GET['countCorrect'];
         $this->sessionManager->set('countCorrect', $countCorrect);
-        $question = $this->partidaModel->getQuestion();
+        $question = $this->questionService->getQuestion();
         echo json_encode($question[0]);
     }
-
     public function repportQuestion()
     {
         if (isset($_POST['idQuestion'])){
             $questionId = $_POST['idQuestion'];
-            $this->partidaModel->repportQuestion($questionId);
+            $this->questionService->repportQuestion($questionId);
             $this->sessionManager->set('lost', false);
             $this->sessionManager->set('report', true);
             $this->renderViewLost();
