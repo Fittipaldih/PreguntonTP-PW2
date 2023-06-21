@@ -32,8 +32,9 @@
                         <td>{{opcionD}}</td>
                         <td>{{resp_correcta}}</td>
                         <td>
-                            <button type="submit" name="action" value="decline" class="btn btn-primary deleteQuestion">
-                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            <input type="hidden" name="idQuestion" value="{{id}}">
+                            <button id="{{id}}" type="submit" name="action" value="decline" class="btn btn-primary deleteQuestion">
+                                <i class="fa-solid fa-xmark"></i>
                             </button>
 
                             <form action="/question/edit&id={{id}}" method="get" enctype="multipart/form-data">
@@ -60,8 +61,8 @@
                         <td>{{resp_correcta}}</td>
                         <td>
                             <input type="hidden" name="idQuestion" value="{{id}}">
-                            <button type="submit" name="action" value="decline" class="btn btn-primary deleteQuestion">
-                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            <button id="{{id}}" type="submit" name="action" value="decline" class="btn btn-primary deleteQuestion">
+                                <i class="fa-solid fa-xmark"></i>
                             </button>
 
                             <form action="/question/edit&id={{id}}" method="get" enctype="multipart/form-data">
@@ -125,16 +126,18 @@
         </div>
     </div>
 
+    <!--Modalees-->
+
     <div class="modal" id="deleteModal">
         <section class="modal-dialog">
             <article class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Eliminar</h4>
+                    <h4 class="modal-title">Dar de Baja</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="get" id="deleteForm">
                     <div class="modal-body">
-                        <p>¿Estás seguro que deseas eliminar esta pregunta?</p>
+                        <p>¿Estás seguro que deseas dar de baja esta pregunta?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
@@ -154,6 +157,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Pregunta añadida correctamente</p>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
@@ -161,6 +165,8 @@
         </section>
     </div>
 </main>
+
+
 {{#showNewQuestionModal}}
     <script src="/public/js/lobbyNewQuestionModal.js"></script>
 {{/showNewQuestionModal}}
