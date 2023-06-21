@@ -22,7 +22,7 @@
                 <button class="btn fw-bold btn-outline-primary btn-lg" id="opcionc" type="button" name="optionSelected" value="C">C) </button>
                 <button class="btn fw-bold btn-outline-primary btn-lg" id="opciond" type="button" name="optionSelected" value="D">D) </button>
             </form>
-            <p class="text-center">Respuestas correctas: {{userCorrects}}</p>
+            <p id="userCorrects" class="text-center"></p>
             <form action="/partida/repportQuestion" method="post" id="form" enctype="multipart/form-data">
                 <input type="hidden" id="idQuestionHidden" name="idQuestion">
             <button class="btn btn-outline-primary btn-sm"> Reportar</button>

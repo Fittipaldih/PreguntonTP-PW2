@@ -13,55 +13,87 @@ class HomeController
         $this->sessionManager = $sessionManager;
     }
 
-    public function home()
+    public function home(): void
     {
-        $data['mapa']=true;
+        $data=[];
         $this->renderer->render("home", $data);
     }
 
-    public function login()
+    public function login(): void
     {
-        $userNameForm = ucfirst(strtolower($_POST['user']));
-        $pass = md5($_POST['pass']);
+        if ($this->sessionManager->get('idUser') == null) {
+            $userNameForm = ucfirst(strtolower($_POST['user']));
+            $pass = md5($_POST['pass']);
 
-        $userConnected = $this->homeModel->getUserByNameAndPass($userNameForm, $pass);
+            $userConnected = $this->homeModel->getUserByNameAndPass($userNameForm, $pass);
 
-        if (sizeof($userConnected) == 1) {
-            $this->setUserSession($userConnected);
-            $idRol = $this->sessionManager->get("idRol");
-
-            switch ($idRol) {
-                case 0: // novalidado
-                    $data["hash"] = $userConnected[0]["Hash"];
-                    $this->renderer->render('/registroExitoso', $data);
-                    break;
-                case 1: // administrador
-                    $this->sessionManager->set('admin', true);
-                    header("Location: /lobby");
-                    exit();
-                case 2: // editor
-                    $this->sessionManager->set('edit', true);
-                    header("Location: /lobby");
-                    exit();
-                case 3: // jugador
-                    $this->sessionManager->set('player', true);
-                    header("Location: /lobby");
-                    exit();
-                default:
-                    header("Location: /");
-                    exit();
+            if (sizeof($userConnected) == 1) {
+                $this->setUserSession($userConnected);
+                $idRol = $this->sessionManager->get("idRol");
+                $this->userRolManager($idRol);
+            } else {
+                $this->redirectHome();
             }
         } else {
-            header("location:/");
-            exit();
+            $this->redirectLobby();
         }
     }
 
-    private function setUserSession($user)
+    private function setUserSession($user): void
     {
         $this->sessionManager->set("userName", $user[0]['Nombre_usuario']);
         $this->sessionManager->set("idUser", $user[0]["Id"]);
         $this->sessionManager->set("idRol", $user[0]["Id_rol"]);
+    }
+
+    private function userRolManager($idRol): void
+    {
+        switch ($idRol) {
+            case 0: // novalidado
+                $this->caseNoValidate();
+                break;
+            case 1: // administrador
+                $this->sessionManager->set('admin', true);
+                $this->redirectLobby();
+                break;
+            case 2: // editor
+                $this->sessionManager->set('edit', true);
+                $this->redirectLobby();
+                break;
+            case 3: // jugador
+                $this->sessionManager->set('player', true);
+                $this->redirectLobby();
+                break;
+            default:
+                $this->redirectHome();
+                break;
+        }
+    }
+
+    private function caseNoValidate(): void
+    {
+        $userName = $this->sessionManager->get("userName");
+        $userConnected = $this->homeModel->getUserByName($userName);
+
+        if ($userConnected !== null) {
+            $data = [];
+            $this->sessionManager->destroy();
+            $this->renderer->render('/registroExitoso', $data);
+        } else {
+            $this->redirectHome();
+        }
+    }
+
+    private function redirectHome()
+    {
+        header("Location: /");
+        exit();
+    }
+
+    private function redirectLobby()
+    {
+        header("Location: /lobby");
+        exit();
     }
 
     public function validateEmail()
@@ -72,9 +104,7 @@ class HomeController
 
         if ($hash == $hashobtained) {
             $this->homeModel->setUserRol($verifedHashArray[0]["Nombre_usuario"]);
-            $this->sessionManager->set("validEmail", true);
             header("Location: /");
-
         } else {
             header("Location: /registro");
         }

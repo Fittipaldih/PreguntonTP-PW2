@@ -5,7 +5,6 @@ class RegistroService
     public function receiveRegistrationForm($formData, $model, $renderer)
     {
         $data = [];
-
         $nameComplete = $formData["nombre"];
         $birth = $formData["fecha_nacimiento"];
         $sex = $formData["sexo"];
@@ -60,6 +59,7 @@ class RegistroService
     {
         $data["message"] = $message;
         $data['showMessage'] = true;
+        $data['mapa']=true;
         $renderer->render("registro", $data);
     }
 }

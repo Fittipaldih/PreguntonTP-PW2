@@ -10,6 +10,7 @@ const finalWidth = 100;
 const incrementWidth = (finalWidth / duration) * 100;
 let currentWidth = 0;
 let startTime;
+let countCorrect = -1;
 
 function animateProgressBar() {
     currentWidth += incrementWidth;
@@ -38,13 +39,14 @@ function formatTime(time) {
 
 function cargarAjax() {
     $.ajax({
-        url: 'http://localhost/partida/renderQuestionData',
+        url: 'http://localhost/partida/getQuestionData',
         method: 'GET',
+        data: { countCorrect: countCorrect },
         dataType: 'json',
         success: function (question) {
+            countCorrect++;
+            setDataQuestion(question, countCorrect);
             resetProgressBar();
-            setDataQuestion(question);
-
         },
         error: function (xhr, status, error) {
             console.log(error);
@@ -58,13 +60,14 @@ function resetProgressBar() {
     progressInterval = setInterval(animateProgressBar, 100);
 }
 
-function setDataQuestion(question) {
+function setDataQuestion(question, count) {
     $('#questionCategory').text(question.catDescripcion);
     $('#questionDescripcion').text(question.descripcion);
     $('#opciona').text(question.opcionA);
     $('#opcionb').text(question.opcionB);
     $('#opcionc').text(question.opcionC);
     $('#opciond').text(question.opcionD);
+    $('#userCorrects').text("Cantidad de respuestas correctas: " + count);
     $('#idQuestionHidden').val(question.id);
     setContainerColor(question);
 }

@@ -25,30 +25,52 @@ class PartidaModel
     {
         return $this->database->query("SELECT Id FROM usuario WHERE Nombre_usuario = '$userName'");
     }
+
     public function getUserLevelByName($userName)
     {
         return $this->database->query("SELECT nivel FROM usuario WHERE Nombre_usuario = '$userName'");
     }
+
     public function getCorrectAnswer($idQuestion)
     {
         return $this->database->singleQuery("SELECT resp_correcta FROM pregunta WHERE id = '$idQuestion'");
     }
 
+    public function getDescriptionForCorrectAnswer($idQuestion)
+    {
+        $query = "SELECT 
+        CASE
+            WHEN resp_correcta = 'A' THEN opcionA
+            WHEN resp_correcta = 'B' THEN opcionB
+            WHEN resp_correcta = 'C' THEN opcionC
+            WHEN resp_correcta = 'D' THEN opcionD
+            ELSE NULL
+        END AS correcta
+    FROM pregunta
+    WHERE id = " . $idQuestion;
+
+        $result = $this->database->query($query);
+        $correctAnswer = $result[0]['correcta'];
+        return $correctAnswer;
+    }
+
+
     public function getOptions($idQuestion)
     {
         return $this->database->query("SELECT opcionA, opcionB, opcionC, opcionD FROM pregunta WHERE id = $idQuestion");
     }
+
     public function getQuestion()
     {
         $result = $this->getIdByName($_SESSION['userName']);
         $idUser = $result[0][0];
         $question = null;
-        $difficulty= $this->getUserSkilLevel($idUser);
+        $difficulty = $this->getUserSkilLevel($idUser);
         while ($question == null || empty($question)) {
             $question = $this->queryQuestionByDiff($idUser, $difficulty);
-                if(!$question)
-                    $question= $this->queryQuestion($idUser);
-                    //con esto, si no encuentra preguntas de tu nivel, te devuelve una random
+            if (!$question)
+                $question = $this->queryQuestion($idUser);
+            //con esto, si no encuentra preguntas de tu nivel, te devuelve una random
             if ($question == null || empty($question)) {
                 $this->cleanTable($idUser);
             }
@@ -59,18 +81,19 @@ class PartidaModel
         $_SESSION['idPregunta'] = $question[0]['id'];
         return $question;
     }
+
     private function getUserSkilLevel($idUser)
     {
-        $userLevel=$this->database->query
+        $userLevel = $this->database->query
         ("SELECT nivel FROM usuario WHERE id=$idUser");
-        $level=$userLevel[0]['nivel'];
-        if($level>70){
+        $level = $userLevel[0]['nivel'];
+        if ($level > 70) {
             return "dificil";
-        }
-        elseif($level<30){
+        } elseif ($level < 30) {
             return "facil";
         }
     }
+
     public function queryQuestionByDiff($idUser, $difficulty)
     {
         return match ($difficulty) {
@@ -106,16 +129,19 @@ class PartidaModel
         };
     }
 
-    public function queryQuestion($idUser){
+    public function queryQuestion($idUser)
+    {
         return $this->database->query
         ("SELECT p.*, c.descripcion AS catDescripcion FROM pregunta p JOIN categoria c ON c.id = p.id_categoria WHERE p.id_estado = 2 AND NOT EXISTS
         (SELECT 1 FROM usuario_pregunta up WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta) 
         ORDER BY RAND() LIMIT 1");
     }
+
     public function cleanTable($idUser)
     {
         $this->database->update("DELETE FROM usuario_pregunta WHERE id_usuario = '$idUser'");
     }
+
     public function registerQuestion($idPregunta, $idUsuario)
     {
         $result = $this->getIdByName($_SESSION['userName']);
@@ -129,6 +155,7 @@ class PartidaModel
                                  SET cant_respondidas = cant_respondidas + 1
                                  WHERE id = $idUsuario;");
     }
+
     public function registerCorrectAnswer($idPregunta, $idUsuario)
     {
         $this->database->update("UPDATE pregunta
@@ -138,6 +165,7 @@ class PartidaModel
                                  SET cant_acertadas = cant_acertadas + 1
                                  WHERE id = $idUsuario;");
     }
+
     public function updateSkillLevel($idPregunta, $idUsuario)
     {
         $this->database->update("UPDATE pregunta
@@ -147,10 +175,11 @@ class PartidaModel
                                  SET nivel = (cant_acertadas / cant_respondidas) * 100
                                  WHERE id = $idUsuario;");
     }
+
     public function checkAnswer($optionSelected, $idQuestion)
     {
-        $correct=$this->getCorrectAnswer($idQuestion);
-        $optionCorrect=$correct["resp_correcta"];
+        $correct = $this->getCorrectAnswer($idQuestion);
+        $optionCorrect = $correct["resp_correcta"];
         $endTime = $_SESSION["startTime"] + 12;
         if (time() <= $endTime) {
             return $optionSelected === $optionCorrect;
@@ -158,21 +187,26 @@ class PartidaModel
             return false;
         }
     }
+
     public function insertUserGamesByName($idUser, $puntaje)
     {
         return $this->database->update("INSERT INTO partida (id_usuario, puntaje) VALUES('$idUser', '$puntaje') ");
     }
+
     public function updateUserMaxScore($idUser)
     {
-        $puntajeMax= $this->selectUserMaxScore($idUser);
-        $puntos=$puntajeMax[0][0];
+        $puntajeMax = $this->selectUserMaxScore($idUser);
+        $puntos = $puntajeMax[0][0];
         return $this->database->update("UPDATE usuario SET puntaje_max = '$puntos' WHERE id = $idUser");
     }
-    public function selectUserMaxScore($idUser){
+
+    public function selectUserMaxScore($idUser)
+    {
         return $this->database->query("SELECT MAX(puntaje) FROM partida WHERE id_usuario=$idUser; ");
     }
 
-    public function repportQuestion($id){
+    public function repportQuestion($id)
+    {
         $this->database->update("UPDATE pregunta SET id_estado = 3 WHERE id = '$id' ");
     }
 }

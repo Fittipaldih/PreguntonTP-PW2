@@ -21,7 +21,6 @@ class RegistroController
 
     public function newAccount()
     {
-        // ISSET Solo se encarga de comprobar la existencia de las variables, empty que no esten vacias, si esta OK, envio los POST al objeto Manager.
         if (isset($_POST["nombre"], $_POST["fecha_nacimiento"], $_POST["sexo"], $_POST["pais"], $_POST["lat"], $_POST["lng"], $_POST["correo"], $_POST["nombre_usuario"], $_POST["contrasenia"], $_POST["confirmar_contrasenia"])) {
             $formData = $_POST;
             if (isset($_FILES['foto_perfil']) && isset($_FILES['foto_perfil']['name'])) {

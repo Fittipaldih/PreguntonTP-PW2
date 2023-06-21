@@ -13,23 +13,25 @@ class PartidaController
         $this->partidaModel = $model;
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
-        $this->userService= new QrUserService($this->partidaModel);
+        $this->userService = new QrUserService($this->partidaModel);
     }
 
-    public function home($userCorrects = 0)
+    public function home()
     {
-        $userName=$this->sessionManager->get('userName');
-
-        $this->sessionManager->set('userCorrects', $userCorrects);
-        $data['userCorrects'] =  $this->sessionManager->get('userCorrects');
-
-        $data['userName'] = $userName;
-
-        $photo=$this->partidaModel->getUserPhoto($userName);
-        if($photo!=null) {
-            $data['userPhoto'] = $photo;
-        }
+        $data = $this->prepareData();
         $this->renderer->render("partida", $data);
+    }
+
+    private function prepareData()
+    {
+        $userName = $this->sessionManager->get('userName');
+        $photo = $this->partidaModel->getUserPhoto($userName);
+
+     //   $data['userCorrects'] = $this->sessionManager->get('userCorrects') ?? 0;
+        $data['userName'] = $userName;
+        $data['userPhoto'] = $photo;
+
+        return $data;
     }
 
     public function getSessionData()
@@ -43,13 +45,15 @@ class PartidaController
     {
         if (isset($_POST['optionSelected'])) {
             $optionSelected = $_POST['optionSelected'];
-            $userCorrects =  $this->sessionManager->get('userCorrects');
-            $idQuestion =  $this->sessionManager->get('idPregunta');
-            $idUser =  $this->sessionManager->get('idUser');
-            $this->sessionManager->set('userCorrects', $userCorrects+1);
+          //  $userCorrects = $this->sessionManager->get('userCorrects');
+          //  $userCorrects++;
+          //  $this->sessionManager->set('userCorrects', $userCorrects);
+
+            $idQuestion = $this->sessionManager->get('idPregunta');
+            $idUser = $this->sessionManager->get('idUser');
 
             $response = $this->processAnswer($optionSelected, $idQuestion, $idUser, $userCorrects);
-            if ($response){
+            if ($response) {
                 $this->sessionManager->set('lost', true);
 
             }
@@ -60,12 +64,14 @@ class PartidaController
     public function processAnswer($optionSelected, $idQuestion, $idUser, &$userCorrects)
     {
         $response = [];
-        if ( $this->partidaModel->checkAnswer($optionSelected, $idQuestion)) {
+        if ($this->partidaModel->checkAnswer($optionSelected, $idQuestion)) {
             $this->partidaModel->registerCorrectAnswer($idQuestion, $idUser);
             $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
             $response['success'] = true;
 
         } else {
+            $correctAnswer= $this->partidaModel->getDescriptionForCorrectAnswer($idQuestion);
+            $this->sessionManager->set('correctAnswer', $correctAnswer);
             $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
             $this->partidaModel->insertUserGamesByName($idUser, $userCorrects);
             $this->partidaModel->updateUserMaxScore($idUser);
@@ -76,7 +82,7 @@ class PartidaController
 
     private function renderViewLost()
     {
-        header("location: /lobbyPlayer");
+        header("location: /lobby");
         exit();
     }
 
@@ -86,14 +92,20 @@ class PartidaController
         return $this->questionData;
     }
 
-    public function renderQuestionData()
+    public function getQuestionData()
     {
-        $question= $this->partidaModel->getQuestion();
+        $countCorrect = $_GET['countCorrect'];
+        $this->sessionManager->set('countCorrect', $countCorrect);
+        $question = $this->partidaModel->getQuestion();
         echo json_encode($question[0]);
     }
-    public function repportQuestion(){
-        $questionId = $_POST['idQuestion'];
-        $this->partidaModel->repportQuestion($questionId);
-        $this->renderViewLost();
+
+    public function repportQuestion()
+    {
+        if (isset($_POST['idQuestion'])){
+            $questionId = $_POST['idQuestion'];
+            $this->partidaModel->repportQuestion($questionId);
+            $this->renderViewLost();
+        }
     }
 }
