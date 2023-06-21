@@ -23,35 +23,29 @@ class UserModel
                         (SELECT Id FROM usuario WHERE Nombre_usuario = '$username') ORDER BY id DESC LIMIT 50");
     }
 
+
     public function setNameComplete($username, $new)
     {
-        $query = "UPDATE usuario SET Nombre_completo = ? WHERE LOWER(Nombre_usuario) = LOWER(?)";
-        $this->database->prepareAndExecute($query, [$new, $username]);
+        $this->database->update("UPDATE usuario SET Nombre_completo = '$new' WHERE LOWER(Nombre_usuario) = LOWER('$username')");
     }
 
     public function setBirthDate($username, $new)
     {
-        $query = "UPDATE usuario SET Fecha_nacimiento = ? WHERE LOWER(Nombre_usuario) = LOWER(?)";
-        $this->database->prepareAndExecute($query, [$new, $username]);
+        $this->database->update("UPDATE usuario SET Fecha_nacimiento = '$new' WHERE LOWER(Nombre_usuario) = LOWER('$username')");
     }
 
     public function setSex($username, $new)
     {
-        $query = "UPDATE usuario SET Genero = ? WHERE LOWER(Nombre_usuario) = LOWER(?)";
-        $this->database->prepareAndExecute($query, [$new, $username]);
+        $this->database->update("UPDATE usuario SET Genero = '$new' WHERE LOWER(Nombre_usuario) = LOWER('$username')");
     }
 
     public function setCountry($username, $new)
     {
-        $query = "UPDATE usuario SET idPais = ? WHERE LOWER(Nombre_usuario) = LOWER(?)";
-        $this->database->prepareAndExecute($query, [$new, $username]);
+        $this->database->update("UPDATE usuario SET idPais = '$new' WHERE LOWER(Nombre_usuario) = LOWER('$username')");
     }
 
     public function setPhoto($username, $new)
     {
-        $query = "UPDATE usuario SET Foto_perfil = ? WHERE LOWER(Nombre_usuario) = LOWER(?)";
-        $this->database->prepareAndExecute($query, [$new, $username]);
+        $this->database->update("UPDATE usuario SET Foto_perfil = '$new' WHERE LOWER(Nombre_usuario) = LOWER('$username')");
     }
-
-
 }

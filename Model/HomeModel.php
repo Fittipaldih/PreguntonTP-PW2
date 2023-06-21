@@ -21,11 +21,12 @@ class HomeModel
 
     public function getUserHash($hash)
     {
-        return $this->database->query("SELECT Hash, Nombre_usuario FROM usuario WHERE Hash = '$hash' ");
+        $rt= $this->database->singleQuery("SELECT Hash FROM usuario WHERE Hash = '$hash' ");
+        return $rt['Hash'];
     }
 
-    public function setUserRol($user)
+    public function setUserRolByHash($hash)
     {
-        $this->database->update("UPDATE usuario SET Id_rol = 3 WHERE Nombre_usuario = '$user'");
+        $this->database->update("UPDATE usuario SET Id_rol = 3 WHERE Hash = '$hash'");
     }
 }

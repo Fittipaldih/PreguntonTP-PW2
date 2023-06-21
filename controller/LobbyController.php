@@ -39,26 +39,38 @@ class LobbyController
 
         $data['welcome'] = $this->getWelcome($genre);
         $data['games'] = $this->lobbyModel->getFiveUserGames($userName);
-        $data['puntaje_max'] = $this->lobbyModel->getUserMaxScore($userName)[0][0];
+        $data['puntaje_max'] = $this->lobbyModel->getUserMaxScore($userName);
         $data['userName'] = $userName;
-        $countCorrect = ($this->sessionManager->get('countCorrect')) + 1;
-        if ($lostModalData !=null) {
-            $data['userCorrects'] = $countCorrect;
-            $data['correctAnswer'] = $this->sessionManager->get('correctAnswer');
-            $data['question'] = $this->sessionManager->get('question');
-            $data['showLostModal'] = true;
-            $this->sessionManager->delete('lost');
-        } elseif($reportModalData!=null){
-            $data['userCorrects'] = $countCorrect;
-            $data['showReportModal'] = true;
-            $this->sessionManager->delete('report');
+
+        if ($lostModalData != null) {
+            $data += $this->prepareLostModalData();
+
+        } elseif ($reportModalData != null) {
+            $data += $this->prepareReportModalData();
         }
+        return $data;
+    }
+
+    private function prepareReportModalData()
+    {
+        $data['showReportModal'] = true;
+        $this->sessionManager->delete('report');
+        return $data;
+    }
+
+    private function prepareLostModalData()
+    {
+        $data['userCorrects'] = ($this->sessionManager->get('countCorrect')) + 1;
+        $data['correctAnswer'] = $this->sessionManager->get('correctAnswer');
+        $data['question'] = $this->sessionManager->get('question');
+        $data['showLostModal'] = true;
+        $this->sessionManager->delete('lost');
         return $data;
     }
 
     private function getWelcome($genre)
     {
-        $rt ='Bienvenidx';
+        $rt = 'Bienvenidx';
         if ($genre === 'Femenino') {
             $rt = 'Bienvenida';
         } elseif ($genre === 'Masculino') {

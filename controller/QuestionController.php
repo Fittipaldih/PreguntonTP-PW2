@@ -15,22 +15,29 @@ class QuestionController
 
     public function home()
     {
+        $userName = $this->sessionManager->get("userName");
+        $data['userName'] = $userName;
         if ($this->sessionManager->get('newQuestion')) {
             $data['showNewQuestionModal'] = true;
             $this->sessionManager->delete('newQuestion');
         }
+
         $data["questionsAccepted"] = $this->questionModel->getAcceptedQuestions();
         $data["edit"] = true;
         $this->renderer->render("question", $data);
     }
 
     public function reported(){
+        $userName = $this->sessionManager->get("userName");
+        $data['userName'] = $userName;
         $data["questionsReported"] = $this->questionModel->getRepportQuestions();
         $data["repport"] = true;
         $this->renderer->render("question", $data);
     }
 
     public function suggested(){
+        $userName = $this->sessionManager->get("userName");
+        $data['userName'] = $userName;
         $data["questionsSuggested"] = $this->questionModel->getSuggestedQuestions();
         $data["suggested"] = true;
         $this->renderer->render("question", $data);

@@ -11,26 +11,16 @@ class LobbyModel
 
     public function getUserGenre($userName)
     {
-        $query = "SELECT Genero FROM usuario WHERE nombre_usuario = ?";
-        $stmt = $this->database->prepare($query);
-        $stmt->bind_param("s", $userName);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = mysqli_fetch_assoc($result);
-        $stmt->close();
-        return $row['Genero'];
+        $rt= $this->database->singleQuery("SELECT genero FROM usuario WHERE Nombre_usuario = '$userName'");
+        return $rt["genero"];
     }
 
     public function getFiveUserGames($userName)
     {
-        return $this->database->query("SELECT * FROM partida WHERE id_usuario =
-                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$userName') ORDER BY id DESC LIMIT 5");
+        return $this->database->query("SELECT * FROM partida WHERE id_usuario =(SELECT Id FROM usuario WHERE Nombre_usuario = '$userName') ORDER BY id DESC LIMIT 5");
     }
     public function getUserMaxScore($userName){
-        return $this->database->query("SELECT puntaje_max FROM usuario WHERE Nombre_usuario = '$userName'");
-    }
-
-    public function getAllQuestions(){
-        return $this->database->query("SELECT * FROM pregunta WHERE id_estado = 2");
+        $rt= $this->database->singleQuery("SELECT puntaje_max FROM usuario WHERE Nombre_usuario = '$userName'");
+        return $rt["puntaje_max"];
     }
 }

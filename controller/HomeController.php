@@ -98,12 +98,11 @@ class HomeController
 
     public function validateEmail()
     {
-        $hash = $_GET["hash"];
-        $verifedHashArray = $this->homeModel->getUserHash($hash);
-        $hashobtained = $verifedHashArray[0]["Hash"];
+        $hashGET = $_GET["hash"];
+        $hashBD = $this->homeModel->getUserHash($hashGET);
 
-        if ($hash == $hashobtained) {
-            $this->homeModel->setUserRol($verifedHashArray[0]["Nombre_usuario"]);
+        if ($hashGET == $hashBD) {
+            $this->homeModel->setUserRolByHash($hashBD);
             header("Location: /");
         } else {
             header("Location: /registro");

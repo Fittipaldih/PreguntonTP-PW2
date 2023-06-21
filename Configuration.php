@@ -60,6 +60,7 @@ class Configuration
             $this->getRenderer(),
             $this->getSessionManager());
     }
+
     public function getRankingController()
     {
         return new RankingController(
