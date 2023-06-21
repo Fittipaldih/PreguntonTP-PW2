@@ -26,8 +26,6 @@ class PartidaController
     {
         $userName = $this->sessionManager->get('userName');
         $photo = $this->partidaModel->getUserPhoto($userName);
-
-     //   $data['userCorrects'] = $this->sessionManager->get('userCorrects') ?? 0;
         $data['userName'] = $userName;
         $data['userPhoto'] = $photo;
 
@@ -45,10 +43,6 @@ class PartidaController
     {
         if (isset($_POST['optionSelected'])) {
             $optionSelected = $_POST['optionSelected'];
-          //  $userCorrects = $this->sessionManager->get('userCorrects');
-          //  $userCorrects++;
-          //  $this->sessionManager->set('userCorrects', $userCorrects);
-
             $idQuestion = $this->sessionManager->get('idPregunta');
             $idUser = $this->sessionManager->get('idUser');
 
@@ -70,8 +64,10 @@ class PartidaController
             $response['success'] = true;
 
         } else {
-            $correctAnswer= $this->partidaModel->getDescriptionForCorrectAnswer($idQuestion);
-            $this->sessionManager->set('correctAnswer', $correctAnswer);
+            $correctAnswer = $this->partidaModel->getDescriptionForCorrectAnswer($idQuestion);
+            $this->sessionManager->set('correctAnswer', $correctAnswer['correcta']);
+            $this->sessionManager->set('question', $correctAnswer['descripcion']);
+
             $this->partidaModel->updateSkillLevel($idQuestion, $idUser);
             $this->partidaModel->insertUserGamesByName($idUser, $userCorrects);
             $this->partidaModel->updateUserMaxScore($idUser);
@@ -88,7 +84,6 @@ class PartidaController
 
     private function renderAnswerAndQuestion($userCorrects)
     {
-        //$_SESSION['userCorrects'] = $userCorrects;
         return $this->questionData;
     }
 
@@ -105,6 +100,8 @@ class PartidaController
         if (isset($_POST['idQuestion'])){
             $questionId = $_POST['idQuestion'];
             $this->partidaModel->repportQuestion($questionId);
+            $this->sessionManager->set('lost', false);
+            $this->sessionManager->set('report', true);
             $this->renderViewLost();
         }
     }

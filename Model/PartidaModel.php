@@ -38,7 +38,7 @@ class PartidaModel
 
     public function getDescriptionForCorrectAnswer($idQuestion)
     {
-        $query = "SELECT 
+        $query = "SELECT resp_correcta, opcionA, opcionB, opcionC, opcionD, descripcion,
         CASE
             WHEN resp_correcta = 'A' THEN opcionA
             WHEN resp_correcta = 'B' THEN opcionB
@@ -51,7 +51,11 @@ class PartidaModel
 
         $result = $this->database->query($query);
         $correctAnswer = $result[0]['correcta'];
-        return $correctAnswer;
+        $description = $result[0]['descripcion'];
+        return [
+            'correcta' => $correctAnswer,
+            'descripcion' => $description
+        ];
     }
 
 

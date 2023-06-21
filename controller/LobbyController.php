@@ -34,32 +34,26 @@ class LobbyController
     {
         $userName = $this->sessionManager->get("userName");
         $genre = $this->lobbyModel->getUserGenre($userName);
-        $lostModalData = $this->verifyLost();
+        $reportModalData = $this->sessionManager->get('report');
+        $lostModalData = $this->sessionManager->get('lost');
 
         $data['welcome'] = $this->getWelcome($genre);
         $data['games'] = $this->lobbyModel->getFiveUserGames($userName);
         $data['puntaje_max'] = $this->lobbyModel->getUserMaxScore($userName)[0][0];
         $data['userName'] = $userName;
-
-        if ($lostModalData !== null) {
-            $data['userCorrects'] = $lostModalData;
+        $countCorrect = ($this->sessionManager->get('countCorrect')) + 1;
+        if ($lostModalData !=null) {
+            $data['userCorrects'] = $countCorrect;
             $data['correctAnswer'] = $this->sessionManager->get('correctAnswer');
+            $data['question'] = $this->sessionManager->get('question');
             $data['showLostModal'] = true;
-        } else {
-            $this->sessionManager->delete('showLostModal');
+            $this->sessionManager->delete('lost');
+        } elseif($reportModalData!=null){
+            $data['userCorrects'] = $countCorrect;
+            $data['showReportModal'] = true;
+            $this->sessionManager->delete('report');
         }
         return $data;
-    }
-
-    private function verifyLost()
-    {
-        if ($this->sessionManager->get('lost')) {
-            $countCorrect = ($this->sessionManager->get('countCorrect')) +1;
-            $this->sessionManager->delete('lost');
-            $this->sessionManager->delete('countCorrect');
-            return $countCorrect;
-        }
-        return null;
     }
 
     private function getWelcome($genre)

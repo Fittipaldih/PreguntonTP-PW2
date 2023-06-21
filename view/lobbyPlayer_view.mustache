@@ -37,7 +37,8 @@
                     </div>
                     <div class="modal-body text-center">
                         <h5 class="fw-bold">¡Perdiste!</h5>
-                        <p>La respuesta correcta era</p>
+                        <h5>{{question}}</h5>
+                        <p>La respuesta correcta es</p>
                         <h5 class="fw-bold">{{correctAnswer}}</h5>
                         <p>Tu puntaje</p>
                         <h5 class="fw-bold">{{userCorrects}}</h5>
@@ -48,7 +49,31 @@
                 </article>
             </section>
         </div>
+    <div class="modal" id="reportModal">
+        <section class="modal-dialog">
+            <article class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Partida finalizada</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <h5 class="fw-bold">¡Lamentamos el error!</h5>
+                    <p>La pregunta fue reportada y no aparecerá en las proximas partidas hasta que podamos evaluar el problema.</p>
+                    <p>Muchas gracias por comprender.</p>
+                    <p>Tu puntaje</p>
+                    <h5 class="fw-bold">{{userCorrects}}</h5>
+                    <h4>¡Iniciá una nueva partida!</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </article>
+        </section>
+    </div>
 </main>
 {{#showLostModal}}
     <script src="/public/js/lobbyLostModal.js"></script>
 {{/showLostModal}}
+{{#showReportModal}}
+    <script src="/public/js/lobbyReportModal.js"></script>
+{{/showReportModal}}
