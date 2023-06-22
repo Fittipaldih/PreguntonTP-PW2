@@ -15,37 +15,34 @@ class UserService
     }
     public function getUserLevelByName($userName)
     {
-        return $this->database->query("SELECT nivel FROM usuario WHERE Nombre_usuario = '$userName'");
+        return $this->model->getUserLevelByName($userName);
     }
 
     public function updateLevelUserById($idUsuario)
     {
-        $this->database->update("UPDATE usuario
-                                 SET nivel = (cant_acertadas / cant_respondidas) * 100
-                                 WHERE id = $idUsuario;");
+        $this->model->updateLevelUserById($idUsuario);
     }
+
     public function updateCorrectAnswer($idUsuario)
     {
-        $this->database->update("UPDATE usuario
-                                 SET cant_acertadas = cant_acertadas + 1
-                                 WHERE id = $idUsuario;");
+        $this->model->updateCorrectAnswer($idUsuario);
     }
+
     public function updateUserMaxScore($idUser)
     {
-        $puntajeMax = $this->getUserMaxScore($idUser);
+        $puntajeMax = $this->model->getUserMaxScore($idUser);
         $puntos = $puntajeMax[0][0];
-        return $this->database->update("UPDATE usuario SET puntaje_max = '$puntos' WHERE id = $idUser");
+        return $this->model->updateUserMaxScore($idUser, $puntos);
     }
 
     public function getUserGamesByName($username)
     {
-        return $this->database->query("SELECT * FROM partida WHERE id_usuario =
-                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$username') ORDER BY id DESC LIMIT 50");
+        return $this->model->getUserGamesByName($username);
     }
 
     public function getUserMaxScore($idUser)
     {
-        return $this->database->query("SELECT MAX(puntaje) FROM partida WHERE id_usuario=$idUser");
+        return $this->model->getUserMaxScore($idUser);
     }
 
     public function generateQRForUser()

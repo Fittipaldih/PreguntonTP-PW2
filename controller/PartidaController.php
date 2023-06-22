@@ -26,10 +26,9 @@ class PartidaController
     private function prepareData()
     {
         $userName = $this->sessionManager->get('userName');
-       // $photo = $this->userService->getPhoto($userName);
+        $photo = $this->userService->getPhoto($userName);
         $data['userName'] = $userName;
-      //  $data['userPhoto'] = $photo;
-
+        if ($photo!=null){ $data['userPhoto'] = $photo;}
         return $data;
     }
 

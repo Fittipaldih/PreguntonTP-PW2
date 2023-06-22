@@ -19,6 +19,37 @@ class UserModel
         $rt=$this->database->query("SELECT Foto_perfil FROM usuario WHERE nombre_usuario = '$userName'");
         return $rt['Foto_perfil'];
     }
+    public function getUserLevelByName($userName)
+    {
+        return $this->database->query("SELECT nivel FROM usuario WHERE Nombre_usuario = '$userName'");
+    }
+    public function getUserGamesByName($username)
+    {
+        return $this->database->query("SELECT * FROM partida WHERE id_usuario =
+                        (SELECT Id FROM usuario WHERE Nombre_usuario = '$username') ORDER BY id DESC LIMIT 50");
+    }
+    public function getUserMaxScore($idUser)
+    {
+        return $this->database->query("SELECT MAX(puntaje) FROM partida WHERE id_usuario=$idUser");
+    }
+
+    public function updateLevelUserById($idUsuario)
+    {
+        $this->database->update("UPDATE usuario
+                                 SET nivel = (cant_acertadas / cant_respondidas) * 100
+                                 WHERE id = $idUsuario;");
+    }
+    public function updateCorrectAnswer($idUsuario)
+    {
+        $this->database->update("UPDATE usuario
+                                 SET cant_acertadas = cant_acertadas + 1
+                                 WHERE id = $idUsuario;");
+    }
+    public function updateUserMaxScore($idUser, $puntos)
+    {
+        return $this->database->update("UPDATE usuario SET puntaje_max = '$puntos' WHERE id = $idUser");
+    }
+
     public function setNameComplete($username, $new)
     {
         $this->database->update("UPDATE usuario SET Nombre_completo = '$new' WHERE LOWER(Nombre_usuario) = LOWER('$username')");
