@@ -25,22 +25,12 @@ class UserController
         $data['mapa']=true;
         $data["userName"] = $userName;
         $data["canEdit"] = $canEdit;
-        $data["userData"] = $this->getDataUserByName($userName);
-        $data["games"] = $this->getUserGamesByName($userName);
+        $data["userData"] = $this->userService->getDataUserByName($userName);
+        $data["games"] = $this->userService->getUserGamesByName($userName);
         $data["player"] = $this->sessionManager->get('player');
 
         $this->userService->generateQRForUser();
         $this->renderer->render("user", $data);
-    }
-
-    private function getUserGamesByName($userName)
-    {
-        return $this->userService->getUserGamesByName($userName);
-    }
-
-    private function getDataUserByName($userName)
-    {
-        return $this->userModel->getUserByName($userName);
     }
 
     public function editCount()

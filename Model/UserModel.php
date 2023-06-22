@@ -35,6 +35,11 @@ class UserModel
     {
         return $this->database->query("SELECT MAX(puntaje) FROM partida WHERE id_usuario=$idUser");
     }
+    public function getUserMaxScoreByName($username)
+    {
+        $rt= $this->database->singleQuery("SELECT puntaje_max FROM usuario WHERE Nombre_usuario = '$username'");
+        return $rt["puntaje_max"];
+    }
 
     public function updateLevelUserById($idUsuario)
     {

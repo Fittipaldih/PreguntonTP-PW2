@@ -22,6 +22,8 @@ include_once('controller/LobbyController.php');
 include_once('controller/RankingController.php');
 include_once('controller/PartidaController.php');
 include_once('controller/QuestionController.php');
+include_once('controller/addQuestionController.php');
+include_once('controller/EditQuestionController.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once('third-party/phpqrcode/qrlib.php');
@@ -46,12 +48,26 @@ class Configuration
             $this->getRenderer(),
             $this->getSessionManager());
     }
+
+    public function getAddQuestionController(){
+        return new addQuestionController(
+            $this->getQuestionModel(),
+            $this->getRenderer(),
+            $this->getSessionManager());
+    }
+    public function getEditQuestionController(){
+        return new EditQuestionController(
+            $this->getQuestionModel(),
+            $this->getRenderer(),
+            $this->getSessionManager());
+    }
     public function getLobbyController()
     {
         return new LobbyController(
             new LobbyModel($this->getDatabase()),
             $this->getRenderer(),
-            $this->getSessionManager());
+            $this->getSessionManager(),
+            $this->getUserService());
     }
     public function getUserController()
     {

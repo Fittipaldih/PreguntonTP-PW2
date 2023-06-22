@@ -19,8 +19,5 @@ class LobbyModel
     {
         return $this->database->query("SELECT * FROM partida WHERE id_usuario =(SELECT Id FROM usuario WHERE Nombre_usuario = '$userName') ORDER BY id DESC LIMIT 5");
     }
-    public function getUserMaxScore($userName){
-        $rt= $this->database->singleQuery("SELECT puntaje_max FROM usuario WHERE Nombre_usuario = '$userName'");
-        return $rt["puntaje_max"];
-    }
+
 }

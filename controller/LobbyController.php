@@ -5,12 +5,14 @@ class LobbyController
     private $lobbyModel;
     private $renderer;
     private $sessionManager;
+    private $userService;
 
-    public function __construct($model, $renderer, $sessionManager)
+    public function __construct($model, $renderer, $sessionManager, $userService)
     {
         $this->lobbyModel = $model;
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
+        $this->userService=$userService;
     }
 
     public function home()
@@ -39,7 +41,7 @@ class LobbyController
 
         $data['welcome'] = $this->getWelcome($genre);
         $data['games'] = $this->lobbyModel->getFiveUserGames($userName);
-        $data['puntaje_max'] = $this->lobbyModel->getUserMaxScore($userName);
+        $data['puntaje_max'] = $this->userService->getUserMaxScoreByName($userName);
         $data['userName'] = $userName;
 
         if ($lostModalData != null) {

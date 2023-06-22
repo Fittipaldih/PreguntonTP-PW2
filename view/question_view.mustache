@@ -32,12 +32,14 @@
                         <td>{{opcionD}}</td>
                         <td>{{resp_correcta}}</td>
                         <td>
-                            <input type="hidden" name="idQuestion" value="{{id}}">
-                            <button id="{{id}}" type="submit" name="action" value="decline" class="btn btn-primary deleteQuestion">
+
+                            <button id="{{id}}" type="submit" name="action" value="decline"
+                                    class="btn btn-primary deleteQuestion">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
 
-                            <form action="/question/edit&id={{id}}" method="get" enctype="multipart/form-data">
+                            <form action="/EditQuestion" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="{{id}}">
                             <button type="submit" name="action" value="edit" class="btn btn-primary">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </button>
@@ -60,20 +62,22 @@
                         <td>{{opcionD}}</td>
                         <td>{{resp_correcta}}</td>
                         <td>
-                            <input type="hidden" name="idQuestion" value="{{id}}">
-                            <button id="{{id}}" type="submit" name="action" value="decline" class="btn btn-primary deleteQuestion">
+
+                            <button id="{{id}}" type="submit" name="action" value="decline"
+                                    class="btn btn-primary deleteQuestion">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
 
-                            <form action="/question/edit&id={{id}}" method="get" enctype="multipart/form-data">
+                            <form action="/EditQuestion" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="id" value="{{id}}">
                             <button type="submit" name="action" value="edit" class="btn btn-primary">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </button>
 
                             <form action="/question/accept&id={{id}}" >
-                                <button type="submit" name="action" value="accept" class="btn btn-primary">
-                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                </button>
+                            <button type="submit" name="action" value="accept" class="btn btn-primary">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </button>
                             </form>
 
                         </td>
@@ -89,14 +93,16 @@
                         <td>{{opcionD}}</td>
                         <td>{{resp_correcta}}</td>
                         <td>
-                            <input type="hidden" name="idQuestion" value="{{id}}">
-                            <button id="{{id}}" type="submit" name="action" value="decline" class="btn btn-primary deleteQuestion">
+
+                            <button id="{{id}}" type="submit" name="action" value="decline"
+                                    class="btn btn-primary deleteQuestion">
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                             </button>
-                            <form action="/question/edit&id={{id}}" method="post" enctype="multipart/form-data">
+                            <form action="/EditQuestion" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="id" value="{{id}}">
                             <button type="submit" name="action" value="edit" class="btn btn-primary">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                </button>
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </button>
                             </form>
                         </td>
                     </tr>
@@ -116,7 +122,8 @@
             {{/questionsReported}}
             {{^questionsAccepted}}
                 {{#edit}}
-                    <p class="text-center fw-bold display-5"> No hay preguntas disponibles en partidas en este momento</p>
+                    <p class="text-center fw-bold display-5"> No hay preguntas disponibles en partidas en este
+                        momento</p>
                 {{/edit}}
             {{/questionsAccepted}}
         </article>
@@ -147,8 +154,6 @@
             </article>
         </section>
     </div>
-    <script src="/public/js/deleteModal.js"></script>
-
     <div class="modal" id="newQuestionModal">
         <section class="modal-dialog">
             <article class="modal-content">
@@ -165,10 +170,7 @@
         </section>
     </div>
 </main>
-
-
+<script src="/public/js/deleteModal.js"></script>
 {{#showNewQuestionModal}}
     <script src="/public/js/lobbyNewQuestionModal.js"></script>
 {{/showNewQuestionModal}}
-
-</main>

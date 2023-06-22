@@ -2,14 +2,12 @@
 
 class UserService
 {
-    private $database;
     private $model;
 
     public function __construct($model)
     {
         $this->model=$model;
     }
-
     public function getPhoto($username){
         $rt= $this->model->getUserPhoto($username);
         if ( $rt != null){
@@ -21,34 +19,35 @@ class UserService
     {
         return $this->model->getUserLevelByName($userName);
     }
-
+    public function getUserGamesByName($username)
+    {
+        return $this->model->getUserGamesByName($username);
+    }
+    public function getUserMaxScore($idUser)
+    {
+        return $this->model->getUserMaxScore($idUser);
+    }
+    public function getUserMaxScoreByName($userName){
+        return $this->model->getUserMaxScoreByName($userName);
+    }
+    public function getDataUserByName($userName)
+    {
+        return $this->model->getUserByName($userName);
+    }
     public function updateLevelUserById($idUsuario)
     {
         $this->model->updateLevelUserById($idUsuario);
     }
-
     public function updateCorrectAnswer($idUsuario)
     {
         $this->model->updateCorrectAnswer($idUsuario);
     }
-
     public function updateUserMaxScore($idUser)
     {
         $puntajeMax = $this->model->getUserMaxScore($idUser);
         $puntos = $puntajeMax[0][0];
         return $this->model->updateUserMaxScore($idUser, $puntos);
     }
-
-    public function getUserGamesByName($username)
-    {
-        return $this->model->getUserGamesByName($username);
-    }
-
-    public function getUserMaxScore($idUser)
-    {
-        return $this->model->getUserMaxScore($idUser);
-    }
-
     public function generateQRForUser()
     {
         $dir = 'public/qr/';
@@ -67,5 +66,4 @@ class UserService
             QRcode::png($content, $filename, $level, $size, $frameSize);
         }
     }
-
 }

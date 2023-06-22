@@ -6,12 +6,12 @@
         <h4 class="text-center fw-bold">La pregunta será aprobada automáticamente y pasará a formar parte de las
             partidas.</h4>
         <br>
-        <form action="/question/editQuestion" method="post" enctype="multipart/form-data">
+        <form action="/EditQuestion/editQuestion" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <div class="form-group">
                         {{#question}}
-                        <input type="hidden" name="idQuestion" class="form-control" value="{{id}}">
+                        <input type="hidden" name="id" class="form-control" value="{{id}}">
                         <label>Pregunta</label>
                         <input required name="descripcion" class="form-control" value="{{descripcion}}">
                     </div>
