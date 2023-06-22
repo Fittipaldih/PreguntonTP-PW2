@@ -5,7 +5,6 @@ include_once('helpers/Router.php');
 include_once('helpers/SessionManager.php');
 include_once('helpers/RegistroService.php');
 include_once('helpers/UserService.php');
-include_once('helpers/QuestionService.php');
 
 include_once("model/UserModel.php");
 include_once("model/HomeModel.php");
@@ -91,7 +90,7 @@ class Configuration
             $this->getRenderer(),
             $this->getSessionManager(),
         $this->getUserService(),
-        $this->getQuestionService()
+
         );
     }
     public function getQuestionController()
@@ -110,12 +109,6 @@ class Configuration
     public function getRegistroService(){
         return new RegistroService(
             $this->getRegistroModel()
-        );
-    }
-    public function getQuestionService()
-    {
-        return new QuestionService(
-            $this->getQuestionModel()
         );
     }
     public function getQuestionModel()

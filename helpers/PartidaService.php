@@ -1,5 +1,6 @@
 <?php
-class QuestionService
+
+class PartidaService
 {
     private $model;
 
@@ -26,11 +27,6 @@ class QuestionService
     public function cleanTable($idUser)
     {
         $this->model->cleanTable($idUser);
-    }
-
-    public function registerQuestion($idPregunta, $idUsuario)
-    {
-        $this->model->registerQuestion($idPregunta, $idUsuario);
     }
 
     public function getQuestion()

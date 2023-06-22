@@ -7,14 +7,13 @@ class PartidaController
     private $questionData;
     private $sessionManager;
     private $userService;
-    private $questionService;
-    public function __construct($model, $renderer, $sessionManager, $userService, $questionService)
+
+    public function __construct($model, $renderer, $sessionManager, $userService)
     {
         $this->partidaModel = $model;
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
         $this->userService = $userService;
-        $this->questionService = $questionService;
     }
 
     public function home()
@@ -58,20 +57,20 @@ class PartidaController
     public function processAnswer($optionSelected, $idQuestion, $idUser, &$userCorrects)
     {
         $response = [];
-        if ($this->questionService->checkAnswer($optionSelected, $idQuestion)) {
-            $this->questionService->updateCorrectAnswer($idQuestion);
+        if ($this->partidaModel->checkAnswer($optionSelected, $idQuestion)) {
+            $this->partidaModel->updateCorrectAnswer($idQuestion);
             $this->userService->updateCorrectAnswer($idUser);
             $this->userService->updateLevelUserById($idUser);
-            $this->questionService->updateLevelQuestionById($idQuestion);
+            $this->partidaModel->updateLevelQuestionById($idQuestion);
             $response['success'] = true;
 
         } else {
-            $correctAnswer = $this->questionService->getDescriptionForCorrectAnswer($idQuestion);
+            $correctAnswer = $this->partidaModel->getDescriptionForCorrectAnswer($idQuestion);
             $this->sessionManager->set('correctAnswer', $correctAnswer['correcta']);
             $this->sessionManager->set('question', $correctAnswer['descripcion']);
 
             $this->userService->updateLevelUserById($idUser);
-            $this->questionService->updateLevelQuestionById($idQuestion);
+            $this->partidaModel->updateLevelQuestionById($idQuestion);
             $this->partidaModel->insertUserGamesByName($idUser, $userCorrects);
             $this->userService->updateUserMaxScore($idUser);
             $response['success'] = false;
@@ -91,14 +90,14 @@ class PartidaController
     {
         $countCorrect = $_GET['countCorrect'];
         $this->sessionManager->set('countCorrect', $countCorrect);
-        $question = $this->questionService->getQuestion();
+        $question = $this->partidaModel->getQuestion();
         echo json_encode($question[0]);
     }
     public function repportQuestion()
     {
         if (isset($_POST['idQuestion'])){
             $questionId = $_POST['idQuestion'];
-            $this->questionService->repportQuestion($questionId);
+            $this->partidaModel->repportQuestion($questionId);
             $this->sessionManager->set('lost', false);
             $this->sessionManager->set('report', true);
             $this->renderViewLost();
