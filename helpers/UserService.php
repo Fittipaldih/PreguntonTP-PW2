@@ -5,9 +5,8 @@ class UserService
     private $database;
     private $model;
 
-    public function __construct($database, $model)
+    public function __construct($model)
     {
-        $this->database = $database;
         $this->model=$model;
     }
 
@@ -47,6 +46,25 @@ class UserService
     public function getUserMaxScore($idUser)
     {
         return $this->database->query("SELECT MAX(puntaje) FROM partida WHERE id_usuario=$idUser");
+    }
+
+    public function generateQRForUser()
+    {
+        $dir = 'public/qr/';
+
+        if (!file_exists($dir)) {
+            mkdir($dir);
+        }
+        $userName = $_GET['name'];
+        $filename = $dir . $userName . '.png';
+
+        if (!file_exists($filename)) {
+            $size = 9;
+            $level = 'M';
+            $frameSize = 1;
+            $content = "localhost/user&name=" . $userName;
+            QRcode::png($content, $filename, $level, $size, $frameSize);
+        }
     }
 
 }

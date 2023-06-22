@@ -5,7 +5,6 @@ class UserController
     private $userModel;
     private $renderer;
     private $sessionManager;
-    private $qrService;
     private $userService;
 
     public function __construct($model, $renderer, $sessionManager, $userService)
@@ -13,7 +12,6 @@ class UserController
         $this->userModel = $model;
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
-        $this->qrService = new QrUserService($this->userModel);
         $this->userService = $userService;
     }
 
@@ -31,7 +29,7 @@ class UserController
         $data["games"] = $this->getUserGamesByName($userName);
         $data["player"] = $this->sessionManager->get('player');
 
-        $this->qrService->generateQRForUser();
+        $this->userService->generateQRForUser();
         $this->renderer->render("user", $data);
     }
 

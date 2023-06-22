@@ -30,28 +30,10 @@ function animateProgressBar() {
         window.location.href = "/lobby";
     }
 }
-
 function formatTime(time) {
     const seconds = Math.ceil(time / 1000);
     const adjustedSeconds = Math.max(seconds - 1, 0);
     return adjustedSeconds.toString();
-}
-
-function cargarAjax() {
-    $.ajax({
-        url: 'http://localhost/partida/getQuestionData',
-        method: 'GET',
-        data: { countCorrect: countCorrect },
-        dataType: 'json',
-        success: function (question) {
-            countCorrect++;
-            setDataQuestion(question, countCorrect);
-            resetProgressBar();
-        },
-        error: function (xhr, status, error) {
-            console.log(error);
-        }
-    });
 }
 function resetProgressBar() {
     clearInterval(progressInterval);
@@ -59,7 +41,6 @@ function resetProgressBar() {
     startTime = null;
     progressInterval = setInterval(animateProgressBar, 100);
 }
-
 function setDataQuestion(question, count) {
     $('#questionCategory').text(question.catDescripcion);
     $('#questionDescripcion').text(question.descripcion);
@@ -71,7 +52,6 @@ function setDataQuestion(question, count) {
     $('#idQuestionHidden').val(question.id);
     setContainerColor(question);
 }
-
 function setContainerColor(question) {
     var categoria = question.id_categoria;
     switch (categoria) {
@@ -95,7 +75,6 @@ function setContainerColor(question) {
             break;
     }
 }
-
 function selected(value) {
     console.log(value);
     $.ajax({
@@ -113,7 +92,22 @@ function selected(value) {
         console.log(errorThrown);
     });
 }
-
+function cargarAjax() {
+    $.ajax({
+        url: 'http://localhost/partida/getQuestionData',
+        method: 'GET',
+        data: { countCorrect: countCorrect },
+        dataType: 'json',
+        success: function (question) {
+            countCorrect++;
+            setDataQuestion(question, countCorrect);
+            resetProgressBar();
+        },
+        error: function (xhr, status, error) {
+            console.log(error);
+        }
+    });
+}
 document.addEventListener("DOMContentLoaded", function () {
     var opciona = document.getElementById("opciona");
     var opcionb = document.getElementById("opcionb");

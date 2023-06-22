@@ -2,16 +2,16 @@
 
 class QuestionService
 {
-    private $database;
-    public function __construct($database){
-        $this->database=$database;
+    private $model;
+    public function __construct($model){
+        $this->model=$model;
     }
     public function getCorrectAnswer($idQuestion)
     {
         return $this->database->singleQuery("SELECT resp_correcta FROM pregunta WHERE id = '$idQuestion'");
     }
     public function getDescriptionForCorrectAnswer($idQuestion)
-    {
+    { // PARA EL MODAL DEL LOBBY
         $query = "SELECT resp_correcta, opcionA, opcionB, opcionC, opcionD, descripcion,
         CASE
             WHEN resp_correcta = 'A' THEN opcionA
@@ -31,12 +31,6 @@ class QuestionService
             'descripcion' => $description
         ];
     }
-    public function getOptions($idQuestion)
-    {
-        return $this->database->query("SELECT opcionA, opcionB, opcionC, opcionD FROM pregunta WHERE id = $idQuestion");
-    }
-
-
     public function getIdByName($userName)
     {
         return $this->database->query("SELECT Id FROM usuario WHERE Nombre_usuario = '$userName'");

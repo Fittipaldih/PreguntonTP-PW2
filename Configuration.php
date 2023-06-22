@@ -3,9 +3,7 @@ include_once('helpers/MySqlDatabase.php');
 include_once("helpers/MustacheRender.php");
 include_once('helpers/Router.php');
 include_once('helpers/SessionManager.php');
-
 include_once('helpers/RegistroService.php');
-include_once('helpers/QrUserService.php');
 include_once('helpers/UserService.php');
 include_once('helpers/QuestionService.php');
 
@@ -31,15 +29,15 @@ include_once('third-party/phpqrcode/qrlib.php');
 class Configuration
 {
     private $configFile = 'config/config.ini';
-
     public function __construct()
     {
     }
     public function getRegistroController()
     {
         return new RegistroController(
-            new RegistroModel($this->getDatabase()),
-            $this->getRenderer());
+            $this->getRegistroModel(),
+            $this->getRenderer(),
+        $this->getRegistroService());
     }
     public function getHomeController()
     {
@@ -58,12 +56,11 @@ class Configuration
     public function getUserController()
     {
         return new UserController(
-            new UserModel($this->getDatabase()),
+            $this->getUserModel(),
             $this->getRenderer(),
             $this->getSessionManager(),
         $this->getUserService());
     }
-
     public function getRankingController()
     {
         return new RankingController(
@@ -81,26 +78,44 @@ class Configuration
         $this->getQuestionService()
         );
     }
-
+    public function getQuestionController()
+    {
+        return new QuestionController(
+            $this->getQuestionModel(),
+            $this->getRenderer(),
+            $this->getSessionManager());
+    }
     public function getUserService()
     {
         return new UserService(
-            $this->getDatabase(),
-            new UserModel( $this->getDatabase()));
+            $this->getUserModel()
+        );
+    }
+    public function getRegistroService(){
+        return new RegistroService(
+            $this->getRegistroModel()
+        );
     }
     public function getQuestionService()
     {
         return new QuestionService(
-            $this->getDatabase()
+            $this->getQuestionModel()
         );
     }
-
-    public function getQuestionController()
+    public function getQuestionModel()
     {
-        return new QuestionController(
-            new QuestionModel($this->getDatabase()),
-            $this->getRenderer(),
-            $this->getSessionManager());
+        return new QuestionModel($this->getDatabase());
+    }
+    public function getRegistroModel()
+    {
+        return new RegistroModel($this->getDatabase());
+    }
+    public function getUserModel(){
+        return new UserModel($this->getDatabase());
+    }
+    public function getSessionManager()
+    {
+        return new SessionManager();
     }
     private function getArrayConfig()
     {
@@ -126,8 +141,5 @@ class Configuration
             "getHomeController",
             "home");
     }
-    public function getSessionManager()
-    {
-        return new SessionManager();
-    }
+
 }
