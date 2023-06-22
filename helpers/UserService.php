@@ -19,34 +19,26 @@ class UserService
     {
         return $this->model->getUserLevelByName($userName);
     }
-    public function getUserGamesByName($username)
-    {
-        return $this->model->getUserGamesByName($username);
-    }
-    public function getUserMaxScore($idUser)
-    {
-        return $this->model->getUserMaxScore($idUser);
-    }
+
     public function getUserMaxScoreByName($userName){
+        // LO USA EL LOBBY
         return $this->model->getUserMaxScoreByName($userName);
-    }
-    public function getDataUserByName($userName)
-    {
-        return $this->model->getUserByName($userName);
     }
     public function updateLevelUserById($idUsuario)
     {
         $this->model->updateLevelUserById($idUsuario);
     }
-    public function updateCorrectAnswer($idUsuario)
+    public function updateCorrectAnswerUser($idUsuario)
     {
         $this->model->updateCorrectAnswer($idUsuario);
     }
-    public function updateUserMaxScore($idUser)
+    public function getUserGamesByName($username)
     {
-        $puntajeMax = $this->model->getUserMaxScore($idUser);
-        $puntos = $puntajeMax[0][0];
-        return $this->model->updateUserMaxScore($idUser, $puntos);
+        return $this->model->getUserGamesByName($username);
+    }
+    public function getDataUserByName($userName)
+    {
+        return $this->model->getUserByName($userName);
     }
     public function generateQRForUser()
     {
@@ -66,4 +58,5 @@ class UserService
             QRcode::png($content, $filename, $level, $size, $frameSize);
         }
     }
+
 }

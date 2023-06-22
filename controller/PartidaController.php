@@ -44,6 +44,8 @@ class PartidaController
         $idUser = $this->sessionManager->get('idUser');
         $this->sessionManager->set('countCorrect', $countCorrect);
         $question = $this->partidaModel->getQuestion($idUser);
+        $this->sessionManager->set('startTime', time());
+        $this->sessionManager->set('idPregunta', $question[0]['id']);
         echo json_encode($question[0]);
     }
     public function checkAnswer()
@@ -64,10 +66,10 @@ class PartidaController
     public function processAnswer($optionSelected, $idQuestion, $idUser, &$userCorrects)
     {
         $response = [];
-        $endTime = $_SESSION["startTime"] + 12;
+        $endTime =  ($this->sessionManager->get('startTime')) + 12;
         if ($this->partidaModel->checkAnswer($optionSelected, $idQuestion, $endTime)) {
-            $this->partidaModel->updateCorrectAnswer($idQuestion);
-            $this->userService->updateCorrectAnswer($idUser);
+            $this->partidaModel->updateCorrectAnswerQuestion($idQuestion);
+            $this->userService->updateCorrectAnswerUser($idUser);
             $this->userService->updateLevelUserById($idUser);
             $this->partidaModel->updateLevelQuestionById($idQuestion);
             $response['success'] = true;
@@ -76,11 +78,11 @@ class PartidaController
             $correctAnswer = $this->partidaModel->getDescriptionForCorrectAnswer($idQuestion);
             $this->sessionManager->set('correctAnswer', $correctAnswer['correcta']);
             $this->sessionManager->set('question', $correctAnswer['descripcion']);
-
             $this->userService->updateLevelUserById($idUser);
             $this->partidaModel->updateLevelQuestionById($idQuestion);
             $this->partidaModel->insertUserGamesByName($idUser, $userCorrects);
-            $this->userService->updateUserMaxScore($idUser);
+            $score= $this->sessionManager->get('countCorrect');
+            $this->partidaModel->updateUserMaxScore($idUser, $score);
             $response['success'] = false;
         }
         return $response;

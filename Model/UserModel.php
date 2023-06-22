@@ -40,7 +40,6 @@ class UserModel
         $rt= $this->database->singleQuery("SELECT puntaje_max FROM usuario WHERE Nombre_usuario = '$username'");
         return $rt["puntaje_max"];
     }
-
     public function updateLevelUserById($idUsuario)
     {
         $this->database->update("UPDATE usuario
@@ -53,11 +52,6 @@ class UserModel
                                  SET cant_acertadas = cant_acertadas + 1
                                  WHERE id = $idUsuario;");
     }
-    public function updateUserMaxScore($idUser, $puntos)
-    {
-        return $this->database->update("UPDATE usuario SET puntaje_max = '$puntos' WHERE id = $idUser");
-    }
-
     public function setNameComplete($username, $new)
     {
         $this->database->update("UPDATE usuario SET Nombre_completo = '$new' WHERE LOWER(Nombre_usuario) = LOWER('$username')");
