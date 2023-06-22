@@ -4,7 +4,6 @@ class PartidaController
 {
     private $partidaModel;
     private $renderer;
-    private $questionData;
     private $sessionManager;
     private $userService;
 
@@ -15,13 +14,11 @@ class PartidaController
         $this->sessionManager = $sessionManager;
         $this->userService = $userService;
     }
-
     public function home()
     {
         $data = $this->prepareData();
         $this->renderer->render("partida", $data);
     }
-
     private function prepareData()
     {
         $userName = $this->sessionManager->get('userName');
@@ -30,16 +27,27 @@ class PartidaController
         $data['userPhoto'] = $photo;
         return $data;
     }
-
-    public function getSessionData()
+    private function renderViewLost()
     {
+        header("location: /lobby");
+        exit();
+    }
+    public function getSessionData()
+    { // AJAX
         $sessionData = $this->sessionManager->getAll();
         header('Content-Type: application/json');
         echo json_encode($sessionData);
     }
-
+    public function getQuestionData()
+    {// AJAX
+        $countCorrect = $_GET['countCorrect'];
+        $idUser = $this->sessionManager->get('idUser');
+        $this->sessionManager->set('countCorrect', $countCorrect);
+        $question = $this->partidaModel->getQuestion($idUser);
+        echo json_encode($question[0]);
+    }
     public function checkAnswer()
-    {
+    { // AJAX
         if (isset($_POST['optionSelected'])) {
             $optionSelected = $_POST['optionSelected'];
             $idQuestion = $this->sessionManager->get('idPregunta');
@@ -53,11 +61,11 @@ class PartidaController
             echo json_encode($response);
         }
     }
-
     public function processAnswer($optionSelected, $idQuestion, $idUser, &$userCorrects)
     {
         $response = [];
-        if ($this->partidaModel->checkAnswer($optionSelected, $idQuestion)) {
+        $endTime = $_SESSION["startTime"] + 12;
+        if ($this->partidaModel->checkAnswer($optionSelected, $idQuestion, $endTime)) {
             $this->partidaModel->updateCorrectAnswer($idQuestion);
             $this->userService->updateCorrectAnswer($idUser);
             $this->userService->updateLevelUserById($idUser);
@@ -76,22 +84,6 @@ class PartidaController
             $response['success'] = false;
         }
         return $response;
-    }
-    private function renderViewLost()
-    {
-        header("location: /lobby");
-        exit();
-    }
-    private function renderAnswerAndQuestion($userCorrects)
-    {
-        return $this->questionData;
-    }
-    public function getQuestionData()
-    {
-        $countCorrect = $_GET['countCorrect'];
-        $this->sessionManager->set('countCorrect', $countCorrect);
-        $question = $this->partidaModel->getQuestion();
-        echo json_encode($question[0]);
     }
     public function repportQuestion()
     {

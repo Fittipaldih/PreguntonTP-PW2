@@ -47,7 +47,6 @@ class Configuration
             $this->getRenderer(),
             $this->getSessionManager());
     }
-
     public function getAddQuestionController(){
         return new addQuestionController(
             $this->getQuestionModel(),
