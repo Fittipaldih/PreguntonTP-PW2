@@ -28,7 +28,7 @@ class PartidaController
         $userName = $this->sessionManager->get('userName');
         $photo = $this->userService->getPhoto($userName);
         $data['userName'] = $userName;
-        if ($photo!=null){ $data['userPhoto'] = $photo;}
+        $data['userPhoto'] = $photo;
         return $data;
     }
 

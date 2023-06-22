@@ -11,7 +11,11 @@ class UserService
     }
 
     public function getPhoto($username){
-        return $this->model->getUserPhoto($username);
+        $rt= $this->model->getUserPhoto($username);
+        if ( $rt != null){
+            return $rt;
+        }
+        return null;
     }
     public function getUserLevelByName($userName)
     {

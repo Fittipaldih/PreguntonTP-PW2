@@ -1,11 +1,11 @@
 <main id="contPartida" class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3">
-        {{#Foto_perfil}}
-            <img src="/public/imagenes/{{Foto_perfil}}" width="50px" class="rounded mx-auto d-block">
-        {{/Foto_perfil}}
-        {{^Foto_perfil}}
+        {{#userPhoto}}
+            <img src="/public/imagenes/{{userPhoto}}" width="50px" class="rounded mx-auto d-block">
+        {{/userPhoto}}
+        {{^userPhoto}}
             <img src="/public/imagenes/perfil.jpg" width="50px" class="rounded mx-auto d-block">
-        {{/Foto_perfil}}
+        {{/userPhoto}}
         <div class="progress">
             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myProgressBar"></div>
         </div>

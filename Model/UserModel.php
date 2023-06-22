@@ -16,8 +16,11 @@ class UserModel
     }
     public function getUserPhoto($userName)
     {
-        $rt=$this->database->query("SELECT Foto_perfil FROM usuario WHERE nombre_usuario = '$userName'");
-        return $rt['Foto_perfil'];
+        $result = $this->database->query("SELECT Foto_perfil FROM usuario WHERE nombre_usuario = '$userName'");
+        if ($result === null || empty($result)) {
+            return null;
+        }
+        return $result[0]['Foto_perfil'];
     }
     public function getUserLevelByName($userName)
     {
