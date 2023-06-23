@@ -54,16 +54,16 @@ class QuestionController
     {
         switch ($idEstado) {
             case 1:
-                $location = "/question/suggested";
+                $location = "/question/suggestedView";
                 break;
             case 2:
-                $location = "/question";
+                $location = "/question/acceptedView";
                 break;
             case 3:
-                $location = "/question/reported";
+                $location = "/question/reportedView";
                 break;
             default:
-                $location = "/question";
+                $location = "/question/acceptedView";
                 break;
         }
         header("Location: " . $location);
@@ -80,7 +80,7 @@ class QuestionController
 
     public function accept()
     {
-        $id = $_GET["id"];
+        $id = $_POST["id"];
         $idEstado = $this->questionModel->searchQuestionById($id);
         $this->questionModel->setAcceptQuestion($id);
         $this->redirectToQuestionPage($idEstado[0]["id_estado"]);

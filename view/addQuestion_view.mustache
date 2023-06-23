@@ -8,6 +8,9 @@
             <br>
         {{/player}}
         {{#edit}}
+            {{#errorQuestion}}
+                <h2 class="alert alert-danger display-2 fw-bold"> No se pudo agregar la pregunta, porque ya existe.</h2>
+            {{/errorQuestion}}
             <h1 class="text-center text-primary display-2 fw-bold">{{userName}}, creá la pregunta</h1>
             <br>
             <h4 class="text-center fw-bold">La pregunta será aprobada automáticamente y pasará a formar parte de las
@@ -82,6 +85,7 @@
         </section>
     </div>
 </main>
+
 {{#showNewQuestionModal}}
     <script src="/public/js/lobbyNewQuestionModal.js"></script>
 {{/showNewQuestionModal}}

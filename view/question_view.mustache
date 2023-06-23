@@ -43,11 +43,12 @@
                             <button type="submit" name="action" value="edit" class="btn btn-primary">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </button>
-
-                            <form action="/question/accept&id={{id}}" >
-                            <button type="submit" name="action" value="accept" class="btn btn-primary">
-                                <i class="fa fa-check" aria-hidden="true"></i>
-                            </button>
+                            </form>
+                            <form action="/question/accept" method="post" enctype="multipart/form-data" >
+                                <input type="hidden" name="id" value="{{id}}">
+                                <button type="submit" name="action" value="accept" class="btn btn-primary">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>
@@ -73,8 +74,10 @@
                             <button type="submit" name="action" value="edit" class="btn btn-primary">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </button>
+                            </form>
 
-                            <form action="/question/accept&id={{id}}" >
+                            <form action="/question/accept" method="post" enctype="multipart/form-data" >
+                                <input type="hidden" name="id" value="{{id}}">
                             <button type="submit" name="action" value="accept" class="btn btn-primary">
                                 <i class="fa fa-check" aria-hidden="true"></i>
                             </button>
@@ -100,9 +103,9 @@
                             </button>
                             <form action="/EditQuestion" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="id" value="{{id}}">
-                            <button type="submit" name="action" value="edit" class="btn btn-primary">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            </button>
+                                <button type="submit" name="action" value="edit" class="btn btn-primary">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>

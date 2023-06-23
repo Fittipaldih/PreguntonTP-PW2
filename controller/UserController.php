@@ -17,12 +17,12 @@ class UserController
 
     public function home()
     {
-        if (isset($_GET['name'])){
-        $userName = $_GET['name']; // Lo recibe de la view ranking Linea 18
+        if (isset($_GET['name'])) {
+            $userName = $_GET['name']; // Lo recibe de la view ranking Linea 18
         }
         $userLogged = $this->sessionManager->get("userName");
         $canEdit = (strtoupper($userName)) === (strtoupper($userLogged));
-        $data['mapa']=true;
+        $data['mapa'] = true;
         $data["userName"] = $userName;
         $data["canEdit"] = $canEdit;
         $data["userData"] = $this->userService->getDataUserByName($userName);
@@ -69,5 +69,47 @@ class UserController
         }
 
         header("Location: /user&name=" . $userName);
+    }
+
+    public function totalUser()
+    {
+        $rt = $this->userModel->getTotalUsers();
+        echo("Total de usuarios= " .$rt);
+    }
+
+    public function totalGames()
+    {
+        $rt = $this->userModel->getTotalGames();
+        echo("Total de partidas jugadas= " . $rt);
+    }
+
+    public function totalQuestions()
+    {
+        $rt = $this->userModel->getTotalQuestions();
+        echo("Total de preguntas= " . $rt);
+    }
+
+    public function totalQuestionsCreate()
+    {
+        $rt = $this->userModel->getTotalQuestionsCreate();
+        echo("Total de preguntas creadas= " . $rt);
+    }
+    public function questionCorrect() {
+        $data = $this->userModel->getTotalPreguntasCorrectasPorUsuario();
+
+        foreach ($data as $row) {
+            $nivel = $row['nivel'];
+            $nombreUsuario = $row['Nombre_usuario'];
+            echo "Nivel: $nivel, Nombre de Usuario: $nombreUsuario<br>";
+        }
+    }
+
+    public function getTotalUsersFromCountry() {
+        $rt = $this->userModel->getTotalUsersFromCountry();
+        foreach ($rt as $row) {
+            $nombrePais = $row['Pais'];
+            $cantidadUsuarios = $row['cantidadUsuarios'];
+            echo "País: $nombrePais, Cantidad de usuarios: $cantidadUsuarios<br>";
+        }
     }
 }

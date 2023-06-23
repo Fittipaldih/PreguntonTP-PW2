@@ -19,7 +19,6 @@ class UserService
     {
         return $this->model->getUserLevelByName($userName);
     }
-
     public function getUserMaxScoreByName($userName){
         // LO USA EL LOBBY
         return $this->model->getUserMaxScoreByName($userName);
@@ -58,5 +57,6 @@ class UserService
             QRcode::png($content, $filename, $level, $size, $frameSize);
         }
     }
+
 
 }

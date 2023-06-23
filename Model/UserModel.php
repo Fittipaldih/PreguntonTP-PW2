@@ -40,6 +40,7 @@ class UserModel
         $rt= $this->database->singleQuery("SELECT puntaje_max FROM usuario WHERE Nombre_usuario = '$username'");
         return $rt["puntaje_max"];
     }
+
     public function updateLevelUserById($idUsuario)
     {
         $this->database->update("UPDATE usuario
@@ -72,4 +73,54 @@ class UserModel
     {
         $this->database->update("UPDATE usuario SET Foto_perfil = '$new' WHERE LOWER(Nombre_usuario) = LOWER('$username')");
     }
+
+    public function getTotalUsers(){
+        $rt= $this->database->singleQuery("SELECT COUNT(*) AS total_usuarios FROM usuario");
+        return $rt['total_usuarios'];
+    }
+    public function getTotalGames(){
+        $rt= $this->database->singleQuery("SELECT COUNT(*) AS total_partidas FROM partida");
+        return $rt['total_partidas'];
+    }
+    public function getTotalQuestions(){
+        $rt= $this->database->singleQuery("SELECT COUNT(*) AS total_preguntas FROM pregunta");
+        return $rt['total_preguntas'];
+    }
+    public function getTotalQuestionsCreate(){
+        $rt= $this->database->singleQuery("SELECT COUNT(*) AS total_preguntas FROM pregunta");
+        return $rt['total_preguntas'];
+    }
+
+    function getTotalPreguntasCorrectasPorUsuario()
+    {
+        $query = "SELECT nivel, Nombre_usuario FROM usuario";
+        $result = $this->database->query($query);
+
+        $data = array();
+        foreach ($result as $row) {
+            $nivel = $row['nivel'];
+            $nombreUsuario = $row['Nombre_usuario'];
+            $data[] = array('nivel' => $nivel, 'Nombre_usuario' => $nombreUsuario);
+        }
+
+        return $data;
+    }
+
+    public function getTotalUsersFromCountry() {
+        $query = "SELECT p.nombre AS Pais , COUNT(u.Id) AS cantidad_usuarios
+              FROM usuario AS u
+              JOIN pais AS p ON u.idPais = p.id
+              GROUP BY p.nombre";
+        $result = $this->database->query($query);
+
+        $data = array();
+        foreach ($result as $row) {
+            $nombrePais = $row['Pais'];
+            $cantidadUsuarios = $row['cantidad_usuarios'];
+            $data[] = array('Pais' => $nombrePais, 'cantidadUsuarios' => $cantidadUsuarios);
+        }
+
+        return $data;
+    }
+
 }

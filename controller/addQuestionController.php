@@ -1,6 +1,7 @@
 <?php
 
-class addQuestionController{
+class addQuestionController
+{
 
     private $questionModel;
     private $renderer;
@@ -12,15 +13,20 @@ class addQuestionController{
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
     }
+
     public function home()
     {
         $data['edit'] = $this->sessionManager->get('edit');
         $data['player'] = $this->sessionManager->get('player');
-        $data['userName']= $this->sessionManager->get("userName");
+        $data['userName'] = $this->sessionManager->get("userName");
 
-        if ($this->sessionManager->get('idQuestionEdit') !== null){
+        if ($this->sessionManager->get('idQuestionEdit') !== null) {
             $id = $this->sessionManager->get('idQuestionEdit');
-            $data['question'] =  $this->questionModel->searchQuestionById($id);
+            $data['question'] = $this->questionModel->searchQuestionById($id);
+        }
+        if ($this->sessionManager->get('ErrorAddQuestion')){
+            $data['errorQuestion'] = true;
+            $this->sessionManager->set('ErrorAddQuestion', false);
         }
         $this->renderer->render("addQuestion", $data);
     }
@@ -45,13 +51,19 @@ class addQuestionController{
         $respuestaCorrecta = $_POST['respuestaCorrecta'];
 
         $idRol = $this->sessionManager->get("idRol");
-        $this->questionModel->addQuestion($idRol, $idCategoria, $descripcion, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta);
+        if (!$this->questionModel->searchQuestionByDescription($descripcion)) {
+            $this->questionModel->addQuestion($idRol, $idCategoria, $descripcion, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta);
 
-        if ($idRol==3){
-            $this->renderer->render("newQuestionSuccess");
-        } else{
-            $this->sessionManager->set('newQuestion', true);
-            header("Location: /question");
+            if ($idRol == 3) {
+                $this->renderer->render("newQuestionSuccess");
+            } else {
+                $this->sessionManager->set('newQuestion', true);
+                header("Location: /question/acceptedView");
+                exit();
+            }
+        } else {
+            $this->sessionManager->set('ErrorAddQuestion', true);
+            header("Location: /addQuestion");
             exit();
         }
     }

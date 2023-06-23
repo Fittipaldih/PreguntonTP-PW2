@@ -95,4 +95,5 @@ class LobbyController
     {
         $this->renderer->render("lobbyAdmi", $data);
     }
+
 }

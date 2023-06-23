@@ -43,4 +43,7 @@ class QuestionModel
     public function searchQuestionById($id){
         return $this->database->query("SELECT * FROM pregunta WHERE id = '$id'");
     }
+    public function searchQuestionByDescription($descripcion){
+        return $this->database->query("SELECT * FROM pregunta WHERE descripcion = '$descripcion'");
+    }
 }

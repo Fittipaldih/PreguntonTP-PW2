@@ -23,13 +23,6 @@ echo "Usuarios nuevos desde el último usuario registrado: " . $result['usuarios
 
 
 // Función para obtener el total de usuarios
-function getTotalUsuarios()
-{
-    $query = "SELECT COUNT(*) AS total_usuarios FROM usuario";
-    $result = $this->database->query($query);
-    $row = $result->fetch(PDO::FETCH_ASSOC);
-    return $row['total_usuarios'];
-}
 
 // Función para obtener el total de partidas
 function getTotalPartidas()
