@@ -34,11 +34,11 @@ class AdminModel
     {
         $query = "SELECT p.nombre AS Pais, COUNT(u.Id) AS cantidad_usuarios
               FROM usuario AS u
-              JOIN pais AS p ON u.idPais = p.id
+              JOIN pais AS p ON u.idPais = p.id WHERE Id_rol =3
                ";
 
         if ($finit != null && $fend != null) {
-            $query .= "WHERE u.Fecha_registro >= '$finit' AND u.Fecha_registro <= '$fend' ";
+            $query .= "AND u.Fecha_registro >= '$finit' AND u.Fecha_registro <= '$fend' ";
         }
         $query .= " GROUP BY p.nombre";
         $result = $this->database->query($query);
@@ -55,11 +55,11 @@ class AdminModel
     public function getTotalUsersByGenre($finit, $fend)
     {
         $query = "SELECT Genero, COUNT(*) AS cantidad_usuarios
-              FROM usuario
+              FROM usuario WHERE Id_rol =3
                ";
 
         if ($finit !=null && $fend !=null) {
-            $query .= "WHERE Fecha_registro >= '$finit' AND Fecha_registro <= '$fend' ";
+            $query .= "AND Fecha_registro >= '$finit' AND Fecha_registro <= '$fend' ";
         }
 
         $query .= " GROUP BY Genero";
@@ -75,11 +75,11 @@ class AdminModel
                     WHEN TIMESTAMPDIFF(YEAR, Fecha_nacimiento, CURDATE()) >= 65 THEN 'Jubilado (+65)'
                 END AS grupo_edad,
                 COUNT(*) AS cantidad_usuarios
-              FROM usuario
+              FROM usuario WHERE Id_rol =3 
                ";
 
         if ($finit !=null && $fend !=null) {
-            $query .= "WHERE Fecha_registro >= '$finit' AND Fecha_registro <= '$fend' ";
+            $query .= "AND Fecha_registro >= '$finit' AND Fecha_registro <= '$fend' ";
         }
 
         $query .= " GROUP BY grupo_edad";
