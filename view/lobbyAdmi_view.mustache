@@ -5,10 +5,95 @@
             ¿Qué necesita consultar hoy?
         </h2>
         <article class="d-grid gap-2 col-6 mx-auto mt-4">
-            <a href="/admin/totalUser" class="btn btn-primary btn-lg">Usuarios</a>
-            <a href="/admin/totalGames" class="btn btn-primary btn-lg">Partidas</a>
-            <a href="/admin/totalQuestions" class="btn btn-primary btn-lg">Preguntas</a>
-            <a href="/" class="btn btn-outline-primary btn-lg">Filtrar por dia mes y año. Grafico PDF</a>
+            <a href="/admin/totalUser" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#filterModalUser">Usuarios</a>
+            <a href="/admin/totalGames" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#filterModalGames">Partidas</a>
+            <a href="/admin/totalQuestions" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#filterModalQuestions">Preguntas</a>
         </article>
+    </div>
+
+    <div class="modal fade" id="filterModalUser" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterModalLabel">Filtrar por fecha</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/admin/totalUser" method="post" enctype="multipart/form-data" class="row g-3">
+                        <label for="finit">Fecha inicio</label>
+                        <input type="date" id="finit" name="finit">
+                        <label for="fend">Fecha final</label>
+                        <input type="date" id="fend" name="fend">
+                </div>
+                <div class="col-12">
+                    <br>
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <input type="submit" value="Confirmar" class="btn btn-primary">
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="filterModalGames" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterModalLabel">Filtrar por fecha</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/admin/totalUser" method="post"
+                          enctype="multipart/form-data" class="row g-3">
+                        <label for="finit">Fecha inicio</label>
+                        <input type="date" id="finit">
+                        <label for="fend">Fecha final</label>
+                        <input type="date" id="fend">
+                </div>
+                <div class="col-12">
+                    <br>
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cancelar
+                        </button>
+                        <input type="submit" value="Confirmar"
+                               class="btn btn-primary">
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="filterModalQuestions" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterModalLabel">Filtrar por fecha</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/admin/totalUser" method="post"
+                          enctype="multipart/form-data" class="row g-3">
+                        <label for="finit">Fecha inicio</label>
+                        <input type="date" id="finit">
+                        <label for="fend">Fecha final</label>
+                        <input type="date" id="fend">
+                </div>
+                <div class="col-12">
+                    <br>
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cancelar
+                        </button>
+                        <input type="submit" value="Confirmar"
+                               class="btn btn-primary">
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
     </div>
 </main>

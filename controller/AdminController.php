@@ -12,82 +12,54 @@ class AdminController
         $this->renderer = $renderer;
         $this->sessionManager = $session;
     }
+
     public function totalUser()
-    {    $data['userName']= $this->sessionManager->get("userName");
-        $data["totalPlayers"]= $this->adminModel->getTotalPlayers();
-        $data["allPlayers"]=$this->adminModel->getAllPlayers();
-        $data["players"]=true;
-        $data += $this->getStatistics();
+    {
+        if (isset ($_POST['finit']) && isset($_POST['fend'])
+        && !empty($_POST['finit']) && !empty($_POST['fend'])) {
+            $finit = $_POST['finit'];
+            $fend = $_POST['fend'];
+            $datau = $this->getStatistics($finit, $fend);
+        }
+        else{
+            $datau = $this->getStatistics(null, null);
+        }
+
+        $data = $datau;
+        $data['userName'] = $this->sessionManager->get("userName");
         $this->renderer->render("playersList", $data);
     }
 
     public function totalGames()
     {
-        $data['userName']= $this->sessionManager->get("userName");
-        $data["totalGames"]= $this->adminModel->getTotalGames();
-        $data["allGames"]=$this->adminModel->getAllGames();
-        $data["games"]=true;
+        $data['userName'] = $this->sessionManager->get("userName");
+        $data["totalGames"] = $this->adminModel->getTotalGames();
+        $data["allGames"] = $this->adminModel->getAllGames();
         $this->renderer->render("gamesList", $data);
     }
 
     public function totalQuestions()
     {
-        $data['userName']= $this->sessionManager->get("userName");
-        $data["totalQuestions"]= $this->adminModel->getTotalQuestions();
-        $data["allQuestions"]=$this->adminModel->getAllQuestions();
-        $data["questions"]=true;
+        $data['userName'] = $this->sessionManager->get("userName");
+        $data["totalQuestions"] = $this->adminModel->getTotalQuestions();
+        $data["allQuestions"] = $this->adminModel->getAllQuestions();
         $this->renderer->render("questionsList", $data);
     }
 
-    private function getStatistics()
+    private function getStatistics($finit, $fend)
     {
         $data = array(
-            'usersByAge' => $this->adminModel->getTotalUsersByAge(),
-            'usersByGenre' => $this->adminModel->getTotalUsersByGenre(),
-            'usersFromCountry' => $this->adminModel->getTotalUsersFromCountry(),
-            'usersNews' => $this->adminModel->getTotalUsersNews()
+            'usersByAge' => $this->adminModel->getTotalUsersByAge($finit, $fend),
+            'usersByGenre' => $this->adminModel->getTotalUsersByGenre($finit, $fend),
+            'usersFromCountry' => $this->adminModel->getTotalUsersFromCountry($finit, $fend),
+            'usersNews' => $this->adminModel->getTotalUsersNews(),
+            'allPlayers' => $this->adminModel->getAllPlayers($finit, $fend),
+            'totalPlayers' => $this->adminModel->getTotalPlayers($finit, $fend)
         );
+        if (empty($data['usersByAge']) && empty($data['usersByGenre']) && empty($data['usersFromCountry'])
+            && empty($data['allPlayers']) && empty($data['totalPlayers'])) {
+            $data['empty'] = true;
+        }
         return $data;
-    }
-
-    private function getTotalUsersByAge()
-    {
-        $data = $this->adminModel->getTotalUsersByAge();
-        $result = array();
-        foreach ($data as $row) {
-            $edad = $row['grupo_edad'];
-            $total = $row['cantidad_usuarios'];
-            $result[] = array('edad' => $edad, 'total' => $total);
-        }
-        return $result;
-    }
-
-    private function getTotalUsersByGenre()
-    {
-        $data = $this->adminModel->getTotalUsersByGenre();
-        $result = array();
-        foreach ($data as $row) {
-            $genero = $row['Genero'];
-            $total = $row['cantidad_usuarios'];
-            $result[] = array('Genero' => $genero, 'total' => $total);
-        }
-        return $result;
-    }
-
-    private function getTotalUsersFromCountry()
-    {
-        $data = $this->adminModel->getTotalUsersFromCountry();
-        $result = array();
-        foreach ($data as $row) {
-            $nombrePais = $row['Pais'];
-            $cantidadUsuarios = $row['cantidadUsuarios'];
-            $result[] = array('Pais' => $nombrePais, 'total' => $cantidadUsuarios);
-        }
-        return $result;
-    }
-
-    private function getTotalUsersNews()
-    {
-        return $this->adminModel->getTotalUsersNews();
     }
 }

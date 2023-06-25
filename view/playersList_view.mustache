@@ -6,6 +6,10 @@
                 <h1 class="col-11"> Estadisticas de usuarios</h1>
                 <button type="button"class="btn btn-primary col-1"><i class="fa-solid fa-file-arrow-down"></i> PDF</button>
             </div>
+            {{#empty}}
+                <h2 class="text-center fw-bold display-5"> No hay jugadores con los filtros seleccionados</h2>
+            {{/empty}}
+            {{^empty}}
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -30,7 +34,7 @@
                 {{/allPlayers}}
                 {{^allPlayers}}
                     <tr>
-                        <td colspan="6" class="text-center fw-bold display-5"> No hay jugadores registrados</td>
+                        <td colspan="6" class="text-center fw-bold display-5"> No hay jugadores</td>
                     </tr>
                 {{/allPlayers}}
                 </tbody>
@@ -95,21 +99,6 @@
             </table>
             </div>
             <div>
-                <h2 class="table-title">Nuevos jugadores</h2>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Registrados en los ultimos 3 días</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{{usersNews}}</td>
-                </tr>
-                </tbody>
-            </table>
-            </div>
-            <div>
                 <h2 class="table-title">Total de jugadores</h2>
             <table class="table table-striped">
                 <thead>
@@ -124,7 +113,24 @@
                 </tbody>
             </table>
             </div>
+            {{/empty}}
+            <div>
+                <h2 class="table-title">Nuevos jugadores</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Registrados en los ultimos 3 días</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{usersNews}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </article>
+
         <div class="d-flex justify-content-center">
             <br>
             <a href="/lobby" class="btn btn-lg btn-primary m-3">Volver al lobby</a>
