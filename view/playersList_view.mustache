@@ -3,7 +3,7 @@
         <article class="mx-auto">
             <br>
             <div class="d-flex">
-                <h3 class="col-11"> Total de Jugadores: {{totalPlayers}}</h3>
+                <h1 class="col-11"> Estadisticas de usuarios</h1>
                 <button type="button"class="btn btn-primary col-1"><i class="fa-solid fa-file-arrow-down"></i> PDF</button>
             </div>
             <table class="table table-striped">
@@ -14,91 +14,121 @@
                     <th>Email</th>
                     <th>Género</th>
                     <th>Fecha de Nacimiento</th>
-                    <th></th>
+                    <th>Respuestas correctas</th>
                 </tr>
                 </thead>
                 <tbody>
                 {{#allPlayers}}
                     <tr>
                         <td>{{Id}}</td>
-                        <td><a href="/user/home&name={{Nombre_usuario}}">{{Nombre_usuario}}</a></td>
+                        <td>{{Nombre_usuario}}</td>
                         <td>{{Mail}}</td>
                         <td>{{Genero}}</td>
                         <td>{{Fecha_nacimiento}}</td>
-                        <td>
-
-                            <button id="{{id}}" type="submit" name="action" value="decline"
-                                    class="btn btn-primary deleteQuestion">
-                                <i class="fa-solid fa-xmark"></i>
-                            </button>
-
-                            <form action="../index.php" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="id" value="{{id}}">
-                            <button type="submit" name="action" value="edit" class="btn btn-primary">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            </button>
-                            </form>
-                            <form action="/question/accept" method="post" enctype="multipart/form-data" >
-                                <input type="hidden" name="id" value="{{id}}">
-                                <button type="submit" name="action" value="accept" class="btn btn-primary">
-                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                </button>
-                            </form>
-                        </td>
+                        <td>{{nivel}}%</td>
                     </tr>
                 {{/allPlayers}}
-            {{^allPlayers}}
-                {{#players}}
-                    <p class="text-center fw-bold display-5"> No hay jugadores registrados</p>
-                {{/players}}
-            {{/allPlayers}}
+                {{^allPlayers}}
+                    <tr>
+                        <td colspan="6" class="text-center fw-bold display-5"> No hay jugadores registrados</td>
+                    </tr>
+                {{/allPlayers}}
                 </tbody>
             </table>
         </article>
+        <article>
+            <div>
+                <h2 class="table-title">Usuarios por género</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Género</th>
+                    <th>Cantidad de Usuarios</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#usersByGenre}}
+                    <tr>
+                        <td>{{Genero}}</td>
+                        <td>{{cantidad_usuarios}}</td>
+                    </tr>
+                {{/usersByGenre}}
+                </tbody>
+            </table>
+            </div>
+            <div>
+                <h2 class="table-title">Usuarios por país</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>País</th>
+                    <th>Cantidad de Usuarios</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#usersFromCountry}}
+                    <tr>
+                        <td>{{Pais}}</td>
+                        <td>{{cantidadUsuarios}}</td>
+                    </tr>
+                {{/usersFromCountry}}
+                </tbody>
+            </table>
+            </div>
+            <div>
+                <h2 class="table-title">Usuarios por edad</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Edad</th>
+                    <th>Cantidad de Usuarios</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#usersByAge}}
+                    <tr>
+                        <td>{{grupo_edad}}</td>
+                        <td>{{cantidad_usuarios}}</td>
+                    </tr>
+                {{/usersByAge}}
+                </tbody>
+            </table>
+            </div>
+            <div>
+                <h2 class="table-title">Nuevos jugadores</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Registrados en los ultimos 3 días</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{usersNews}}</td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+            <div>
+                <h2 class="table-title">Total de jugadores</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Cantidad</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{totalPlayers}}</td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+        </article>
         <div class="d-flex justify-content-center">
             <br>
-            <a href="../index.php" class="btn btn-lg btn-primary m-3">Volver al lobby</a>
+            <a href="/lobby" class="btn btn-lg btn-primary m-3">Volver al lobby</a>
         </div>
     </div>
-
-    <!--Modalees-->
-
-    <div class="modal" id="deleteModal">
-        <section class="modal-dialog">
-            <article class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Dar de Baja</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form method="get" id="deleteForm">
-                    <div class="modal-body">
-                        <p>¿Estás seguro que deseas dar de baja esta pregunta?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Confirmar</button>
-                    </div>
-                </form>
-            </article>
-        </section>
-    </div>
-    <div class="modal" id="newQuestionModal">
-        <section class="modal-dialog">
-            <article class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Pregunta añadida correctamente</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </article>
-        </section>
-    </div>
 </main>
-<script src="/public/js/deleteModal.js"></script>
-{{#showNewQuestionModal}}
-    <script src="/public/js/lobbyNewQuestionModal.js"></script>
-{{/showNewQuestionModal}}
+

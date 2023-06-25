@@ -101,14 +101,13 @@ class Configuration
             $this->getRenderer(),
             $this->getSessionManager());
     }
-
     public function getAdminController()
     {
         return new AdminController(
             new AdminModel($this->getDatabase()),
-            $this->getRenderer(),);
+            $this->getRenderer(),
+            $this->getSessionManager());
     }
-
     public function getUserService()
     {
         return new UserService(

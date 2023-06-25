@@ -12,7 +12,6 @@ class EditQuestionController
         $this->renderer = $renderer;
         $this->sessionManager = $sessionManager;
     }
-
     public function home(){
         $idQuestion=$_POST["id"];
         $data['userName']= $this->sessionManager->get("userName");
@@ -23,8 +22,6 @@ class EditQuestionController
         }
         $this->renderer->render("editQuestion", $data);
     }
-
-
     public function editQuestion()
     {
         $requiredParams = ['id', 'descripcion', 'id_categoria', 'opcionA', 'opcionB', 'opcionC', 'opcionD', 'resp_correcta'];
