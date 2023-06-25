@@ -1,0 +1,102 @@
+<main class="py-5">
+    <div class="content container px-lg-5 p-4 bg-light rounded-3">
+        <article class="mx-auto">
+            <br>
+            <div class="d-flex">
+                <h3 class="col-11"> Total de Partidas: {{totalGames}}</h3>
+                <button type="button"class="btn btn-primary col-1"><i class="fa-solid fa-file-arrow-down"></i> PDF</button>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Id de Usuario</th>
+                    <th>Puntaje</th>
+                    <th>Fecha</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#allGames}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{id_usuario}}</td>
+                        <td>{{puntaje}}</td>
+                        <td>{{fecha}}</td>
+                        <td>
+
+                            <button id="{{id}}" type="submit" name="action" value="decline"
+                                    class="btn btn-primary deleteQuestion">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+
+                            <form action="../index.php" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="{{id}}">
+                            <button type="submit" name="action" value="edit" class="btn btn-primary">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </button>
+                            </form>
+                            <form action="/question/accept" method="post" enctype="multipart/form-data" >
+                                <input type="hidden" name="id" value="{{id}}">
+                                <button type="submit" name="action" value="accept" class="btn btn-primary">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {{/allGames}}
+            {{^allGames}}
+                {{#games}}
+                    <p class="text-center fw-bold display-5"> No hay partidas jugadas</p>
+                {{/games}}
+            {{/allGames}}
+                </tbody>
+            </table>
+        </article>
+        <div class="d-flex justify-content-center">
+            <br>
+            <a href="../index.php" class="btn btn-lg btn-primary m-3">Volver al lobby</a>
+        </div>
+    </div>
+
+    <!--Modalees-->
+
+    <div class="modal" id="deleteModal">
+        <section class="modal-dialog">
+            <article class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Dar de Baja</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="get" id="deleteForm">
+                    <div class="modal-body">
+                        <p>¿Estás seguro que deseas dar de baja esta pregunta?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Confirmar</button>
+                    </div>
+                </form>
+            </article>
+        </section>
+    </div>
+    <div class="modal" id="newQuestionModal">
+        <section class="modal-dialog">
+            <article class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Pregunta añadida correctamente</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </article>
+        </section>
+    </div>
+</main>
+<script src="/public/js/deleteModal.js"></script>
+{{#showNewQuestionModal}}
+    <script src="/public/js/lobbyNewQuestionModal.js"></script>
+{{/showNewQuestionModal}}

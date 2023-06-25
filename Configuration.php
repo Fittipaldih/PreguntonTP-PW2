@@ -13,6 +13,7 @@ include_once("model/LobbyModel.php");
 include_once("model/RankingModel.php");
 include_once("model/PartidaModel.php");
 include_once('model/QuestionModel.php');
+include_once('model/AdminModel.php');
 
 include_once('controller/UserController.php');
 include_once('controller/HomeController.php');
@@ -23,6 +24,7 @@ include_once('controller/PartidaController.php');
 include_once('controller/QuestionController.php');
 include_once('controller/addQuestionController.php');
 include_once('controller/EditQuestionController.php');
+include_once('controller/AdminController.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once('third-party/phpqrcode/qrlib.php');
@@ -99,6 +101,14 @@ class Configuration
             $this->getRenderer(),
             $this->getSessionManager());
     }
+
+    public function getAdminController()
+    {
+        return new AdminController(
+            new AdminModel($this->getDatabase()),
+            $this->getRenderer(),);
+    }
+
     public function getUserService()
     {
         return new UserService(
