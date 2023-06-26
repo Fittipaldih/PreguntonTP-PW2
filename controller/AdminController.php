@@ -1,5 +1,7 @@
 <?php
 
+use Dompdf\Dompdf;
+
 class AdminController
 {
     private $adminModel;
@@ -16,12 +18,11 @@ class AdminController
     public function totalUser()
     {
         if (isset ($_POST['finit']) && isset($_POST['fend'])
-        && !empty($_POST['finit']) && !empty($_POST['fend'])) {
+            && !empty($_POST['finit']) && !empty($_POST['fend'])) {
             $finit = $_POST['finit'];
             $fend = $_POST['fend'];
             $datau = $this->getStatistics($finit, $fend);
-        }
-        else{
+        } else {
             $datau = $this->getStatistics(null, null);
         }
 
@@ -62,4 +63,22 @@ class AdminController
         }
         return $data;
     }
+
+    public function generatePdf(): void
+    {
+        $html = '<html>
+                <body>
+                    <h1>Hello, World!</h1>
+                    <p>This is a PDF generated from HTML.</p>
+                </body>
+            </html>';
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        $dompdf->stream("report.pdf", ['Attachment' => 0]);
+    }
+
 }
