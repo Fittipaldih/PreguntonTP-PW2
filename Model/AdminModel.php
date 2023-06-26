@@ -19,7 +19,6 @@ class AdminModel
         $result = $this->database->singleQuery($query);
         return $result['total_usuarios'];
     }
-
     public function getAllPlayers($finit, $fend)
     {
         $query= "SELECT * FROM usuario WHERE Id_rol = 3";
@@ -86,28 +85,43 @@ class AdminModel
 
         return $this->database->query($query);
     }
-
     public function getTotalUsersNews(){
         $rt = $this->database->singleQuery("SELECT COUNT(*) AS total_usuarios FROM usuario WHERE Id_rol = 3 AND Fecha_registro >= DATE_SUB(CURDATE(), INTERVAL 3 DAY)");
         return $rt['total_usuarios'];
     }
-    public function getTotalGames()
+    public function getTotalGames($finit, $fend)
     {
-        $rt = $this->database->singleQuery("SELECT COUNT(*) AS total_partidas FROM partida");
+        $query= "SELECT COUNT(p.id) AS total_partidas FROM partida p";
+        if ($finit != null && $fend != null) {
+            $query .= " WHERE p.fecha >= '$finit' AND p.fecha <= '$fend' ";
+        }
+        $rt = $this->database->singleQuery($query);
         return $rt['total_partidas'];
     }
-    public function getAllGames()
+    public function getAllGames($finit, $fend)
     {
-        return $this->database->query("SELECT * FROM partida");
-    }
-    public function getTotalQuestions()
-    {
-        $rt = $this->database->singleQuery("SELECT COUNT(*) AS total_preguntas FROM pregunta");
-        return $rt['total_preguntas'];
-    }
-    public function getAllQuestions()
-    {
-        return $this->database->query("SELECT * FROM pregunta");
+        $query = "SELECT * FROM partida p";
+        if ($finit != null && $fend != null) {
+            $query .= " WHERE p.fecha >= '$finit' AND p.fecha <= '$fend'";
+        }
+        return $this->database->query($query);
     }
 
+    public function getTotalQuestions($finit, $fend)
+    {
+        $query = "SELECT COUNT(*) AS total_preguntas FROM pregunta p";
+        if ($finit != null && $fend != null) {
+            $query .= " WHERE p.fecha_creacion >= '$finit' AND p.fecha_creacion <= '$fend'";
+        }
+        $rt = $this->database->singleQuery($query);
+        return $rt['total_preguntas'];
+    }
+    public function getAllQuestions($finit, $fend)
+    {
+        $query="SELECT * FROM pregunta p";
+        if ($finit != null && $fend != null) {
+            $query .= " WHERE p.fecha_creacion >= '$finit' AND p.fecha_creacion <= '$fend'";
+        }
+        return $this->database->query($query);
+    }
 }

@@ -21,9 +21,9 @@ class AdminController
             && !empty($_POST['finit']) && !empty($_POST['fend'])) {
             $finit = $_POST['finit'];
             $fend = $_POST['fend'];
-            $datau = $this->getStatistics($finit, $fend);
+            $datau = $this->getStatisticsForUsers($finit, $fend);
         } else {
-            $datau = $this->getStatistics(null, null);
+            $datau = $this->getStatisticsForUsers(null, null);
         }
 
         $data = $datau;
@@ -33,21 +33,37 @@ class AdminController
 
     public function totalGames()
     {
+        if (isset ($_POST['finit']) && isset($_POST['fend'])
+            && !empty($_POST['finit']) && !empty($_POST['fend'])) {
+            $finit = $_POST['finit'];
+            $fend = $_POST['fend'];
+        } else {
+          $finit = null;
+            $fend = null;
+        }
         $data['userName'] = $this->sessionManager->get("userName");
-        $data["totalGames"] = $this->adminModel->getTotalGames();
-        $data["allGames"] = $this->adminModel->getAllGames();
+        $data["totalGames"] = $this->adminModel->getTotalGames($finit, $fend);
+        $data["allGames"] = $this->adminModel->getAllGames($finit, $fend);
         $this->renderer->render("gamesList", $data);
     }
 
     public function totalQuestions()
     {
+        if (isset ($_POST['finit']) && isset($_POST['fend'])
+            && !empty($_POST['finit']) && !empty($_POST['fend'])) {
+            $finit = $_POST['finit'];
+            $fend = $_POST['fend'];
+        } else {
+            $finit = null;
+            $fend = null;
+        }
         $data['userName'] = $this->sessionManager->get("userName");
-        $data["totalQuestions"] = $this->adminModel->getTotalQuestions();
-        $data["allQuestions"] = $this->adminModel->getAllQuestions();
+        $data["totalQuestions"] = $this->adminModel->getTotalQuestions($finit, $fend);
+        $data["allQuestions"] = $this->adminModel->getAllQuestions($finit, $fend);
         $this->renderer->render("questionsList", $data);
     }
 
-    private function getStatistics($finit, $fend)
+    private function getStatisticsForUsers($finit, $fend)
     {
         $data = array(
             'usersByAge' => $this->adminModel->getTotalUsersByAge($finit, $fend),
@@ -66,19 +82,11 @@ class AdminController
 
     public function generatePdf(): void
     {
-        $html = '<html>
-                <body>
-                    <h1>Hello, World!</h1>
-                    <p>This is a PDF generated from HTML.</p>
-                </body>
-            </html>';
-
+        $html=$this->totalUser();
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
-
         $dompdf->stream("report.pdf", ['Attachment' => 0]);
     }
-
 }
