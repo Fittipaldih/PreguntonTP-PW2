@@ -17,15 +17,9 @@ class AdminController
 
     public function totalUser()
     {
-        if (isset ($_POST['finit']) && isset($_POST['fend'])
-            && !empty($_POST['finit']) && !empty($_POST['fend'])) {
-            $finit = $_POST['finit'];
-            $fend = $_POST['fend'];
-            $datau = $this->getStatisticsForUsers($finit, $fend);
-        } else {
-            $datau = $this->getStatisticsForUsers(null, null);
-        }
+        list($finit, $fend) = $this->getDatesFromPost();
 
+        $datau = $this->getStatisticsForUsers($finit, $fend);
         $data = $datau;
         $data['userName'] = $this->sessionManager->get("userName");
         $this->renderer->render("playersList", $data);
@@ -33,14 +27,8 @@ class AdminController
 
     public function totalGames()
     {
-        if (isset ($_POST['finit']) && isset($_POST['fend'])
-            && !empty($_POST['finit']) && !empty($_POST['fend'])) {
-            $finit = $_POST['finit'];
-            $fend = $_POST['fend'];
-        } else {
-          $finit = null;
-            $fend = null;
-        }
+        list($finit, $fend) = $this->getDatesFromPost();
+
         $data['userName'] = $this->sessionManager->get("userName");
         $data["totalGames"] = $this->adminModel->getTotalGames($finit, $fend);
         $data["allGames"] = $this->adminModel->getAllGames($finit, $fend);
@@ -49,18 +37,19 @@ class AdminController
 
     public function totalQuestions()
     {
-        if (isset ($_POST['finit']) && isset($_POST['fend'])
-            && !empty($_POST['finit']) && !empty($_POST['fend'])) {
-            $finit = $_POST['finit'];
-            $fend = $_POST['fend'];
-        } else {
-            $finit = null;
-            $fend = null;
-        }
+        list($finit, $fend) = $this->getDatesFromPost();
+
         $data['userName'] = $this->sessionManager->get("userName");
         $data["totalQuestions"] = $this->adminModel->getTotalQuestions($finit, $fend);
         $data["allQuestions"] = $this->adminModel->getAllQuestions($finit, $fend);
         $this->renderer->render("questionsList", $data);
+    }
+
+    private function getDatesFromPost()
+    {
+        $finit = isset($_POST['finit']) && !empty($_POST['finit']) ? $_POST['finit'] : null;
+        $fend = isset($_POST['fend']) && !empty($_POST['fend']) ? $_POST['fend'] : null;
+        return [$finit, $fend];
     }
 
     private function getStatisticsForUsers($finit, $fend)
