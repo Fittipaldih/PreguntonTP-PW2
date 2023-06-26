@@ -51,6 +51,7 @@ function setDataQuestion(question, count) {
     $('#userCorrects').text("Cantidad de respuestas correctas: " + count);
     $('#idQuestionHidden').val(question.id);
     setContainerColor(question);
+
 }
 function setContainerColor(question) {
     var categoria = question.id_categoria;

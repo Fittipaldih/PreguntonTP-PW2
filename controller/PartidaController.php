@@ -16,8 +16,10 @@ class PartidaController
     }
     public function home()
     {
+        $userCorrects = 0;
         $data = $this->prepareData();
         $this->renderer->render("partida", $data);
+        $this->sessionManager->set('userCorrects', $userCorrects);
     }
     private function prepareData()
     {
@@ -54,7 +56,8 @@ class PartidaController
             $optionSelected = $_POST['optionSelected'];
             $idQuestion = $this->sessionManager->get('idPregunta');
             $idUser = $this->sessionManager->get('idUser');
-
+            $userCorrects = $this->sessionManager->get('userCorrects');
+            $this->sessionManager->set('userCorrects', (++$userCorrects));
             $response = $this->processAnswer($optionSelected, $idQuestion, $idUser, $userCorrects);
             if ($response) {
                 $this->sessionManager->set('lost', true);
@@ -80,9 +83,9 @@ class PartidaController
             $this->sessionManager->set('question', $correctAnswer['descripcion']);
             $this->userService->updateLevelUserById($idUser);
             $this->partidaModel->updateLevelQuestionById($idQuestion);
-            $this->partidaModel->insertUserGamesByName($idUser, $userCorrects);
-            $score= $this->sessionManager->get('countCorrect');
-            $this->partidaModel->updateUserMaxScore($idUser, $score);
+            $this->partidaModel->insertUserGamesByName($idUser, --$userCorrects);
+            $score= $this->sessionManager->get('userCorrects');
+            $this->partidaModel->updateUserMaxScore($idUser, --$score);
             $response['success'] = false;
         }
         return $response;

@@ -56,7 +56,8 @@ class PartidaModel
     public function updateUserMaxScore($idUser, $score)
     {
         $scoreBD=$this->getUserMaxScoreById($idUser);
-        if ($scoreBD<$score) {
+        $scoreBD2=$scoreBD[0][0];
+        if ($scoreBD2<$score) {
             $this->database->update("UPDATE usuario SET Puntaje_max = '$score' WHERE Id = $idUser");
         }
     }
