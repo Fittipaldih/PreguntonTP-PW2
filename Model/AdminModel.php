@@ -20,7 +20,7 @@ class AdminModel
         return $result['total_usuarios'];
     }
 
-    public function getAllPlayers($finit, $fend)
+    public function getAllPlayers($finit, $fend, $registrosPorPagina, $offset)
     {
         $query= "SELECT * FROM usuario WHERE Id_rol = 3";
 
@@ -30,6 +30,7 @@ class AdminModel
         $result = $this->database->query($query);
         return $result;
     }
+
     public function getTotalUsersFromCountry($finit, $fend)
     {
         $query = "SELECT p.nombre AS Pais, COUNT(u.Id) AS cantidad_usuarios
@@ -96,18 +97,19 @@ class AdminModel
         $rt = $this->database->singleQuery("SELECT COUNT(*) AS total_partidas FROM partida");
         return $rt['total_partidas'];
     }
-    public function getAllGames()
+    public function getAllGames($registrosPorPagina, $offset)
     {
-        return $this->database->query("SELECT * FROM partida");
+        return $this->database->query("SELECT * FROM partida LIMIT $registrosPorPagina OFFSET $offset");
     }
     public function getTotalQuestions()
     {
         $rt = $this->database->singleQuery("SELECT COUNT(*) AS total_preguntas FROM pregunta");
         return $rt['total_preguntas'];
     }
+
     public function getAllQuestions()
     {
-        return $this->database->query("SELECT * FROM pregunta");
+        return $this->database->query("SELECT * FROM pregunta ");
     }
 
 }

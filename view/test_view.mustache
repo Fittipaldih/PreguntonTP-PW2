@@ -1,0 +1,47 @@
+<main class="py-5">
+    <div class="content container px-lg-5 p-4 bg-light rounded-3">
+        <article class="mx-auto">
+            <br>
+            <div class="d-flex">
+                <h3 class="col-11"> Total de Partidas: {{totalGames}}</h3>
+                <button type="button"class="btn btn-primary col-1"><i class="fa-solid fa-file-arrow-down"></i> PDF</button>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Id de Usuario</th>
+                    <th>Puntaje</th>
+                    <th>Fecha</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#registros}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{id_usuario}}</td>
+                        <td>{{puntaje}}</td>
+                        <td>{{fecha}}</td>
+                    </tr>
+                {{/registros}}
+                {{^registros}}
+                    {{#games}}
+                        <p class="text-center fw-bold display-5"> No hay partidas jugadas</p>
+                    {{/games}}
+                {{/registros}}
+                </tbody>
+            </table>
+        </article>
+
+        <div class="pagination">
+            {{#paginas}}
+                <a href="?pagina={{numero}}" class="{{#esActual}}active{{/esActual}}">{{numero}}</a>
+            {{/paginas}}
+        </div>
+        </article>
+        <div class="d-flex justify-content-center">
+            <br>
+            <a href="/lobby" class="btn btn-lg btn-primary m-3">Volver al lobby</a>
+        </div>
+    </div>
+</main>
