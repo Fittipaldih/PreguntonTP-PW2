@@ -1,7 +1,5 @@
 <?php
 
-use Dompdf\Dompdf;
-
 class AdminController
 {
     private $adminModel;
@@ -52,7 +50,7 @@ class AdminController
         $data['userName'] = $this->sessionManager->get("userName");
         $data["totalGames"] = $this->adminModel->getTotalGames($finit, $fend);
         // $data["allGames"] = $this->adminModel->getAllGames($finit, $fend);
-        $this->renderer->render("test", $data);
+        return $this->renderer->render("test", $data);
 
         /*list($finit, $fend) = $this->getDatesFromPost();
 
@@ -165,7 +163,40 @@ if ($num_total_rows > 0) {
 }
 ?>*/
 
-    public function generatePdf(): void
+    public function generatePdf()
+    {
+        include "helpers/generate_pdf.php";
+        // Crea una instancia de la clase PDF
+
+        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+
+        // Establece las propiedades del documento PDF
+        $pdf->SetCreator('Tu Nombre');
+        $pdf->SetAuthor('Tu Nombre');
+        $pdf->SetTitle('Título del PDF');
+        /*$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
+*/
+        // Agrega una página
+        //$pdf = new PDF();
+        
+        // Obtén el contenido HTML de la tabla
+        $html = file_get_contents('C:\xampp\htdocs\view/test_view.mustache');
+
+        // Convierte el contenido HTML en el cuerpo del PDF
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Genera el archivo PDF y muestra o descarga el archivo
+
+        //$pdf->AddPage($html);
+
+// Aquí puedes agregar el código para generar el contenido del PDF a partir de tu consulta SQL
+// Por ejemplo, puedes obtener los datos de la base de datos y agregarlos al PDF utilizando los métodos de FPDF
+
+// Genera el archivo PDF y muestra o descarga el archivo
+        $pdf->Output('D', 'nombre_archivo.pdf');
+    }
+    /*public function generatePdf(): void
     {
         $html=$this->totalUser();
         $dompdf = new Dompdf();
@@ -173,5 +204,5 @@ if ($num_total_rows > 0) {
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
         $dompdf->stream("report.pdf", ['Attachment' => 0]);
-    }
+    }*/
 }
