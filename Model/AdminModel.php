@@ -101,7 +101,7 @@ class AdminModel
         return $rt['total_partidas'];
     }
 
-    public function getAllGames($finit, $fend, $registrosPorPagina, $offset)
+    public function getPartialGames($finit, $fend, $registrosPorPagina, $offset)
     {
         $query = "SELECT * FROM partida";
 
@@ -112,6 +112,17 @@ class AdminModel
         $query .= " LIMIT $registrosPorPagina OFFSET $offset";
 
         return $this->database->query($query);
+    }
+
+    public function getAllGames($finit, $fend)
+    {
+        $query = "SELECT DISTINCT * FROM partida";
+
+        if ($finit != null && $fend != null) {
+            $query .= " WHERE fecha >= '$finit' AND fecha <= '$fend'";
+        }
+
+        return $this->database->print($query);
     }
 
    public function getAllQuestions($finit, $fend)

@@ -27,6 +27,12 @@ class MySqlDatabase
         $result = mysqli_query($this->connection, $sql);
         return mysqli_fetch_all($result, MYSQLI_BOTH);
     }
+
+    public function print($sql)
+    {
+        $result = mysqli_query($this->connection, $sql);
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
     public function singleQuery($sql)
     {
         $result = mysqli_query($this->connection, $sql);

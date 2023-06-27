@@ -30,7 +30,7 @@ class AdminController
         $registrosPorPagina = 10;
         $offset = ($paginaActual - 1) * $registrosPorPagina;
         $totalRegistros = $this->adminModel->getTotalGames($finit, $fend);
-        $registros = $this->adminModel->getAllGames($finit, $fend,$registrosPorPagina, $offset);
+        $registros = $this->adminModel->getPartialGames($finit, $fend,$registrosPorPagina, $offset);
         $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
         $data=[
@@ -38,6 +38,7 @@ class AdminController
             'totalPaginas' => $totalPaginas,
             'paginaActual' => $paginaActual
         ];
+        $tabla=$this->adminModel->getAllGames($finit, $fend);
 
         // Generar los datos para los enlaces de paginación
         for ($i = 1; $i <= $totalPaginas; $i++) {
@@ -47,17 +48,13 @@ class AdminController
             ];
         }
 
+
         $data['userName'] = $this->sessionManager->get("userName");
         $data["totalGames"] = $this->adminModel->getTotalGames($finit, $fend);
-        // $data["allGames"] = $this->adminModel->getAllGames($finit, $fend);
+        if (isset($_GET["generarPDF"])) {
+            $this->generarPDF($tabla);
+        }
         return $this->renderer->render("test", $data);
-
-        /*list($finit, $fend) = $this->getDatesFromPost();
-
-        $data['userName'] = $this->sessionManager->get("userName");
-        $data["totalGames"] = $this->adminModel->getTotalGames($finit, $fend);
-        $data["allGames"] = $this->adminModel->getAllGames($finit, $fend);
-        $this->renderer->render("gamesList", $data);*/
     }
 
     public function totalQuestions()
@@ -163,46 +160,25 @@ if ($num_total_rows > 0) {
 }
 ?>*/
 
-    public function generatePdf()
+    public function generarPDF($data)
     {
         include "helpers/generate_pdf.php";
-        // Crea una instancia de la clase PDF
+        // Aquí obtendrías los datos de la tabla que deseas mostrar en el PDF
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Cell(0, 10, 'Tabla en PDF', 0, 1, 'C');
 
-        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        // Generar contenido de la tabla en el PDF
+        $pdf->SetFont('Arial', '', 12);
+        foreach ($data as $fila) {
+            foreach ($fila as $valor) {
+                $pdf->Cell(40, 10, $valor, 1, 0, 'C');
+            }
+            $pdf->Ln(); // Salto de línea después de cada fila
+        }
 
-        // Establece las propiedades del documento PDF
-        $pdf->SetCreator('Tu Nombre');
-        $pdf->SetAuthor('Tu Nombre');
-        $pdf->SetTitle('Título del PDF');
-        /*$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
-*/
-        // Agrega una página
-        //$pdf = new PDF();
-        
-        // Obtén el contenido HTML de la tabla
-        $html = file_get_contents('C:\xampp\htdocs\view/test_view.mustache');
-
-        // Convierte el contenido HTML en el cuerpo del PDF
-        $pdf->writeHTML($html, true, false, true, false, '');
-
-        // Genera el archivo PDF y muestra o descarga el archivo
-
-        //$pdf->AddPage($html);
-
-// Aquí puedes agregar el código para generar el contenido del PDF a partir de tu consulta SQL
-// Por ejemplo, puedes obtener los datos de la base de datos y agregarlos al PDF utilizando los métodos de FPDF
-
-// Genera el archivo PDF y muestra o descarga el archivo
-        $pdf->Output('D', 'nombre_archivo.pdf');
+        // Generar el archivo PDF
+        $pdf->Output('tabla.pdf', 'D'); // Descargar el PDF con el nombre "tabla.pdf"
     }
-    /*public function generatePdf(): void
-    {
-        $html=$this->totalUser();
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'landscape');
-        $dompdf->render();
-        $dompdf->stream("report.pdf", ['Attachment' => 0]);
-    }*/
 }
