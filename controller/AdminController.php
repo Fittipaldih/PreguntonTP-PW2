@@ -27,12 +27,12 @@ class AdminController
 
     public function totalGames()
     {
+        list($finit, $fend) = $this->getDatesFromPost();
         $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
         $registrosPorPagina = 10;
         $offset = ($paginaActual - 1) * $registrosPorPagina;
-        $registros = $this->adminModel->getAllGames($registrosPorPagina, $offset);
-        $totalRegistros = $this->adminModel->getTotalGames();
-
+        $totalRegistros = $this->adminModel->getTotalGames($finit, $fend);
+        $registros = $this->adminModel->getAllGames($finit, $fend,$registrosPorPagina, $offset);
         $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
         $data=[
@@ -48,11 +48,10 @@ class AdminController
                 'esActual' => $i == $paginaActual,
             ];
         }
-        list($finit, $fend) = $this->getDatesFromPost();
 
         $data['userName'] = $this->sessionManager->get("userName");
         $data["totalGames"] = $this->adminModel->getTotalGames($finit, $fend);
-      // $data["allGames"] = $this->adminModel->getAllGames($finit, $fend);
+        // $data["allGames"] = $this->adminModel->getAllGames($finit, $fend);
         $this->renderer->render("test", $data);
 
         /*list($finit, $fend) = $this->getDatesFromPost();

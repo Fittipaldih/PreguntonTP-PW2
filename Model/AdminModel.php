@@ -103,17 +103,15 @@ class AdminModel
 
     public function getAllGames($finit, $fend, $registrosPorPagina, $offset)
     {
-       $query = $this->database->query("SELECT * FROM partida LIMIT $registrosPorPagina OFFSET $offset");
-       if ($finit != null && $fend != null) {
-            $query .= " WHERE p.fecha >= '$finit' AND p.fecha <= '$fend'";
-       }
-       return $this->database->query($query);
+        $query = "SELECT * FROM partida";
 
-    }
-    public function getTotalQuestions()
-    {
-        $rt = $this->database->singleQuery("SELECT COUNT(*) AS total_preguntas FROM pregunta");
-        return $rt['total_preguntas'];
+        if ($finit != null && $fend != null) {
+            $query .= " WHERE fecha >= '$finit' AND fecha <= '$fend'";
+        }
+
+        $query .= " LIMIT $registrosPorPagina OFFSET $offset";
+
+        return $this->database->query($query);
     }
 
    public function getAllQuestions($finit, $fend)
