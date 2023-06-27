@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3310
--- Tiempo de generación: 23-06-2023 a las 22:30:14
+-- Tiempo de generación: 26-06-2023 a las 22:47:35
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -440,7 +440,11 @@ INSERT INTO `partida` (`id`, `id_usuario`, `puntaje`, `fecha`) VALUES
 (364, 80, 0, '2023-06-22 07:14:24'),
 (365, 80, 0, '2023-06-22 07:14:47'),
 (366, 80, 0, '2023-06-22 07:16:27'),
-(367, 80, 0, '2023-06-23 18:27:00');
+(367, 80, 0, '2023-06-23 18:27:00'),
+(368, 93, 0, '2023-06-25 23:10:33'),
+(369, 80, 0, '2023-06-26 17:21:15'),
+(370, 80, 0, '2023-06-26 17:21:46'),
+(371, 80, 0, '2023-06-26 20:31:43');
 
 -- --------------------------------------------------------
 
@@ -460,63 +464,64 @@ CREATE TABLE `pregunta` (
   `opcionB` varchar(255) NOT NULL,
   `opcionC` varchar(255) NOT NULL,
   `opcionD` varchar(255) NOT NULL,
-  `resp_correcta` varchar(255) NOT NULL
+  `resp_correcta` varchar(255) NOT NULL,
+  `fecha_creacion` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `pregunta`
 --
 
-INSERT INTO `pregunta` (`id`, `descripcion`, `id_estado`, `id_categoria`, `veces_mostrada`, `veces_correcta`, `porc_correc`, `opcionA`, `opcionB`, `opcionC`, `opcionD`, `resp_correcta`) VALUES
-(1, '¿Cuál es el elemento químico más abundante en el universo?', 2, 1, 125, 56, 45, 'Hidrógeno', 'Oxígeno', 'Carbono', 'Hierro', 'A'),
-(2, '¿Cuál es el río más largo del mundo?', 2, 1, 128, 80, 63, 'Amazonas', 'Nilo', 'Yangtsé', 'Misisipi', 'B'),
-(3, '¿Cuál es la capital de Australia?', 2, 1, 120, 64, 53, 'Sídney', 'Melbourne', 'Brisbane', 'Canberra', 'D'),
-(4, '¿Cuál es el planeta más grande del sistema solar?', 2, 1, 122, 63, 52, 'Mercurio', 'Venus', 'Júpiter', 'Marte', 'C'),
-(5, '¿Cuál es la montaña más alta del mundo?', 2, 1, 121, 78, 64, 'Mont Blanc', 'K2', 'Everest', 'Aconcagua', 'C'),
-(6, '¿Cuál es el país más poblado del mundo?', 2, 1, 125, 68, 54, 'Estados Unidos', 'China', 'India', 'Brasil', 'B'),
-(7, '¿Cuál es el símbolo químico del oro?', 2, 1, 124, 78, 63, 'Au', 'Ag', 'Fe', 'Hg', 'A'),
-(8, '¿Cuál es el océano más grande del mundo?', 2, 1, 126, 72, 57, 'Atlántico', 'Pacífico', 'Índico', 'Ártico', 'B'),
-(9, '¿Cuál es el animal terrestre más grande del mundo?', 2, 1, 126, 77, 61, 'Jirafa', 'Rinoceronte blanco', 'Elefante africano', 'Oso polar', 'C'),
-(10, '¿Cuál es el compuesto químico principal que constituye la atmósfera terrestre?', 2, 1, 130, 61, 47, 'Nitrógeno', 'Oxígeno\n', 'Dióxido de carbono\n', 'Argón', 'A'),
-(44, '¿Qué significa PHP?', 2, 2, 15, 9, 60, 'Hypertext Preprocessor', 'Personal Home Page', 'Pretext Hypertext Processor', 'Hypertext Processor', 'A'),
-(45, '¿Cuál es el operador utilizado para concatenar cadenas en PHP?', 2, 2, 15, 6, 43, '+', '&&', '.', ',', 'C'),
-(46, '¿Cuál es la forma correcta de comentar una línea en PHP?', 2, 2, 14, 11, 79, '/* This is a comment */', '# This is a comment', '// This is a comment', '-- This is a comment', 'C'),
-(47, '¿Cuál es el resultado de la expresión \"3\" + 2 en PHP?', 2, 2, 15, 9, 60, '5', '32', 'Error', 'NaN', 'A'),
-(48, '¿Cuál es la función utilizada para obtener la longitud de una cadena en PHP?', 2, 2, 15, 7, 47, 'length()', 'size()', 'strlen()', 'count()', 'C'),
-(49, '¿Cuál es el símbolo utilizado para acceder a propiedades de un objeto en PHP?', 2, 2, 15, 5, 33, '.', '->', '::', '/', 'B'),
-(51, '¿Cuál es la función utilizada para obtener la fecha y hora actual en PHP?', 2, 2, 15, 7, 47, 'now()', 'currentDateTime()', 'getDate()', 'date()', 'D'),
-(52, '¿Cuál es la forma correcta de declarar una variable en PHP?', 2, 2, 15, 10, 67, '$var = 5;', 'var = 5;', 'variable = 5;', '5 = $var;', 'A'),
-(53, '¿Cuál es la función utilizada para redirigir a otra página en PHP?', 2, 2, 14, 10, 71, 'navigateTo()', 'header()', 'redirect()', 'goTo()', 'B'),
-(54, '¿Qué significa SQL?', 2, 3, 14, 12, 86, 'Structured Query Language', 'Simple Query Language', 'Sequential Query Language', 'Structured Question Language', 'A'),
-(55, '¿Cuál es el comando utilizado para crear una nueva tabla en MySQL?', 2, 3, 15, 10, 67, 'CREATE TABLE', 'ADD TABLE', 'NEW TABLE', 'INSERT TABLE', 'A'),
-(56, '¿Cuál es el comando utilizado para insertar datos en una tabla en MySQL?', 2, 3, 14, 4, 29, 'ADD', 'INSERT', 'CREATE', 'UPDATE', 'B'),
-(57, '¿Cuál es el operador utilizado para combinar múltiples condiciones en una consulta WHERE en MySQL?', 2, 3, 15, 10, 67, 'AND', 'OR', 'NOT', 'XOR', 'A'),
-(58, '¿Cuál es la función utilizada para obtener el número de registros en una tabla en MySQL?', 2, 3, 15, 8, 53, 'COUNT()', 'SUM()', 'MAX()', 'MIN()', 'A'),
-(59, '¿Cuál es el comando utilizado para eliminar una tabla en MySQL?', 2, 3, 15, 12, 80, 'DROP TABLE', 'DELETE TABLE', 'REMOVE TABLE', 'ERASE TABLE', 'A'),
-(60, '¿Cuál es el comando utilizado para actualizar datos en una tabla en MySQL?', 2, 3, 15, 9, 60, 'UPDATE', 'ALTER', 'MODIFY', 'CHANGE', 'A'),
-(61, '¿Cuál es el tipo de dato utilizado para almacenar valores monetarios en MySQL?', 2, 3, 15, 10, 67, 'INT', 'FLOAT', 'CHAR', 'DECIMAL', 'D'),
-(62, '¿Cuál es el comando utilizado para seleccionar datos de una tabla en MySQL?', 2, 3, 14, 10, 71, 'SELECT', 'FETCH', 'GET', 'RETRIEVE', 'A'),
-(63, '¿Cuál es la cláusula utilizada para filtrar registros en una consulta SELECT en MySQL?', 2, 3, 14, 10, 71, 'WHERE', 'FROM', 'JOIN', 'GROUP BY', 'A'),
-(64, '¿Qué es la herencia en POO?', 2, 4, 15, 5, 36, 'Crear una nueva clase a partir de una clase existente.', 'Eliminar una clase.', 'Cambiar el nombre de una clase.', 'Dividir una clase en múltiples subclases.', 'A'),
-(65, '¿Cuál palabra clave se utiliza para crear una instancia de una clase en Java?', 2, 4, 15, 10, 67, 'new', 'instance', 'create', 'instantiate', 'A'),
-(66, '¿Cuál conceptos está asociado con la encapsulación en POO?', 2, 4, 15, 6, 40, 'Limitar el acceso de las variables y acceder mediante métodos.', 'Crear múltiples instancias de una clase.', 'Modificar una clase durante la ejecución.', 'Establecer una relación de parentesco entre clases.', 'A'),
-(67, '¿Qué es el polimorfismo en POO?', 2, 4, 15, 9, 60, 'Que una clase herede comportamientos de otra.', 'Que una clase tenga múltiples métodos con el mismo nombre pero con diferentes implementaciones.', 'Que una clase herede una interfaz e implemente sus métodos.', 'Todas las anteriores son correctas.', 'B'),
-(68, '¿Cuál de los siguientes conceptos está asociado con la abstracción en POO?', 2, 4, 15, 9, 60, 'Representar una idea o concepto mediante una clase.', 'Crear múltiples instancias de una clase.', 'Modificar el comportamiento de una clase en tiempo de ejecución.', 'Establecer una relación de parentesco entre clases.', 'A'),
-(69, '¿Cuál de las siguientes afirmaciones sobre las interfaces en programación orientada a objetos es correcta?', 1, 4, 1, 0, 0, 'Una interfaz define un contrato que una clase puede implementar.', 'Una interfaz es una clase abstracta.', 'Una interfaz solo puede contener métodos abstractos.', 'Una clase puede implementar múltiples interfaces.', 'D'),
-(70, '¿Qué es la sobrecarga de métodos en una clase de POO?', 2, 4, 14, 10, 71, 'Heredar propiedades y comportamientos de una clase padre.', 'Múltiples métodos con el mismo nombre pero con diferentes parámetros.', 'Ocultar las variables y proporcionar una interfaz para acceder a ellos.', 'Crear múltiples instancias de sí misma.', 'B'),
-(71, '¿Cuál de las siguientes palabras clave se utiliza para heredar de una clase en C++?', 1, 4, 1, 0, 0, 'class', 'extend', 'inherit', 'derive', 'D'),
-(72, '¿Cuál afirmación sobre las clases abstractas en POO es correcta?', 2, 4, 15, 8, 53, 'Puede tener métodos abstractos y métodos con implementación.', 'No puede tener constructores.', 'No puede ser heredada.', 'Solo puede tener métodos abstractos.', 'A'),
-(73, '¿Cuál de las siguientes palabras clave se utiliza para heredar de una clase en Python?', 2, 4, 14, 12, 86, 'class', 'extend', 'inherit', 'derive', 'B'),
-(74, '¿Qué significa CSS?', 2, 5, 15, 9, 60, 'Cascading Style Sheets', 'Creative Style Solutions', 'Code Styling Syntax', 'Coded Style System', 'A'),
-(75, '¿Cuál es la forma de aplicar estilos CSS?', 2, 5, 15, 7, 47, 'Utilizando el atributo \"style\" en la etiqueta HTML.', 'Creando una etiqueta <style> en el documento HTML.', 'Enlazando un archivo externo CSS.', 'Todas las anteriores.', 'D'),
-(76, '¿Cuál de los siguientes selectores CSS selecciona un elemento con el id \"myElement\"?', 2, 5, 14, 11, 79, '#myElement', '.myElement', 'myElement', '*myElement', 'A'),
-(77, '¿Cuál de los siguientes selectores CSS selecciona todos los elementos <p> dentro de un <div>?', 2, 5, 15, 10, 67, 'div p', 'p div', '.p div', '#div p', 'A'),
-(78, '¿Cuál de los siguientes valores representa el color blanco en RGB?', 2, 5, 15, 9, 60, '#ffffff', '#000000', '#ff0000', '#00ff00', 'A'),
-(79, '¿Cuál propiedad CSS se utiliza para definir el tamaño de fuente?', 2, 5, 15, 10, 67, 'font-size', 'font-family', 'font-weight', 'font-color', 'A'),
-(80, '¿Cuál propiedad CSS se utiliza para aplicar un color de fondo a un elemento?', 2, 5, 15, 11, 79, 'background-color', 'color', 'border-color', 'text-color', 'A'),
-(81, '¿Cuál propiedad CSS se utiliza para establecer el margen derecho de un elemento?', 2, 5, 15, 8, 53, 'margin-right', 'margin-left', 'margin-top', 'margin-bottom', 'A'),
-(82, '¿Cuál propiedad CSS se utiliza para alinear un elemento al centro horizontalmente?', 2, 5, 15, 7, 47, 'text-align: center', 'text-align: left', 'text-align: right', 'text-align: justify', 'A'),
-(83, '¿Cuál propiedad CSS se utiliza para crear una sombra alrededor de un elemento?', 2, 5, 14, 10, 71, 'box-shadow', 'text-shadow', 'border-shadow', 'element-shadow', 'A');
+INSERT INTO `pregunta` (`id`, `descripcion`, `id_estado`, `id_categoria`, `veces_mostrada`, `veces_correcta`, `porc_correc`, `opcionA`, `opcionB`, `opcionC`, `opcionD`, `resp_correcta`, `fecha_creacion`) VALUES
+(1, '¿Cuál es el elemento químico más abundante en el universo?', 2, 1, 125, 56, 45, 'Hidrógeno', 'Oxígeno', 'Carbono', 'Hierro', 'A', '2023-06-26'),
+(2, '¿Cuál es el río más largo del mundo?', 2, 1, 128, 80, 63, 'Amazonas', 'Nilo', 'Yangtsé', 'Misisipi', 'B', '2023-06-26'),
+(3, '¿Cuál es la capital de Australia?', 2, 1, 120, 64, 53, 'Sídney', 'Melbourne', 'Brisbane', 'Canberra', 'D', '2023-06-26'),
+(4, '¿Cuál es el planeta más grande del sistema solar?', 2, 1, 122, 63, 52, 'Mercurio', 'Venus', 'Júpiter', 'Marte', 'C', '2023-06-26'),
+(5, '¿Cuál es la montaña más alta del mundo?', 2, 1, 121, 78, 64, 'Mont Blanc', 'K2', 'Everest', 'Aconcagua', 'C', '2023-06-26'),
+(6, '¿Cuál es el país más poblado del mundo?', 2, 1, 125, 68, 54, 'Estados Unidos', 'China', 'India', 'Brasil', 'B', '2023-06-26'),
+(7, '¿Cuál es el símbolo químico del oro?', 2, 1, 124, 78, 63, 'Au', 'Ag', 'Fe', 'Hg', 'A', '2023-06-26'),
+(8, '¿Cuál es el océano más grande del mundo?', 2, 1, 126, 72, 57, 'Atlántico', 'Pacífico', 'Índico', 'Ártico', 'B', '2023-06-26'),
+(9, '¿Cuál es el animal terrestre más grande del mundo?', 2, 1, 126, 77, 61, 'Jirafa', 'Rinoceronte blanco', 'Elefante africano', 'Oso polar', 'C', '2023-06-26'),
+(10, '¿Cuál es el compuesto químico principal que constituye la atmósfera terrestre?', 2, 1, 130, 61, 47, 'Nitrógeno', 'Oxígeno\n', 'Dióxido de carbono\n', 'Argón', 'A', '2023-06-26'),
+(44, '¿Qué significa PHP?', 2, 2, 15, 9, 60, 'Hypertext Preprocessor', 'Personal Home Page', 'Pretext Hypertext Processor', 'Hypertext Processor', 'A', '2023-06-26'),
+(45, '¿Cuál es el operador utilizado para concatenar cadenas en PHP?', 2, 2, 15, 6, 43, '+', '&&', '.', ',', 'C', '2023-06-26'),
+(46, '¿Cuál es la forma correcta de comentar una línea en PHP?', 2, 2, 15, 11, 73, '/* This is a comment */', '# This is a comment', '// This is a comment', '-- This is a comment', 'C', '2023-06-26'),
+(47, '¿Cuál es el resultado de la expresión \"3\" + 2 en PHP?', 2, 2, 15, 9, 60, '5', '32', 'Error', 'NaN', 'A', '2023-06-26'),
+(48, '¿Cuál es la función utilizada para obtener la longitud de una cadena en PHP?', 2, 2, 15, 7, 47, 'length()', 'size()', 'strlen()', 'count()', 'C', '2023-06-26'),
+(49, '¿Cuál es el símbolo utilizado para acceder a propiedades de un objeto en PHP?', 2, 2, 15, 5, 33, '.', '->', '::', '/', 'B', '2023-06-26'),
+(51, '¿Cuál es la función utilizada para obtener la fecha y hora actual en PHP?', 2, 2, 15, 7, 47, 'now()', 'currentDateTime()', 'getDate()', 'date()', 'D', '2023-06-26'),
+(52, '¿Cuál es la forma correcta de declarar una variable en PHP?', 2, 2, 15, 10, 67, '$var = 5;', 'var = 5;', 'variable = 5;', '5 = $var;', 'A', '2023-06-26'),
+(53, '¿Cuál es la función utilizada para redirigir a otra página en PHP?', 2, 2, 16, 12, 75, 'navigateTo()', 'header()', 'redirect()', 'goTo()', 'B', '2023-06-26'),
+(54, '¿Qué significa SQL?', 2, 3, 15, 13, 87, 'Structured Query Language', 'Simple Query Language', 'Sequential Query Language', 'Structured Question Language', 'A', '2023-06-26'),
+(55, '¿Cuál es el comando utilizado para crear una nueva tabla en MySQL?', 2, 3, 15, 10, 67, 'CREATE TABLE', 'ADD TABLE', 'NEW TABLE', 'INSERT TABLE', 'A', '2023-06-26'),
+(56, '¿Cuál es el comando utilizado para insertar datos en una tabla en MySQL?', 2, 3, 15, 4, 27, 'ADD', 'INSERT', 'CREATE', 'UPDATE', 'B', '2023-06-26'),
+(57, '¿Cuál es el operador utilizado para combinar múltiples condiciones en una consulta WHERE en MySQL?', 2, 3, 15, 10, 67, 'AND', 'OR', 'NOT', 'XOR', 'A', '2023-06-26'),
+(58, '¿Cuál es la función utilizada para obtener el número de registros en una tabla en MySQL?', 2, 3, 15, 8, 53, 'COUNT()', 'SUM()', 'MAX()', 'MIN()', 'A', '2023-06-26'),
+(59, '¿Cuál es el comando utilizado para eliminar una tabla en MySQL?', 2, 3, 15, 12, 80, 'DROP TABLE', 'DELETE TABLE', 'REMOVE TABLE', 'ERASE TABLE', 'A', '2023-06-26'),
+(60, '¿Cuál es el comando utilizado para actualizar datos en una tabla en MySQL?', 2, 3, 15, 9, 60, 'UPDATE', 'ALTER', 'MODIFY', 'CHANGE', 'A', '2023-06-26'),
+(61, '¿Cuál es el tipo de dato utilizado para almacenar valores monetarios en MySQL?', 2, 3, 15, 10, 67, 'INT', 'FLOAT', 'CHAR', 'DECIMAL', 'D', '2023-06-26'),
+(62, '¿Cuál es el comando utilizado para seleccionar datos de una tabla en MySQL?', 2, 3, 14, 10, 71, 'SELECT', 'FETCH', 'GET', 'RETRIEVE', 'A', '2023-06-26'),
+(63, '¿Cuál es la cláusula utilizada para filtrar registros en una consulta SELECT en MySQL?', 2, 3, 15, 10, 71, 'WHERE', 'FROM', 'JOIN', 'GROUP BY', 'A', '2023-06-26'),
+(64, '¿Qué es la herencia en POO?', 2, 4, 15, 5, 36, 'Crear una nueva clase a partir de una clase existente.', 'Eliminar una clase.', 'Cambiar el nombre de una clase.', 'Dividir una clase en múltiples subclases.', 'A', '2023-06-26'),
+(65, '¿Cuál palabra clave se utiliza para crear una instancia de una clase en Java?', 2, 4, 15, 10, 67, 'new', 'instance', 'create', 'instantiate', 'A', '2023-06-26'),
+(66, '¿Cuál conceptos está asociado con la encapsulación en POO?', 2, 4, 15, 6, 40, 'Limitar el acceso de las variables y acceder mediante métodos.', 'Crear múltiples instancias de una clase.', 'Modificar una clase durante la ejecución.', 'Establecer una relación de parentesco entre clases.', 'A', '2023-06-26'),
+(67, '¿Qué es el polimorfismo en POO?', 2, 4, 15, 9, 60, 'Que una clase herede comportamientos de otra.', 'Que una clase tenga múltiples métodos con el mismo nombre pero con diferentes implementaciones.', 'Que una clase herede una interfaz e implemente sus métodos.', 'Todas las anteriores son correctas.', 'B', '2023-06-26'),
+(68, '¿Cuál de los siguientes conceptos está asociado con la abstracción en POO?', 2, 4, 15, 9, 60, 'Representar una idea o concepto mediante una clase.', 'Crear múltiples instancias de una clase.', 'Modificar el comportamiento de una clase en tiempo de ejecución.', 'Establecer una relación de parentesco entre clases.', 'A', '2023-06-26'),
+(69, '¿Cuál de las siguientes afirmaciones sobre las interfaces en programación orientada a objetos es correcta?', 1, 4, 1, 0, 0, 'Una interfaz define un contrato que una clase puede implementar.', 'Una interfaz es una clase abstracta.', 'Una interfaz solo puede contener métodos abstractos.', 'Una clase puede implementar múltiples interfaces.', 'D', '2023-06-26'),
+(70, '¿Qué es la sobrecarga de métodos en una clase de POO?', 2, 4, 15, 11, 73, 'Heredar propiedades y comportamientos de una clase padre.', 'Múltiples métodos con el mismo nombre pero con diferentes parámetros.', 'Ocultar las variables y proporcionar una interfaz para acceder a ellos.', 'Crear múltiples instancias de sí misma.', 'B', '2023-06-26'),
+(71, '¿Cuál de las siguientes palabras clave se utiliza para heredar de una clase en C++?', 1, 4, 2, 0, 0, 'class', 'extend', 'inherit', 'derive', 'D', '2023-06-26'),
+(72, '¿Cuál afirmación sobre las clases abstractas en POO es correcta?', 2, 4, 15, 8, 53, 'Puede tener métodos abstractos y métodos con implementación.', 'No puede tener constructores.', 'No puede ser heredada.', 'Solo puede tener métodos abstractos.', 'A', '2023-06-26'),
+(73, '¿Cuál de las siguientes palabras clave se utiliza para heredar de una clase en Python?', 2, 4, 14, 12, 86, 'class', 'extend', 'inherit', 'derive', 'B', '2023-06-26'),
+(74, '¿Qué significa CSS?', 2, 5, 15, 9, 60, 'Cascading Style Sheets', 'Creative Style Solutions', 'Code Styling Syntax', 'Coded Style System', 'A', '2023-06-26'),
+(75, '¿Cuál es la forma de aplicar estilos CSS?', 2, 5, 15, 7, 47, 'Utilizando el atributo \"style\" en la etiqueta HTML.', 'Creando una etiqueta <style> en el documento HTML.', 'Enlazando un archivo externo CSS.', 'Todas las anteriores.', 'D', '2023-06-26'),
+(76, '¿Cuál de los siguientes selectores CSS selecciona un elemento con el id \"myElement\"?', 2, 5, 15, 11, 73, '#myElement', '.myElement', 'myElement', '*myElement', 'A', '2023-06-26'),
+(77, '¿Cuál de los siguientes selectores CSS selecciona todos los elementos <p> dentro de un <div>?', 2, 5, 15, 10, 67, 'div p', 'p div', '.p div', '#div p', 'A', '2023-06-26'),
+(78, '¿Cuál de los siguientes valores representa el color blanco en RGB?', 2, 5, 15, 9, 60, '#ffffff', '#000000', '#ff0000', '#00ff00', 'A', '2023-06-26'),
+(79, '¿Cuál propiedad CSS se utiliza para definir el tamaño de fuente?', 2, 5, 15, 10, 67, 'font-size', 'font-family', 'font-weight', 'font-color', 'A', '2023-06-26'),
+(80, '¿Cuál propiedad CSS se utiliza para aplicar un color de fondo a un elemento?', 2, 5, 15, 11, 79, 'background-color', 'color', 'border-color', 'text-color', 'A', '2023-06-26'),
+(81, '¿Cuál propiedad CSS se utiliza para establecer el margen derecho de un elemento?', 2, 5, 15, 8, 53, 'margin-right', 'margin-left', 'margin-top', 'margin-bottom', 'A', '2023-06-26'),
+(82, '¿Cuál propiedad CSS se utiliza para alinear un elemento al centro horizontalmente?', 2, 5, 15, 7, 47, 'text-align: center', 'text-align: left', 'text-align: right', 'text-align: justify', 'A', '2023-06-26'),
+(83, '¿Cuál propiedad CSS se utiliza para crear una sombra alrededor de un elemento?', 2, 5, 15, 11, 73, 'box-shadow', 'text-shadow', 'border-shadow', 'element-shadow', 'A', '2023-06-26');
 
 -- --------------------------------------------------------
 
@@ -562,18 +567,21 @@ CREATE TABLE `usuario` (
   `Puntaje_max` varchar(255) NOT NULL,
   `nivel` int(11) NOT NULL,
   `cant_respondidas` int(11) NOT NULL,
-  `cant_acertadas` int(11) NOT NULL
+  `cant_acertadas` int(11) NOT NULL,
+  `Fecha_registro` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`Id`, `Nombre_completo`, `Fecha_nacimiento`, `Genero`, `idPais`, `lat`, `lng`, `Mail`, `Nombre_usuario`, `Foto_perfil`, `Id_rol`, `Hash`, `contrasenia_hash`, `Puntaje_max`, `nivel`, `cant_respondidas`, `cant_acertadas`) VALUES
-(12, 'Marianita Aquino', '2001-03-23', 'Femenino', 1, 0.00000000000000000000, 0.00000000000000000000, 'maraquino@gmail.com', 'Mar', NULL, 3, '7ce6b2286a5396e614b8484105d277e0', '81dc9bdb52d04dc20036dbd8313ed055', '7', 62, 35, 21),
-(80, 'Hernan Fittipaldi', '1996-09-17', 'Masculino', 1, -34.69891451120487000000, -58.50764973161350500000, 'fittipaldi.h@gmail.com', 'Fitti', 'Ciro.jpg', 3, 'c2dfb0b48d36edab65407c6a074a5170', '81dc9bdb52d04dc20036dbd8313ed055', '2', 59, 1357, 806),
-(82, 'Admin', '2000-01-01', 'No especificar', 1, -37.11248696198316600000, -56.85141338520986000000, 'admin-esperoquenoexista@pregunton.ar', 'admin', NULL, 1, '56de15ff97c9bce1b769fc2c783bc834', '81dc9bdb52d04dc20036dbd8313ed055', '', 0, 0, 0),
-(83, 'Editor', '2000-01-01', 'No especificar', 1, -32.95088252473996000000, -60.70188254502038000000, 'editor-esperoquenoexista@pregunton.ar', 'Editor', NULL, 2, 'a1d59b3bbdcc7dd1e221ad60e7b65395', '81dc9bdb52d04dc20036dbd8313ed055', '', 0, 0, 0);
+INSERT INTO `usuario` (`Id`, `Nombre_completo`, `Fecha_nacimiento`, `Genero`, `idPais`, `lat`, `lng`, `Mail`, `Nombre_usuario`, `Foto_perfil`, `Id_rol`, `Hash`, `contrasenia_hash`, `Puntaje_max`, `nivel`, `cant_respondidas`, `cant_acertadas`, `Fecha_registro`) VALUES
+(12, 'Marianita Aquino', '2001-03-23', 'Femenino', 1, 0.00000000000000000000, 0.00000000000000000000, 'maraquino@gmail.com', 'Mar', NULL, 3, '7ce6b2286a5396e614b8484105d277e0', '81dc9bdb52d04dc20036dbd8313ed055', '7', 62, 35, 21, '2023-05-18'),
+(80, 'Hernan Fittipaldi', '1996-09-17', 'Masculino', 1, -34.69891451120487000000, -58.50764973161350500000, 'fittipaldi.h@gmail.com', 'Fitti', 'Ciro.jpg', 3, 'c2dfb0b48d36edab65407c6a074a5170', '81dc9bdb52d04dc20036dbd8313ed055', '2', 59, 1365, 810, '2023-04-20'),
+(82, 'Admin', '2000-01-01', 'No especificar', 1, -37.11248696198316600000, -56.85141338520986000000, 'admin-esperoquenoexista@pregunton.ar', 'admin', NULL, 1, '56de15ff97c9bce1b769fc2c783bc834', '81dc9bdb52d04dc20036dbd8313ed055', '', 0, 0, 0, '2023-06-25'),
+(83, 'Editor', '2000-01-01', 'No especificar', 1, -32.95088252473996000000, -60.70188254502038000000, 'editor-esperoquenoexista@pregunton.ar', 'Editor', NULL, 2, 'a1d59b3bbdcc7dd1e221ad60e7b65395', '81dc9bdb52d04dc20036dbd8313ed055', '', 0, 0, 0, '2023-06-25'),
+(93, 'Camila', '2010-04-05', 'No especificar', 5, 19.68459217253188600000, -98.93644009210087000000, 'camidemexico@gmail.com', 'Cami', NULL, 3, '8196f2093b03662e000dcf164cdfbc92', '81dc9bdb52d04dc20036dbd8313ed055', '', 50, 2, 1, '2023-06-25'),
+(94, 'Natanael', '1945-08-09', 'Masculino', 4, 6.24880152730377700000, -75.56819753287763000000, 'natadecolombia@gmail.com', 'Nata', NULL, 3, '410c3a33ba6a196593f2871afd34d9b5', '81dc9bdb52d04dc20036dbd8313ed055', '', 0, 0, 0, '2023-06-25');
 
 -- --------------------------------------------------------
 
@@ -663,7 +671,17 @@ INSERT INTO `usuario_pregunta` (`id`, `id_usuario`, `id_pregunta`) VALUES
 (2111, 80, 47),
 (2112, 80, 45),
 (2113, 80, 59),
-(2114, 80, 80);
+(2114, 80, 80),
+(2115, 93, 53),
+(2116, 93, 71),
+(2117, 80, 56),
+(2118, 80, 53),
+(2119, 80, 54),
+(2120, 80, 70),
+(2121, 80, 76),
+(2122, 80, 63),
+(2123, 80, 83),
+(2124, 80, 46);
 
 --
 -- Índices para tablas volcadas
@@ -749,7 +767,7 @@ ALTER TABLE `pais`
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=368;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=372;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta`
@@ -767,13 +785,13 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_pregunta`
 --
 ALTER TABLE `usuario_pregunta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2115;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2125;
 
 --
 -- Restricciones para tablas volcadas

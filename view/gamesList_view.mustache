@@ -3,7 +3,7 @@
         <article class="mx-auto">
             <br>
             <div class="d-flex">
-                <h3 class="col-11"> Total de Partidas: {{totalGames}}</h3>
+                <h3 class="col-11"> Total de partidas jugadas durante las fechas seleccionadas: {{totalGames}}</h3>
                 <button type="button"class="btn btn-primary col-1"><i class="fa-solid fa-file-arrow-down"></i> PDF</button>
             </div>
             <table class="table table-striped">
@@ -26,7 +26,7 @@
                 {{/allGames}}
             {{^allGames}}
                 {{#games}}
-                    <p class="text-center fw-bold display-5"> No hay partidas jugadas</p>
+                    <p class="text-center fw-bold display-5"> No hay partidas jugadas durante las fechas seleccionadas</p>
                 {{/games}}
             {{/allGames}}
                 </tbody>
@@ -34,7 +34,7 @@
         </article>
         <div class="d-flex justify-content-center">
             <br>
-            <a href="/loby" class="btn btn-lg btn-primary m-3">Volver al lobby</a>
+            <a href="/lobby" class="btn btn-lg btn-primary m-3">Volver al lobby</a>
         </div>
     </div>
 </main>
