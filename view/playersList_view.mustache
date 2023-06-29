@@ -1,12 +1,13 @@
 <main class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3">
+        <h1 class="col-11"> Estadisticas de usuarios</h1>
         <article class="mx-auto">
             <br>
             <div class="d-flex">
-                <h1 class="col-11"> Estadisticas de usuarios</h1>
-                    <a href="/admin/generatePdf" class="btn btn-primary col-1">
-                        <i class="fa-solid fa-file-arrow-down"></i> PDF
-                    </a>
+                <h2 class="col-11"> Todos los usuarios</h2>
+                <a href="/admin/totalUser&generarPDF=true" class="btn btn-primary col-1">
+                    <i class="fa-solid fa-file-arrow-down"></i> PDF
+                </a>
             </div>
             {{#empty}}
                 <h2 class="text-center fw-bold display-5"> No hay jugadores con los filtros seleccionados</h2>

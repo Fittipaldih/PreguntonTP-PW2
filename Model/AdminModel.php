@@ -31,6 +31,17 @@ class AdminModel
         return $result;
     }
 
+    public function getPrintPlayer($finit, $fend)
+    {
+        $query= "SELECT * FROM usuario WHERE Id_rol = 3";
+
+        if ($finit != null && $fend != null) {
+            $query .= " AND Fecha_registro >= '$finit' AND Fecha_registro <= '$fend' ";
+        }
+        $result = $this->database->print($query);
+        return $result;
+    }
+
     public function getTotalUsersFromCountry($finit, $fend)
     {
         $query = "SELECT p.nombre AS Pais, COUNT(u.Id) AS cantidad_usuarios

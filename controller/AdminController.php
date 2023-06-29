@@ -16,10 +16,13 @@ class AdminController
     public function totalUser()
     {
         list($finit, $fend) = $this->getDatesFromPost();
-
         $datau = $this->getStatisticsForUsers($finit, $fend);
         $data = $datau;
         $data['userName'] = $this->sessionManager->get("userName");
+        $tabla=$this->adminModel->getPrintPlayer($finit, $fend);
+        if (isset($_GET["generarPDF"])) {
+            $this->generarPDF($tabla);
+        }
         $this->renderer->render("playersList", $data);
     }
 
@@ -91,89 +94,20 @@ class AdminController
         return $data;
     }
 
-    /*
-     * <?php
-if ($num_total_rows > 0) {
-    $page = false;
-
-    //examino la pagina a mostrar y el inicio del registro a mostrar
-    if (isset($_GET["page"])) {
-        $page = $_GET["page"];
-    }
-
-    if (!$page) {
-        $start = 0;
-        $page = 1;
-    } else {
-        $start = ($page - 1) * NUM_ITEMS_BY_PAGE;
-    }
-    //calculo el total de paginas
-    $total_pages = ceil($num_total_rows / NUM_ITEMS_BY_PAGE);
-
-    //pongo el numero de registros total, el tamano de pagina y la pagina que se muestra
-    echo '<h3>Numero de articulos: '.$num_total_rows.'</h3>';
-    echo '<h3>En cada pagina se muestra '.NUM_ITEMS_BY_PAGE.' articulos ordenados por fecha en formato descendente.</h3>';
-    echo '<h3>Mostrando la pagina '.$page.' de ' .$total_pages.' paginas.</h3>';
-
-    $result = $connexion->query(
-        'SELECT * FROM product p
-        LEFT JOIN product_lang pl ON (pl.id_product = p.id_product AND pl.id_lang = 1)
-        LEFT JOIN `image` i ON (i.id_product = p.id_product AND cover = 1)
-        WHERE active = 1
-        ORDER BY date_upd DESC LIMIT '.$start.', '.NUM_ITEMS_BY_PAGE
-    );
-    if ($result->num_rows > 0) {
-        echo '<ul class="row items">';
-        while ($row = $result->fetch_assoc()) {
-            echo '<li class="col-lg-4">';
-            echo '<div class="item">';
-            echo '<h3>'.$row['name'].'</h3>';
-            ...
-            echo '</div>';
-            echo '</li>';
-        }
-        echo '</ul>';
-    }
-
-    echo '<nav>';
-    echo '<ul class="pagination">';
-
-    if ($total_pages > 1) {
-        if ($page != 1) {
-            echo '<li class="page-item"><a class="page-link" href="index.php?page='.($page-1).'"><span aria-hidden="true">&laquo;</span></a></li>';
-        }
-
-        for ($i=1;$i<=$total_pages;$i++) {
-            if ($page == $i) {
-                echo '<li class="page-item active"><a class="page-link" href="#">'.$page.'</a></li>';
-            } else {
-                echo '<li class="page-item"><a class="page-link" href="index.php?page='.$i.'">'.$i.'</a></li>';
-            }
-        }
-
-        if ($page != $total_pages) {
-            echo '<li class="page-item"><a class="page-link" href="index.php?page='.($page+1).'"><span aria-hidden="true">&raquo;</span></a></li>';
-        }
-    }
-    echo '</ul>';
-    echo '</nav>';
-}
-?>*/
-
     public function generarPDF($data)
     {
         include "helpers/generate_pdf.php";
         // Aquí obtendrías los datos de la tabla que deseas mostrar en el PDF
-        $pdf = new FPDF();
+        $pdf = new FPDF("L");
         $pdf->AddPage();
         $pdf->SetFont('Arial', 'B', 16);
         $pdf->Cell(0, 10, 'Tabla en PDF', 0, 1, 'C');
 
         // Generar contenido de la tabla en el PDF
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Arial', '', 10);
         foreach ($data as $fila) {
             foreach ($fila as $valor) {
-                $pdf->Cell(40, 10, $valor, 1, 0, 'C');
+                $pdf->Cell(30, 10, $valor, 1, 0, 'C');
             }
             $pdf->Ln(); // Salto de línea después de cada fila
         }

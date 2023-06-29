@@ -4,8 +4,25 @@
             <br>
             <div class="d-flex">
                 <h3 class="col-11"> Total de Partidas: {{totalGames}}</h3>
-               <!-- <button type="button"class="btn btn-primary col-1"><i class="fa-solid fa-file-arrow-down"></i> PDF</button>-->
-                <a href="/admin/totalGames&generarPDF=true" target="_blank">Descargar PDF</a>
+                <a href="/admin/totalGames&generarPDF=true" class="btn btn-primary col-1">
+                    <i class="fa-solid fa-file-arrow-down"></i> PDF
+                </a>
+            </div>
+            <div>
+            <form action="/admin/totalGames" method="post" enctype="multipart/form-data" class="row g-3">
+                <div class="col-4">
+                    <label for="finit">Fecha inicio</label>
+                    <input required type="date" id="finit" name="finit" value="2023-01-01">
+                </div>
+                <div class="col-4">
+                    <label for="fend">Fecha final</label>
+                    <input required type="date" id="fend" name="fend" value="2023-12-12">
+                </div>
+                <div class="col-4 d-flex justify-content-between">
+                    <input type="submit" value="Confirmar" class="btn btn-primary m-2">
+                </div>
+
+            </form>
             </div>
             <table class="table table-striped">
                 <thead>
