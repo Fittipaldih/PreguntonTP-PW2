@@ -61,7 +61,12 @@
                     <p>La pregunta fue reportada y no aparecerá en las proximas partidas hasta que podamos evaluar el problema.</p>
                     <p>Muchas gracias por comprender.</p>
                     <p>Tu puntaje</p>
+                    {{#userCorrects}}
                     <h5 class="fw-bold">{{userCorrects}}</h5>
+                    {{/userCorrects}}
+                    {{^userCorrects}}
+                        <h5 class="fw-bold">0</h5>
+                    {{/userCorrects}}
                     <h4>¡Iniciá una nueva partida!</h4>
                 </div>
                 <div class="modal-footer">

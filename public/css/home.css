@@ -20,8 +20,8 @@ footer {
 }
 /* VISTA USUARIO */
 .imgPerfil {
-    max-width: 70%;
-    width: 400px
+    max-width: 100%;
+    width: 100%
 }
 .card {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);

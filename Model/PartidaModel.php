@@ -108,7 +108,7 @@ class PartidaModel
         SELECT p.*, c.descripcion AS catDescripcion
         FROM pregunta p
         JOIN categoria c ON c.id = p.id_categoria
-        WHERE p.porc_correc < 30 AND NOT EXISTS (
+         WHERE p.id_estado = 2 AND p.porc_correc < 30 AND NOT EXISTS (
             SELECT 1 FROM usuario_pregunta up
             WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta
         )
@@ -122,7 +122,7 @@ class PartidaModel
         SELECT p.*, c.descripcion AS catDescripcion
         FROM pregunta p
         JOIN categoria c ON c.id = p.id_categoria
-        WHERE p.porc_correc > 70 AND NOT EXISTS (
+         WHERE p.id_estado = 2 AND p.porc_correc > 70 AND NOT EXISTS (
             SELECT 1 FROM usuario_pregunta up
             WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta
         )
@@ -136,7 +136,7 @@ class PartidaModel
         SELECT p.*, c.descripcion AS catDescripcion
         FROM pregunta p
         JOIN categoria c ON c.id = p.id_categoria
-        WHERE p.porc_correc >= 30 AND p.porc_correc <= 70 AND NOT EXISTS (
+        WHERE p.id_estado = 2 AND p.porc_correc >= 30 AND p.porc_correc <= 70 AND NOT EXISTS (
             SELECT 1 FROM usuario_pregunta up
             WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta
         )

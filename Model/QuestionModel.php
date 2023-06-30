@@ -20,7 +20,7 @@ class QuestionModel
         $this->database->update("UPDATE pregunta SET id_estado = 2 WHERE id = '$id'");
     }
     public function declineQuestion($id){
-        $this->database->update("UPDATE pregunta SET id_estado = 4 WHERE id = '$id'");
+        $this->database->update("DELETE FROM pregunta WHERE id = '$id'");
     }
     public function editQuestion($id, $descripcion, $id_categoria, $opcionA, $opcionB, $opcionC, $opcionD, $resp_correcta){
         $this->database->update("UPDATE pregunta SET descripcion = '$descripcion', id_categoria = '$id_categoria', 

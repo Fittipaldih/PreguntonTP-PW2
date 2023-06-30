@@ -33,13 +33,7 @@ class PartidaController
     {
         header("location: /lobby");
         exit();
-    }/*
-    public function getSessionData()
-    {
-        $sessionData = $this->sessionManager->getAll();
-        header('Content-Type: application/json');
-        echo json_encode($sessionData);
-    }*/
+    }
     public function getQuestionData()
     {   // cargarAjax() AJAX
         $countCorrect = $_GET['countCorrect'];
