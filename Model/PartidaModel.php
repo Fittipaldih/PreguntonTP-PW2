@@ -41,6 +41,114 @@ class PartidaModel
             return "facil";
         }
     }
+    public function getUserMaxScoreById($idUser)
+    {
+        return $this->database->query("SELECT MAX(Puntaje_max) FROM usuario WHERE Id=$idUser");
+    }
+    public function getQuestionByDifficulty($idUser, $difficulty)
+    {
+        switch ($difficulty) {
+            case 'dificil':
+                return $this->getDifficultQuestion($idUser);
+            case 'facil':
+                return $this->getEasyQuestion($idUser);
+            default:
+                return $this->getMediumQuestion($idUser);
+        }
+    }
+    private function getEasyQuestion($idUser)
+    {
+        $query = "
+        SELECT p.*, c.descripcion AS catDescripcion
+        FROM pregunta p
+        JOIN categoria c ON c.id = p.id_categoria
+         WHERE p.id_estado = 2 AND p.porc_correc > 70 AND NOT EXISTS (
+            SELECT 1 FROM usuario_pregunta up
+            WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta
+        )
+        ORDER BY RAND() LIMIT 1";
+
+        return $this->database->query($query);
+    }
+    private function getMediumQuestion($idUser)
+    {
+        $query = "
+        SELECT p.*, c.descripcion AS catDescripcion
+        FROM pregunta p
+        JOIN categoria c ON c.id = p.id_categoria
+        WHERE p.id_estado = 2 AND p.porc_correc >= 30 AND p.porc_correc <= 70 AND NOT EXISTS (
+            SELECT 1 FROM usuario_pregunta up
+            WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta
+        )
+        ORDER BY RAND() LIMIT 1";
+
+        return $this->database->query($query);
+    }
+    private function getDifficultQuestion($idUser)
+    {
+        $query = "
+        SELECT p.*, c.descripcion AS catDescripcion
+        FROM pregunta p
+        JOIN categoria c ON c.id = p.id_categoria
+         WHERE p.id_estado = 2 AND p.porc_correc < 30 AND NOT EXISTS (
+            SELECT 1 FROM usuario_pregunta up
+            WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta
+        )
+        ORDER BY RAND() LIMIT 1";
+
+        return $this->database->query($query);
+    }
+    public function getQuestionAleatoryNotShow($idUser)
+    {
+        return $this->database->query("SELECT p.*, c.descripcion AS catDescripcion FROM pregunta p JOIN categoria c ON c.id = p.id_categoria WHERE p.id_estado = 2 AND NOT EXISTS
+        (SELECT 1 FROM usuario_pregunta up WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta) 
+        ORDER BY RAND() LIMIT 1");
+    }
+    public function getQuestion($id)
+    {
+        $question = null;
+        $difficulty = $this->getLevelUserById($id);
+        while ($question == null || empty($question)) {
+            $question = $this->getQuestionByDifficulty($id, $difficulty);
+            if (!$question)
+                $question = $this->getQuestionAleatoryNotShow($id);
+            if ($question == null || empty($question)) {
+                $this->cleanQuestionShows($id);
+            }
+        }
+        $this->registerQuestionShow($question[0]['id'], $id);
+
+        return $question;
+    }
+    private function registerUserQuestion($idUsuario, $idPregunta)
+    {
+        $query = "INSERT INTO usuario_pregunta (id_usuario, id_pregunta) VALUES ('$idUsuario', '$idPregunta')";
+        $this->database->update($query);
+    }
+    private function registerQuestionShow($idPregunta, $idUsuario)
+    {
+        $this->registerUserQuestion($idUsuario, $idPregunta);
+        $this->increaseQuestionShowCount($idPregunta);
+        $this->increaseUserAnsweredCount($idUsuario);
+    }
+    private function increaseQuestionShowCount($idPregunta)
+    {
+        $query = "UPDATE pregunta
+              SET veces_mostrada = veces_mostrada + 1
+              WHERE id = $idPregunta";
+        $this->database->update($query);
+    }
+    private function increaseUserAnsweredCount($idUsuario)
+    {
+        $query = "UPDATE usuario
+              SET cant_respondidas = cant_respondidas + 1
+              WHERE id = $idUsuario";
+        $this->database->update($query);
+    }
+    private function cleanQuestionShows($idUser)
+    {
+        $this->database->update("DELETE FROM usuario_pregunta WHERE id_usuario = '$idUser'");
+    }
     public function updateCorrectAnswerQuestion($idPregunta)
     {
         $this->database->update("UPDATE pregunta
@@ -61,10 +169,6 @@ class PartidaModel
             $this->database->update("UPDATE usuario SET Puntaje_max = '$score' WHERE Id = $idUser");
         }
     }
-    public function getUserMaxScoreById($idUser)
-    {
-        return $this->database->query("SELECT MAX(Puntaje_max) FROM usuario WHERE Id=$idUser");
-    }
     public function checkAnswer($optionSelected, $idQuestion, $endTime)
     {
         $correct = $this->getCorrectAnswer($idQuestion);
@@ -74,110 +178,6 @@ class PartidaModel
         } else {
             return false;
         }
-    }
-    public function getQuestion($id)
-    {
-        $question = null;
-        $difficulty = $this->getLevelUserById($id);
-        while ($question == null || empty($question)) {
-            $question = $this->getQuestionByDifficulty($id, $difficulty);
-            if (!$question)
-                $question = $this->getQuestionAleatoryNotShow($id);
-            if ($question == null || empty($question)) {
-                $this->cleanQuestionShows($id);
-            }
-        }
-        $this->registerQuestionShow($question[0]['id'], $id);
-
-        return $question;
-    }
-    public function getQuestionByDifficulty($idUser, $difficulty)
-    {
-        switch ($difficulty) {
-            case 'dificil':
-                return $this->getDifficultQuestion($idUser);
-            case 'facil':
-                return $this->getEasyQuestion($idUser);
-            default:
-                return $this->getMediumQuestion($idUser);
-        }
-    }
-    private function getDifficultQuestion($idUser)
-    {
-        $query = "
-        SELECT p.*, c.descripcion AS catDescripcion
-        FROM pregunta p
-        JOIN categoria c ON c.id = p.id_categoria
-        WHERE p.porc_correc < 30 AND NOT EXISTS (
-            SELECT 1 FROM usuario_pregunta up
-            WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta
-        )
-        ORDER BY RAND() LIMIT 1";
-
-        return $this->database->query($query);
-    }
-    private function getEasyQuestion($idUser)
-    {
-        $query = "
-        SELECT p.*, c.descripcion AS catDescripcion
-        FROM pregunta p
-        JOIN categoria c ON c.id = p.id_categoria
-        WHERE p.porc_correc > 70 AND NOT EXISTS (
-            SELECT 1 FROM usuario_pregunta up
-            WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta
-        )
-        ORDER BY RAND() LIMIT 1";
-
-        return $this->database->query($query);
-    }
-    private function getMediumQuestion($idUser)
-    {
-        $query = "
-        SELECT p.*, c.descripcion AS catDescripcion
-        FROM pregunta p
-        JOIN categoria c ON c.id = p.id_categoria
-        WHERE p.porc_correc >= 30 AND p.porc_correc <= 70 AND NOT EXISTS (
-            SELECT 1 FROM usuario_pregunta up
-            WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta
-        )
-        ORDER BY RAND() LIMIT 1";
-
-        return $this->database->query($query);
-    }
-    public function getQuestionAleatoryNotShow($idUser)
-    {
-        return $this->database->query("SELECT p.*, c.descripcion AS catDescripcion FROM pregunta p JOIN categoria c ON c.id = p.id_categoria WHERE p.id_estado = 2 AND NOT EXISTS
-        (SELECT 1 FROM usuario_pregunta up WHERE up.id_usuario = '$idUser' AND p.id = up.id_pregunta) 
-        ORDER BY RAND() LIMIT 1");
-    }
-    public function registerQuestionShow($idPregunta, $idUsuario)
-    {
-        $this->registerUserQuestion($idUsuario, $idPregunta);
-        $this->increaseQuestionShowCount($idPregunta);
-        $this->increaseUserAnsweredCount($idUsuario);
-    }
-    private function registerUserQuestion($idUsuario, $idPregunta)
-    {
-        $query = "INSERT INTO usuario_pregunta (id_usuario, id_pregunta) VALUES ('$idUsuario', '$idPregunta')";
-        $this->database->update($query);
-    }
-    private function increaseQuestionShowCount($idPregunta)
-    {
-        $query = "UPDATE pregunta
-              SET veces_mostrada = veces_mostrada + 1
-              WHERE id = $idPregunta";
-        $this->database->update($query);
-    }
-    private function increaseUserAnsweredCount($idUsuario)
-    {
-        $query = "UPDATE usuario
-              SET cant_respondidas = cant_respondidas + 1
-              WHERE id = $idUsuario";
-        $this->database->update($query);
-    }
-    public function cleanQuestionShows($idUser)
-    {
-        $this->database->update("DELETE FROM usuario_pregunta WHERE id_usuario = '$idUser'");
     }
     public function insertUserGamesByName($idUser, $puntaje)
     {

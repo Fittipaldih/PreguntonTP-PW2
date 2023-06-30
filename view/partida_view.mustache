@@ -15,13 +15,11 @@
             <h5 id="questionCategory"></h5>
             <h2 class="display-6 fw-bold" id="questionDescripcion"></h2>
         </div>
-        <div class="text-center">
-            <form action="/partida/checkAnswer" method="post" id="form" enctype="multipart/form-data" class="d-grid gap-2 col-6 mx-auto mt-4">
-                <button class="btn fw-bold btn-outline-primary btn-lg" id="opciona" type="button" name="optionSelected" value="A">A) </button>
-                <button class="btn fw-bold btn-outline-primary btn-lg" id="opcionb" type="button" name="optionSelected" value="B">B) </button>
-                <button class="btn fw-bold btn-outline-primary btn-lg" id="opcionc" type="button" name="optionSelected" value="C">C) </button>
-                <button class="btn fw-bold btn-outline-primary btn-lg" id="opciond" type="button" name="optionSelected" value="D">D) </button>
-            </form>
+        <div class="text-center d-grid gap-2 col-6 mx-auto mt-4">
+            <button class="btn fw-bold btn-outline-primary btn-lg" id="opciona" type="button" name="optionSelected" value="A">A</button>
+            <button class="btn fw-bold btn-outline-primary btn-lg" id="opcionb" type="button" name="optionSelected" value="B">B</button>
+            <button class="btn fw-bold btn-outline-primary btn-lg" id="opcionc" type="button" name="optionSelected" value="C">C</button>
+            <button class="btn fw-bold btn-outline-primary btn-lg" id="opciond" type="button" name="optionSelected" value="D">D</button>
             <p id="userCorrects" class="text-center"></p>
             <form action="/partida/repportQuestion" method="post" id="form" enctype="multipart/form-data">
                 <input type="hidden" id="idQuestionHidden" name="idQuestion">

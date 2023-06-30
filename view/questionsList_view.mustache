@@ -3,9 +3,10 @@
         <article class="mx-auto">
             <br>
             <div class="d-flex">
-                <h3 class="col-11"> Total de preguntas creadas durante las fechas seleccionadas:: {{totalQuestions}}</h3>
+                <h3 class="col-11"> Total de preguntas creadas durante las fechas seleccionadas: {{totalQuestions}}</h3>
                 <button type="button"class="btn btn-primary col-1"><i class="fa-solid fa-file-arrow-down"></i> PDF</button>
             </div>
+            <br>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -15,6 +16,10 @@
                     <th>Opcion C</th>
                     <th>Opcion D</th>
                     <th>Correcta</th>
+                    <th>Creacion</th>
+                    <th>Mostrada</th>
+                    <th>Acertada(cant)</th>
+                    <th>Acertada(%)</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -26,6 +31,10 @@
                         <td>{{opcionC}}</td>
                         <td>{{opcionD}}</td>
                         <td>{{resp_correcta}}</td>
+                        <td>{{fecha_creacion}}</td>
+                        <td>{{veces_mostrada}} veces</td>
+                        <td>{{veces_correcta}} veces</td>
+                        <td>{{porc_correc}} %</td>
                     </tr>
                 {{/allQuestions}}
             {{^allQuestions}}

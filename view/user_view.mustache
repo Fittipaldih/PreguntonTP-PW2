@@ -8,16 +8,34 @@
                 <br><br>
                 <section class="card p-3">
                     <div class="row g-0">
-                        <div class="col-md-3 d-flex justify-content-center align-items-end">
-                            {{#Foto_perfil}}
-                                <img src="/public/imagenes/{{Foto_perfil}}" class="imgPerfil m-0 rounded "
-                                     alt="Foto de perfil">
-                            {{/Foto_perfil}}
-                            {{^Foto_perfil}}
-                                <img src="/public/imagenes/perfil.jpg" class="imgPerfil rounded" alt="Foto de perfil">
-                            {{/Foto_perfil}}
+                        <div class="col-md-5 d-flex justify-content-center align-items-end">
+                                {{#Foto_perfil}}
+                                    <img src="/public/imagenes/{{Foto_perfil}}" class="imgPerfil m-0 rounded "
+                                         alt="Foto de perfil">
+                                {{/Foto_perfil}}
+                                {{^Foto_perfil}}
+                                    <img src="/public/imagenes/perfil.jpg" class="imgPerfil rounded" alt="Foto de perfil">
+                                {{/Foto_perfil}}
+                        </div>
+                            <div class="col-sm-12 col-md-4 card-body flex-column d-flex align-items-center ">
+                                {{#player}} <h2 class="card-title">Mejor puntaje: {{Puntaje_max}}</h2> {{/player}}
+                                <dl>
+                                    <dt>Correo</dt>
+                                    <dd>- {{Mail}}</dd>
+                                    <dt>Fecha de Nacimiento</dt>
+                                    <dd>- {{Fecha_nacimiento}}</dd>
+                                    <dt>Género</dt>
+                                    <dd>- {{Genero}}</dd>
+                                    <dt>Nombre completo</dt>
+                                    <dd>- {{Nombre_completo}}</dd>
+                                </dl>
+                            </div>
+                        <div class="col-sm-12 col-md-3 text-center">
+                            <img src="public/qr/{{Nombre_usuario}}.png" id="qr" alt="Código QR">
+                            <p class="fw-bold m-0 p-0">Compartí el perfil</p>
                             {{#canEdit}}
-                                <button type="button" class="btn btn-primary btn-content position-absolute"
+                                <br>
+                                <button type="button" class="btn btn-primary btn-content"
                                         data-bs-toggle="modal" data-bs-target="#editAccountModal">
                                     Editar cuenta
                                 </button>
@@ -127,25 +145,6 @@
                                 </div>
                             {{/canEdit}}
                         </div>
-                        <article class="d-flex col-md-9">
-                            <div class="card-body flex-column d-flex align-items-center justify-content-center">
-                                {{#player}} <h2 class="card-title">Mejor puntaje: {{Puntaje_max}}</h2> {{/player}}
-                                <dl>
-                                    <dt>Correo</dt>
-                                    <dd>- {{Mail}}</dd>
-                                    <dt>Fecha de Nacimiento</dt>
-                                    <dd>- {{Fecha_nacimiento}}</dd>
-                                    <dt>Género</dt>
-                                    <dd>- {{Genero}}</dd>
-                                    <dt>Nombre completo</dt>
-                                    <dd>- {{Nombre_completo}}</dd>
-                                </dl>
-                            </div>
-                            <div class="col-md-4 m-3 text-center">
-                                <img src="public/qr/{{Nombre_usuario}}.png" id="qr" alt="Código QR">
-                                <p class="fw-bold m-0 p-0">Compartí el perfil</p>
-                            </div>
-                        </article>
                     </div>
                 </section>
             </article>
@@ -167,7 +166,7 @@
                         <tr>
                             <th>Id:</th>
                             <th>Puntaje:</th>
-                            <th>Fecha y hora:</th>
+                            <th class="d-none d-sm-table-cell">Fecha y hora:</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -175,12 +174,13 @@
                             <tr>
                                 <td># {{id}}</td>
                                 <td>{{puntaje}} punto(s)</td>
-                                <td>{{fecha}}</td>
+                                <td class="d-none d-sm-table-cell">{{fecha}}</td>
                             </tr>
                         {{/games}}
                         </tbody>
                     </table>
                 </div>
+
             {{/player}}
         {{/userData}}
         <div class="d-flex justify-content-center">

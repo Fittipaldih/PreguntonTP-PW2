@@ -2,11 +2,9 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
-
+require 'third-party/PHPMailer/src/Exception.php';
+require 'third-party/PHPMailer/src/PHPMailer.php';
+require 'third-party/PHPMailer/src/SMTP.php';
 
 class RegistroModel
 {
@@ -15,6 +13,13 @@ class RegistroModel
     public function __construct($database)
     {
         $this->database = $database;
+    }
+
+    public function getHash($email)
+    {
+        $resultado = $this->database->singleQuery("SELECT Hash FROM usuario WHERE mail = '$email'");
+
+        return $resultado['Hash'];
     }
 
     public function sendValidateEmail($email, $hash, $nameComplete)
@@ -86,13 +91,6 @@ class RegistroModel
     public function validatePassword($pass, $passValidate)
     {
         return $pass === $passValidate;
-    }
-
-    public function getHash($email)
-    {
-        $resultado = $this->database->singleQuery("SELECT Hash FROM usuario WHERE mail = '$email'");
-
-        return $resultado['Hash'];
     }
 
 }

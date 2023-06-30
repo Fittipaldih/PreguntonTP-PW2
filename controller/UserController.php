@@ -23,7 +23,7 @@ class UserController
         $userLogged = $this->sessionManager->get("userName");
         $canEdit = (strtoupper($userName)) === (strtoupper($userLogged));
         $data['mapa'] = true;
-        $data["userName"] = $userName;
+        $data["userName"] = $userLogged;
         $data["canEdit"] = $canEdit;
         $data["userData"] = $this->userService->getDataUserByName($userName);
         $data["games"] = $this->userService->getUserGamesByName($userName);

@@ -30,7 +30,7 @@ class AdminController
     {
         list($finit, $fend) = $this->getDatesFromPost();
         $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
-        $registrosPorPagina = 10;
+        $registrosPorPagina = 12;
         $offset = ($paginaActual - 1) * $registrosPorPagina;
         $totalRegistros = $this->adminModel->getTotalGames($finit, $fend);
         $registros = $this->adminModel->getPartialGames($finit, $fend,$registrosPorPagina, $offset);

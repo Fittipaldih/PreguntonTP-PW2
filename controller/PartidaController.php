@@ -34,14 +34,8 @@ class PartidaController
         header("location: /lobby");
         exit();
     }
-    public function getSessionData()
-    { // AJAX
-        $sessionData = $this->sessionManager->getAll();
-        header('Content-Type: application/json');
-        echo json_encode($sessionData);
-    }
     public function getQuestionData()
-    {// AJAX
+    {   // cargarAjax() AJAX
         $countCorrect = $_GET['countCorrect'];
         $idUser = $this->sessionManager->get('idUser');
         $this->sessionManager->set('countCorrect', $countCorrect);
@@ -51,7 +45,7 @@ class PartidaController
         echo json_encode($question[0]);
     }
     public function checkAnswer()
-    { // AJAX
+    { //  selected(value) AJAX
         if (isset($_POST['optionSelected'])) {
             $optionSelected = $_POST['optionSelected'];
             $idQuestion = $this->sessionManager->get('idPregunta');
@@ -61,7 +55,6 @@ class PartidaController
             $response = $this->processAnswer($optionSelected, $idQuestion, $idUser, $userCorrects);
             if ($response) {
                 $this->sessionManager->set('lost', true);
-
             }
             echo json_encode($response);
         }
@@ -69,25 +62,23 @@ class PartidaController
     public function processAnswer($optionSelected, $idQuestion, $idUser, &$userCorrects)
     {
         $response = [];
-        $endTime =  ($this->sessionManager->get('startTime')) + 12;
+        $endTime =  ($this->sessionManager->get('startTime')) + 11;
         if ($this->partidaModel->checkAnswer($optionSelected, $idQuestion, $endTime)) {
             $this->partidaModel->updateCorrectAnswerQuestion($idQuestion);
             $this->userService->updateCorrectAnswerUser($idUser);
-            $this->userService->updateLevelUserById($idUser);
-            $this->partidaModel->updateLevelQuestionById($idQuestion);
             $response['success'] = true;
-
         } else {
-            $correctAnswer = $this->partidaModel->getDescriptionForCorrectAnswer($idQuestion);
-            $this->sessionManager->set('correctAnswer', $correctAnswer['correcta']);
-            $this->sessionManager->set('question', $correctAnswer['descripcion']);
-            $this->userService->updateLevelUserById($idUser);
-            $this->partidaModel->updateLevelQuestionById($idQuestion);
             $this->partidaModel->insertUserGamesByName($idUser, --$userCorrects);
             $score= $this->sessionManager->get('userCorrects');
             $this->partidaModel->updateUserMaxScore($idUser, --$score);
+
+            $correctAnswer = $this->partidaModel->getDescriptionForCorrectAnswer($idQuestion);
+            $this->sessionManager->set('correctAnswer', $correctAnswer['correcta']);
+            $this->sessionManager->set('question', $correctAnswer['descripcion']);
             $response['success'] = false;
         }
+        $this->userService->updateLevelUserById($idUser);
+        $this->partidaModel->updateLevelQuestionById($idQuestion);
         return $response;
     }
     public function repportQuestion()
