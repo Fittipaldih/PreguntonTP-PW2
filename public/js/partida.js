@@ -1,13 +1,27 @@
 $(document).ready(function () {
-    cargarAjax();
+    let remainingTime;
+    if (sessionStorage.getItem('gameStarted')) {
+        // La partida ya ha comenzado, restaurar el estado actual
+        countCorrect = parseInt(sessionStorage.getItem('countCorrect'));
+        setQuestionData(JSON.parse(sessionStorage.getItem('currentQuestion')), countCorrect);
+        currentWidth = parseInt(sessionStorage.getItem('currentWidth'));
+        remainingTime = parseInt(sessionStorage.getItem('remainingTime'));
+        if (currentWidth < finalWidth && remainingTime > 0) {
+            // La barra de progreso aún no ha alcanzado su ancho final, reanudar la animación
+            resetProgressBar(remainingTime); // Establecer el tiempo restante antes de iniciar la animación
+        }
+    } else {
+        // La partida no ha comenzado, cargar una nueva pregunta
+        loadNewQuestion();
+    }
 });
 
 let progressInterval;
 const progressBar = document.getElementById("myProgressBar");
 const cronometroElement = document.getElementById("cronometro");
-const duration = 11000;
+let duration = 11000;
 const finalWidth = 100;
-const incrementWidth = (finalWidth / duration) * 100;
+let incrementWidth = (finalWidth / duration) * 100;
 let currentWidth = 0;
 let startTime;
 let countCorrect = -1;
@@ -15,33 +29,52 @@ let countCorrect = -1;
 function animateProgressBar() {
     currentWidth += incrementWidth;
     progressBar.style.width = `${currentWidth}%`;
-
     if (!startTime) {
         startTime = Date.now();
     }
-
     const elapsedTime = Date.now() - startTime;
     const remainingTime = duration - elapsedTime;
     const formattedTime = formatTime(remainingTime);
     cronometroElement.textContent = formattedTime;
+    updateProgressBarColors(remainingTime);
 
     if (currentWidth >= finalWidth || remainingTime <= 0) {
         clearInterval(progressInterval);
-        window.location.href = "/lobby";
     }
+    // Guardar los datos actualizados en sessionStorage
+    sessionStorage.setItem('remainingTime', remainingTime.toString());
+}
+
+function updateProgressBarColors(remainingTime) {
+    if (remainingTime < 6000 && remainingTime > 3000) {
+        setProgressBarColors('#FF9C02', '#FF9C02');
+    } else if (remainingTime < 3000 && remainingTime > 1000) {
+        setProgressBarColors('red', 'red');
+    } else if (remainingTime < 1000) {
+        setProgressBarColors('#880015', '#880015');
+    } else {
+        setProgressBarColors('', '');
+    }
+}
+function setProgressBarColors(cronometroColor, progressBarColor) {
+    cronometroElement.style.setProperty('color', cronometroColor, 'important');
+    progressBar.style.setProperty('background-color', progressBarColor, 'important');
 }
 function formatTime(time) {
     const seconds = Math.ceil(time / 1000);
     const adjustedSeconds = Math.max(seconds - 1, 0);
     return adjustedSeconds.toString();
 }
-function resetProgressBar() {
+function resetProgressBar(remainingTime) {
     clearInterval(progressInterval);
     currentWidth = 0;
     startTime = null;
+    // Establecer el tiempo restante antes de iniciar la animación
+    duration = remainingTime; // Establecer la duración de la animación al tiempo restante
+    incrementWidth = (finalWidth / duration) * 100; // Recalcular el incremento de ancho
     progressInterval = setInterval(animateProgressBar, 100);
 }
-function setDataQuestion(question, count) {
+function setQuestionData(question, count) {
     $('#questionCategory').text(question.catDescripcion);
     $('#questionDescripcion').text(question.descripcion);
     $('#opciona').text(question.opcionA);
@@ -76,7 +109,7 @@ function setContainerColor(question) {
             break;
     }
 }
-function selected(value) {
+function submitOption(value) {
     console.log(value);
     $.ajax({
         url: 'http://localhost/partida/checkAnswer',
@@ -85,15 +118,16 @@ function selected(value) {
         dataType: 'json'
     }).done(function (response) {
         if (response.success) {
-            cargarAjax();
+            loadNewQuestion();
         } else {
+            sessionStorage.clear();
             window.location.href = "lobby";
         }
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log(errorThrown);
     });
 }
-function cargarAjax() {
+function loadNewQuestion() {
     $.ajax({
         url: 'http://localhost/partida/getQuestionData',
         method: 'GET',
@@ -101,8 +135,13 @@ function cargarAjax() {
         dataType: 'json',
         success: function (question) {
             countCorrect++;
-            setDataQuestion(question, countCorrect);
-            resetProgressBar();
+            setQuestionData(question, countCorrect);
+            resetProgressBar(11000);
+                // Guardar los datos en sessionStorage
+                sessionStorage.setItem('gameStarted', true);
+                sessionStorage.setItem('countCorrect', countCorrect);
+                sessionStorage.setItem('currentQuestion', JSON.stringify(question));
+                sessionStorage.setItem('currentWidth', currentWidth);
         },
         error: function (xhr, status, error) {
             console.log(error);
@@ -121,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
         opcionc.disabled = true;
         opciond.disabled = true;
         setTimeout(function () {
-            selected(opciona.value);
+            submitOption(opciona.value);
             opciona.classList.remove("btn-dark" +
                 "");
             opcionb.disabled = false;
@@ -136,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
         opcionc.disabled = true;
         opciond.disabled = true;
         setTimeout(function () {
-            selected(opcionb.value);
+            submitOption(opcionb.value);
             opcionb.classList.remove("btn-dark" +
                 "");
             opciona.disabled = false;
@@ -151,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
         opcionb.disabled = true;
         opciond.disabled = true;
         setTimeout(function () {
-            selected(opcionc.value);
+            submitOption(opcionc.value);
             opcionc.classList.remove("btn-dark" +
                 "");
             opciona.disabled = false;
@@ -166,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
         opcionb.disabled = true;
         opcionc.disabled = true;
         setTimeout(function () {
-            selected(opciond.value);
+            submitOption(opciond.value);
             opciond.classList.remove("btn-dark" +
                 "");
             opciona.disabled = false;

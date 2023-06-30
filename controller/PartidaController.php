@@ -33,15 +33,15 @@ class PartidaController
     {
         header("location: /lobby");
         exit();
-    }
+    }/*
     public function getSessionData()
-    { // AJAX
+    {
         $sessionData = $this->sessionManager->getAll();
         header('Content-Type: application/json');
         echo json_encode($sessionData);
-    }
+    }*/
     public function getQuestionData()
-    {// AJAX
+    {   // cargarAjax() AJAX
         $countCorrect = $_GET['countCorrect'];
         $idUser = $this->sessionManager->get('idUser');
         $this->sessionManager->set('countCorrect', $countCorrect);
@@ -51,7 +51,7 @@ class PartidaController
         echo json_encode($question[0]);
     }
     public function checkAnswer()
-    { // AJAX
+    { //  selected(value) AJAX
         if (isset($_POST['optionSelected'])) {
             $optionSelected = $_POST['optionSelected'];
             $idQuestion = $this->sessionManager->get('idPregunta');
