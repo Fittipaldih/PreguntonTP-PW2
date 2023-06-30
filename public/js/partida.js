@@ -119,6 +119,23 @@ function submitOption(value) {
         console.log(errorThrown);
     });
 }
+function handleTimeout() {
+    $.ajax({
+        url: 'http://localhost/partida/checkAnswer',
+        method: 'POST',
+        data: {'optionSelected': 'D'}, // Opción incorrecta predefinida para cuando se agota el tiempo
+        dataType: 'json'
+    }).done(function (response) {
+        if (response.success) {
+            loadNewQuestion();
+        } else {
+            sessionStorage.clear();
+            window.location.href = "lobby";
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log(errorThrown);
+    });
+}
 function setQuestionData(question, count) {
     $('#questionCategory').text(question.catDescripcion);
     $('#questionDescripcion').text(question.descripcion);
@@ -174,6 +191,7 @@ function animateProgressBar() {
 
     if (currentWidth >= finalWidth || remainingTime <= 0) {
         clearInterval(progressInterval);
+        handleTimeout()
     }
     sessionStorage.setItem('remainingTime', remainingTime.toString());
 }
