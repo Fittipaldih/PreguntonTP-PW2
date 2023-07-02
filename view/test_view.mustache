@@ -3,50 +3,62 @@
         <article class="mx-auto">
             <br>
             <div class="d-flex">
-                <h3 class="col-11"> Total de Partidas: {{totalGames}}</h3>
-                <a href="/admin/totalGames&generarPDF=true" class="btn btn-primary col-1">
+                <h3 class="col-11"> Total de Preguntas: {{totalQuestions}}</h3>
+                <a href="/admin/testPdf" class="btn btn-primary col-1">
                     <i class="fa-solid fa-file-arrow-down"></i> PDF
                 </a>
             </div>
             <div>
-            <form action="/admin/totalGames" method="post" enctype="multipart/form-data" class="row g-3">
-                <div class="col-4">
-                    <label for="finit">Fecha inicio</label>
-                    <input required type="date" id="finit" name="finit" value="2023-01-01">
-                </div>
-                <div class="col-4">
-                    <label for="fend">Fecha final</label>
-                    <input required type="date" id="fend" name="fend" value="2023-12-12">
-                </div>
-                <div class="col-4 d-flex justify-content-between">
-                    <input type="submit" value="Confirmar" class="btn btn-primary m-2">
-                </div>
+                <form action="/admin/totalGames" method="post" enctype="multipart/form-data" class="row g-3">
+                    <div class="col-4">
+                        <label for="finit">Fecha inicio</label>
+                        <input required type="date" id="finit" name="finit" value="2023-01-01">
+                    </div>
+                    <div class="col-4">
+                        <label for="fend">Fecha final</label>
+                        <input required type="date" id="fend" name="fend" value="2023-12-12">
+                    </div>
+                    <div class="col-4 d-flex justify-content-between">
+                        <input type="submit" value="Confirmar" class="btn btn-primary m-2">
+                    </div>
 
-            </form>
+                </form>
             </div>
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Partida Num</th>
-                    <th>Usuario Id</th>
-                    <th>Puntaje</th>
-                    <th>Fecha y hora</th>
+                    <th>Pregunta</th>
+                    <th>Opcion A</th>
+                    <th>Opcion B</th>
+                    <th>Opcion C</th>
+                    <th>Opcion D</th>
+                    <th>Correcta</th>
+                    <th>Creacion</th>
+                    <th>Mostrada</th>
+                    <th>Acertada(cant)</th>
+                    <th>Acertada(%)</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{#registros}}
+                {{#allQuestions}}
                     <tr>
-                        <td>{{id}}</td>
-                        <td>{{id_usuario}}</td>
-                        <td>{{puntaje}}</td>
-                        <td>{{fecha}}</td>
+                        <td>{{descripcion}}</td>
+                        <td>{{opcionA}}</td>
+                        <td>{{opcionB}}</td>
+                        <td>{{opcionC}}</td>
+                        <td>{{opcionD}}</td>
+                        <td>{{resp_correcta}}</td>
+                        <td>{{fecha_creacion}}</td>
+                        <td>{{veces_mostrada}} veces</td>
+                        <td>{{veces_correcta}} veces</td>
+                        <td>{{porc_correc}} %</td>
                     </tr>
-                {{/registros}}
-                {{^registros}}
-                    {{#games}}
-                        <p class="text-center fw-bold display-5"> No hay partidas jugadas</p>
-                    {{/games}}
-                {{/registros}}
+                {{/allQuestions}}
+                {{^allQuestions}}
+                    {{#questions}}
+                        <p class="text-center fw-bold display-5"> No hay preguntas</p>
+                    {{/questions}}
+                {{/allQuestions}}
                 </tbody>
             </table>
         </article>
@@ -56,7 +68,6 @@
                 <a href="?pagina={{numero}}" class="{{#esActual}}active{{/esActual}}">{{numero}}</a>
             {{/paginas}}
         </div>
-        </article>
         <div class="d-flex justify-content-center">
             <br>
             <a href="/lobby" class="btn btn-lg btn-primary m-3">Volver al lobby</a>

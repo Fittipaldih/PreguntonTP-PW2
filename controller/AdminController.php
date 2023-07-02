@@ -19,10 +19,8 @@ class AdminController
         $datau = $this->getStatisticsForUsers($finit, $fend);
         $data = $datau;
         $data['userName'] = $this->sessionManager->get("userName");
-        $tabla=$this->adminModel->getPrintPlayer($finit, $fend);
-        if (isset($_GET["generarPDF"])) {
-            $this->generarPDF($tabla);
-        }
+        $tabla=$this->getStatisticsForPrint($finit, $fend);
+        $this->adminModel->getPrintPlayer($finit, $fend);
         $this->renderer->render("playersList", $data);
     }
 
@@ -30,43 +28,50 @@ class AdminController
     {
         list($finit, $fend) = $this->getDatesFromPost();
         $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
-        $registrosPorPagina = 12;
+        $registrosPorPagina = 22;
         $offset = ($paginaActual - 1) * $registrosPorPagina;
         $totalRegistros = $this->adminModel->getTotalGames($finit, $fend);
         $registros = $this->adminModel->getPartialGames($finit, $fend,$registrosPorPagina, $offset);
         $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
-
         $data=[
-            'registros' => $registros,
+            'allGames' => $registros,
             'totalPaginas' => $totalPaginas,
             'paginaActual' => $paginaActual
         ];
-        $tabla=$this->adminModel->getAllGames($finit, $fend);
 
-        // Generar los datos para los enlaces de paginación
         for ($i = 1; $i <= $totalPaginas; $i++) {
             $data['paginas'][] = [
                 'numero' => $i,
                 'esActual' => $i == $paginaActual,
             ];
         }
-
-
-        $data['userName'] = $this->sessionManager->get("userName");
-        $data["totalGames"] = $this->adminModel->getTotalGames($finit, $fend);
-        if (isset($_GET["generarPDF"])) {
-            $this->generarPDF($tabla);
-        }
-        return $this->renderer->render("test", $data);
+        $data["totalGames"] = $totalRegistros;
+        return $this->renderer->render("gamesList", $data);
     }
 
     public function totalQuestions()
     {
         list($finit, $fend) = $this->getDatesFromPost();
+        $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+        $registrosPorPagina = 22;
+        $offset = ($paginaActual - 1) * $registrosPorPagina;
+        $totalRegistros = $this->adminModel->getTotalQuestions($finit, $fend);
+        $registros = $this->adminModel->getPartialQuestions($finit, $fend,$registrosPorPagina, $offset);
+        $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
+        $data=[
+            'allQuestions' => $registros,
+            'totalPaginas' => $totalPaginas,
+            'paginaActual' => $paginaActual
+        ];
 
-        $data['userName'] = $this->sessionManager->get("userName");
-        $data["totalQuestions"] = $this->adminModel->getTotalQuestions($finit, $fend);
-        $data["allQuestions"] = $this->adminModel->getAllQuestions($finit, $fend);
+        for ($i = 1; $i <= $totalPaginas; $i++) {
+            $data['paginas'][] = [
+                'numero' => $i,
+                'esActual' => $i == $paginaActual,
+            ];
+        }
+        $data["totalQuestions"] = $totalRegistros;
+
         $this->renderer->render("questionsList", $data);
     }
 
@@ -94,25 +99,67 @@ class AdminController
         return $data;
     }
 
-    public function generarPDF($data)
+    private function getStatisticsForPrint($finit, $fend)
     {
-        include "helpers/generate_pdf.php";
-        // Aquí obtendrías los datos de la tabla que deseas mostrar en el PDF
-        $pdf = new FPDF("L");
-        $pdf->AddPage();
-        $pdf->SetFont('Arial', 'B', 16);
-        $pdf->Cell(0, 10, 'Tabla en PDF', 0, 1, 'C');
+        $data = array(
+            'usersByAge' => $this->adminModel->getTotalUsersByAge($finit, $fend),
+            'usersByGenre' => $this->adminModel->getTotalUsersByGenre($finit, $fend),
+            'usersFromCountry' => $this->adminModel->getTotalUsersFromCountry($finit, $fend),
+            'usersNews' => $this->adminModel->getTotalUsersNews(),
+            'allPlayers' => $this->adminModel->getAllPlayers($finit, $fend),
+            'totalPlayers' => $this->adminModel->getTotalPlayers($finit, $fend)
+        );
+        return $data;
+    }
 
+    public function totalGamesPdf(){
+        require('helpers/totalGames.php');
+        $pdf = new PDF("P");
+        $pdf->AddPage();
+        $pdf->AliasNbPages(); //muestra la pagina / y total de paginas
+        $tabla=$this->adminModel->getPrintAllGames();
+        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetDrawColor(163, 163, 163); //colorBorde
         // Generar contenido de la tabla en el PDF
-        $pdf->SetFont('Arial', '', 10);
-        foreach ($data as $fila) {
-            foreach ($fila as $valor) {
-                $pdf->Cell(30, 10, $valor, 1, 0, 'C');
-            }
+        foreach ($tabla as $fila) {
             $pdf->Ln(); // Salto de línea después de cada fila
+            $pdf->Cell(30, 10, ($fila["id"]), 1, 0, 'C', 0);
+                $pdf->Cell(45, 10, ($fila["id_usuario"]), 1, 0, 'C', 0);
+                $pdf->Cell(45, 10, ($fila["puntaje"]), 1, 0, 'C', 0);
+                $pdf->Cell(70, 10, ($fila["fecha"]), 1, 0, 'C', 0);
+            if ($pdf->GetY() > 250) {
+                $pdf->AddPage();
+            }
         }
 
-        // Generar el archivo PDF
-        $pdf->Output('tabla.pdf', 'D'); // Descargar el PDF con el nombre "tabla.pdf"
+        $pdf->Output('TotalGames.pdf', 'D'); // Descargar el PDF con el nombre "tabla.pdf"
     }
+
+    public function totalQuestionsPdf(){
+        require('helpers/totalQuestions.php');
+        $pdf = new PDF("L");
+        $pdf->AddPage();
+        $pdf->AliasNbPages(); //muestra la pagina / y total de paginas
+        $tabla=$this->adminModel->getPrintAllQuestions();
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->SetDrawColor(163, 163, 163); //colorBorde
+        // Generar contenido de la tabla en el PDF
+        foreach ($tabla as $fila) {
+            $pdf->SetX( 10+100);
+            $pdf->Cell(18, 20, utf8_decode($fila["opcionA"]), 1, 0, 'C', 0);
+            $pdf->Cell(18, 20, utf8_decode($fila["opcionB"]), 1, 0, 'C', 0);
+            $pdf->Cell(18, 20, utf8_decode($fila["opcionC"]), 1, 0, 'C', 0);
+            $pdf->Cell(18, 20, utf8_decode($fila["opcionD"]), 1, 0, 'C', 0);
+            $pdf->Cell(18, 20, utf8_decode($fila["resp_correcta"]), 1, 0, 'C', 0);
+            $pdf->Cell(20, 20, utf8_decode($fila["fecha_creacion"]), 1, 0, 'C', 0);
+            $pdf->Cell(20, 20, utf8_decode($fila["veces_mostrada"]), 1, 0, 'C', 0);
+            $pdf->Cell(22, 20, utf8_decode($fila["veces_correcta"]), 1, 0, 'C', 0);
+            $pdf->Cell(22, 20, utf8_decode($fila["porc_correc"]), 1, 0, 'C', 0);
+            $pdf->SetX( 10);
+            $descripcion = utf8_decode($fila["descripcion"]);
+            $pdf->MultiCell(100,20,$descripcion, 1,'C', 0);
+        }
+        $pdf->Output('TotalQuestions.pdf', 'D');
+    }
+
 }

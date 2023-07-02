@@ -4,7 +4,9 @@
             <br>
             <div class="d-flex">
                 <h3 class="col-11"> Total de preguntas creadas durante las fechas seleccionadas: {{totalQuestions}}</h3>
-                <button type="button"class="btn btn-primary col-1"><i class="fa-solid fa-file-arrow-down"></i> PDF</button>
+                <a href="/admin/totalQuestionsPdf" class="btn btn-primary col-1">
+                    <i class="fa-solid fa-file-arrow-down"></i> PDF
+                </a>
             </div>
             <br>
             <table class="table table-striped">
@@ -45,6 +47,11 @@
                 </tbody>
             </table>
         </article>
+        <div class="pagination">
+            {{#paginas}}
+                <a href="?pagina={{numero}}" class="{{#esActual}}active{{/esActual}}">{{numero}}</a>
+            {{/paginas}}
+        </div>
         <div class="d-flex justify-content-center">
             <br>
             <a href="/lobby" class="btn btn-lg btn-primary m-3">Volver al lobby</a>

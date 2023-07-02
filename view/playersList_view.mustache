@@ -3,16 +3,16 @@
         <h1 class="col-11"> Estadisticas de usuarios</h1>
         <article class="mx-auto">
             <br>
-            <div class="d-flex">
-                <h2 class="col-11"> Todos los usuarios</h2>
-                <a href="/admin/totalUser&generarPDF=true" class="btn btn-primary col-1">
-                    <i class="fa-solid fa-file-arrow-down"></i> PDF
-                </a>
-            </div>
             {{#empty}}
-                <h2 class="text-center fw-bold display-5"> No hay jugadores con los filtros seleccionados</h2>
+                <h2 class="text-center fw-bold display-5"> No hay jugadores en la fecha seleccionada</h2>
             {{/empty}}
             {{^empty}}
+                <div class="d-flex">
+                    <h2 class="col-11"> Usuarios</h2>
+                    <a href="/admin/totalUser&generarPDF=true" class="btn btn-primary col-1">
+                        <i class="fa-solid fa-file-arrow-down"></i> PDF
+                    </a>
+                </div>
             <table class="table table-striped">
                 <thead>
                 <tr>

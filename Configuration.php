@@ -28,7 +28,6 @@ include_once('controller/AdminController.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 include_once('third-party/phpqrcode/qrlib.php');
-include_once('third-party/dompdf_2-0-3/dompdf/autoload.inc.php');
 
 class Configuration
 {

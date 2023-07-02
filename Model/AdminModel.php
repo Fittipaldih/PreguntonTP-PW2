@@ -135,6 +135,11 @@ class AdminModel
 
         return $this->database->print($query);
     }
+    public function getPrintAllGames()
+    {
+        $query = "SELECT DISTINCT * FROM partida";
+        return $this->database->print($query);
+    }
 
    public function getAllQuestions($finit, $fend)
     {
@@ -142,6 +147,22 @@ class AdminModel
         if ($finit != null && $fend != null) {
             $query .= " WHERE p.fecha_creacion >= '$finit' AND p.fecha_creacion <= '$fend'";
         }
+        return $this->database->query($query);
+    }
+
+    public function getPrintAllQuestions()
+    {
+        $query = "SELECT DISTINCT * FROM pregunta";
+        return $this->database->print($query);
+    }
+    public function getPartialQuestions($finit, $fend, $registrosPorPagina, $offset)
+    {
+        $query="SELECT * FROM pregunta p";
+        if ($finit != null && $fend != null) {
+            $query .= " WHERE p.fecha_creacion >= '$finit' AND p.fecha_creacion <= '$fend'";
+        }
+        $query .= " LIMIT $registrosPorPagina OFFSET $offset";
+
         return $this->database->query($query);
     }
 
