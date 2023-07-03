@@ -48,44 +48,36 @@ class AdminController
         // Obtén los datos de género de los usuarios
         $dataGenero = $datau['usersByGenre'];
 
+        $datau["imagePath"]= $this->graficoUserByGenre($dataGenero);
+
+        $this->renderer->render("graph", $datau);
+    }
+    private function graficoUserByGenre($dataGenero)
+    {
         // Incluye las bibliotecas de JpGraph
         require_once('third-party/jpgraph/src/jpgraph.php');
         require_once('third-party/jpgraph/src/jpgraph_pie.php');
-        require_once('third-party/jpgraph/src/jpgraph_pie3d.php');
 
-        // Create the Pie Graph.
-        $dataGeneroNumeric = [];
-        foreach ($dataGenero as $value) {
-            $cantidadUsuarios = intval($value['cantidad_usuarios']);
-            if (is_numeric($cantidadUsuarios)) {
-                $dataGeneroNumeric[] = $cantidadUsuarios;
-            }
-        }
-// Create the Pie Graph.
-        $graph = new PieGraph(600, 400);
+        $graph = new PieGraph(350, 250);
 
-        $theme_class = new VividTheme;
-        $graph->SetTheme($theme_class);
+        $graph->title->Set("Usuarios por género");
+        $graph->SetBox(true);
 
-// Set A title for the plot
-        $graph->title->Set("Distribución de géneros de los jugadores");
+        // Convierte los datos de género en arreglos de valores y etiquetas separados
+        $values = array_column($dataGenero, 'cantidad_usuarios');
+        $labels = array_column($dataGenero, 'Genero');
 
-// Create
-        $p1 = new PiePlot3D($dataGeneroNumeric);
-        $graph->Add($p1);
-
+        $p1 = new PiePlot($values);
+        $p1->SetLegends($labels);
         $p1->ShowBorder();
         $p1->SetColor('black');
+        $p1->SetSliceColors(array('#1E90FF', '#2E8B57', '#ADFF2F', '#DC143C', '#BA55D3'));
 
-// Genera el gráfico en un archivo de imagen
+        $graph->Add($p1);
         $imagePath = 'public/imagenes/genre.png';
         $graph->Stroke($imagePath);
 
-// Actualiza los datos con la ruta de la imagen generada
-        $datau['grafico'] = $imagePath;
-
-// Renderiza la vista
-        $this->renderer->render("graph", $datau);
+        return $imagePath;
     }
 
 
@@ -257,4 +249,6 @@ class AdminController
         }
         $pdf->Output('TotalQuestions.pdf', 'I');
     }
+
+
 }
