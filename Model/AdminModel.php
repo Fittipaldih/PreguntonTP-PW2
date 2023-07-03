@@ -86,6 +86,18 @@ class AdminModel
 
         return $this->database->query($query);
     }
+
+    public function getPrintTotalUsersByGenre()
+    {
+        $query = "SELECT Genero, COUNT(*) AS cantidad_usuarios
+              FROM usuario WHERE Id_rol =3
+               ";
+
+        $query .= " GROUP BY Genero";
+
+        return $this->database->print($query);
+    }
+
     public function getTotalUsersByAge($finit, $fend)
     {
         $query = "SELECT

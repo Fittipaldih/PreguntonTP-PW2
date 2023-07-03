@@ -36,25 +36,92 @@ class AdminController
                 'esActual' => $i == $paginaActual,
             ];
         }
-        var_dump($data["usersByGenre"]);
+        var_dump($data["usersByAge"]);
         $this->renderer->render("test", $data);
     }
 
     public function playersGraph()
     {
         list($finit, $fend) = $this->getDatesFromPost();
-        $datau = $this->getStatisticsForUsers($finit, $fend);
+        $data = $this->getStatisticsForUsers($finit, $fend);
 
         // Obtén los datos de género de los usuarios
-        $dataGenero = $datau['usersByGenre'];
+        $dataGenero = $data['usersByGenre'];
+        $dataCountry=$data['usersFromCountry'];
+        $dataAge=$data['usersByAge'];
+        $data["imagePathGenre"]= $this->graficoUserByGenre($dataGenero);
+        $data["imagePathCountry"]=$this->graficoUserByCountry($dataCountry);
+        $data["imagePathAge"]=$this->graficoUserByAge($dataAge);
+        $tabla=$this->adminModel->getPrintTotalUsersByGenre();
+        var_dump($tabla);
 
-        $datau["imagePath"]= $this->graficoUserByGenre($dataGenero);
+        $this->renderer->render("graph", $data);
+    }
 
-        $this->renderer->render("graph", $datau);
+    private function graficoUserByAge($dataAge)
+    {
+        require_once('third-party/jpgraph/src/jpgraph.php');
+        require_once('third-party/jpgraph/src/jpgraph_pie.php');
+
+        $graph = new PieGraph(350, 250);
+
+        $graph->title->Set("Usuarios por Edad");
+        $graph->SetBox(true);
+
+        $values = array_column($dataAge, 'cantidad_usuarios');
+        $labels = array_column($dataAge, 'grupo_edad');
+
+        $p1 = new PiePlot($values);
+        $p1->SetLegends($labels);
+        $p1->ShowBorder();
+        $p1->SetColor('black');
+        $p1->SetSliceColors(array('#1E90FF', '#2E8B57', '#ADFF2F', '#DC143C', '#BA55D3'));
+
+        $graph->Add($p1);
+
+        $uniqueName = 'age_' . date('YmdHis') . '.png';
+        $imagePath = 'public/imagenes/' . $uniqueName;
+
+        $graph->Stroke($imagePath);
+        if (!file_exists($imagePath)) {
+            $graph->Stroke($imagePath);
+        }
+
+        return $imagePath;
+    }
+    private function graficoUserByCountry($dataCountry)
+    {
+        require_once('third-party/jpgraph/src/jpgraph.php');
+        require_once('third-party/jpgraph/src/jpgraph_pie.php');
+
+        $graph = new PieGraph(350, 250);
+
+        $graph->title->Set("Usuarios por País");
+        $graph->SetBox(true);
+
+        $values = array_column($dataCountry, 'cantidadUsuarios');
+        $labels = array_column($dataCountry, 'Pais');
+
+        $p1 = new PiePlot($values);
+        $p1->SetLegends($labels);
+        $p1->ShowBorder();
+        $p1->SetColor('black');
+        $p1->SetSliceColors(array('#1E90FF', '#2E8B57', '#ADFF2F', '#DC143C', '#BA55D3'));
+
+        $graph->Add($p1);
+
+        $uniqueName = 'country_' . date('YmdHis') . '.png';
+        $imagePath = 'public/imagenes/' . $uniqueName;
+
+        $graph->Stroke($imagePath);
+        if (!file_exists($imagePath)) {
+            $graph->Stroke($imagePath);
+        }
+
+        return $imagePath;
     }
     private function graficoUserByGenre($dataGenero)
     {
-        // Incluye las bibliotecas de JpGraph
         require_once('third-party/jpgraph/src/jpgraph.php');
         require_once('third-party/jpgraph/src/jpgraph_pie.php');
 
@@ -63,7 +130,6 @@ class AdminController
         $graph->title->Set("Usuarios por género");
         $graph->SetBox(true);
 
-        // Convierte los datos de género en arreglos de valores y etiquetas separados
         $values = array_column($dataGenero, 'cantidad_usuarios');
         $labels = array_column($dataGenero, 'Genero');
 
@@ -74,8 +140,14 @@ class AdminController
         $p1->SetSliceColors(array('#1E90FF', '#2E8B57', '#ADFF2F', '#DC143C', '#BA55D3'));
 
         $graph->Add($p1);
-        $imagePath = 'public/imagenes/genre.png';
+
+        $uniqueName = 'genre_' . date('YmdHis') . '.png';
+        $imagePath = 'public/imagenes/' . $uniqueName;
+
         $graph->Stroke($imagePath);
+        if (!file_exists($imagePath)) {
+            $graph->Stroke($imagePath);
+        }
 
         return $imagePath;
     }
@@ -250,5 +322,35 @@ class AdminController
         $pdf->Output('TotalQuestions.pdf', 'I');
     }
 
+    public function playersGraphPdf(){
+        require('helpers/graph.php');
+        $pdf = new PDF("P");
+        $pdf->AddPage();
+        $pdf->AliasNbPages(); //muestra la pagina / y total de paginas
+        $tabla=$this->adminModel->getPrintTotalUsersByGenre();
 
+
+        $pdf->SetTextColor(228, 100, 0);
+        $pdf->Cell(-24); // mover a la derecha
+        $pdf->SetFont('Arial', 'B', 15);
+        $pdf->Cell(100, 10, utf8_decode("Usuarios por género "), 0, 1, 'C', 0);
+        $pdf->Ln(4);
+
+        $pdf->SetFillColor(228, 100, 0); //colorFondo
+        $pdf->SetTextColor(255, 255, 255); //colorTexto
+        $pdf->SetDrawColor(163, 163, 163); //colorBorde
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(70, 10, utf8_decode('Género'), 1, 0, 'C', 1);
+        $pdf->Cell(70,10, utf8_decode('Cantidad de Usuarios'), 1, 0, 'C', 1);
+        $pdf->Ln();
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->SetDrawColor(163, 163, 163); //colorBorde
+        // Generar contenido de la tabla en el PDF
+        foreach ($tabla as $fila) {
+            $pdf->Cell(70, 20, utf8_decode($fila["Genero"]), 1, 0, 'C', 0);
+            $pdf->Cell(70, 20, utf8_decode($fila["cantidad_usuarios"]), 1, 0, 'C', 0);
+            $pdf->Ln();
+        }
+        $pdf->Output('GraphUsers.pdf', 'D');
+    }
 }
