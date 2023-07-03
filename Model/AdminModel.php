@@ -31,13 +31,21 @@ class AdminModel
         return $result;
     }
 
-    public function getPrintPlayer($finit, $fend)
+    public function getPartialPlayers($finit, $fend, $registrosPorPagina, $offset)
     {
         $query= "SELECT * FROM usuario WHERE Id_rol = 3";
 
         if ($finit != null && $fend != null) {
             $query .= " AND Fecha_registro >= '$finit' AND Fecha_registro <= '$fend' ";
         }
+        $query .= " LIMIT $registrosPorPagina OFFSET $offset";
+
+        return $this->database->query($query);
+    }
+
+    public function getPrintAllPlayers()
+    {
+        $query= "SELECT * FROM usuario WHERE Id_rol = 3";
         $result = $this->database->print($query);
         return $result;
     }
@@ -93,6 +101,22 @@ class AdminModel
         if ($finit !=null && $fend !=null) {
             $query .= "AND Fecha_registro >= '$finit' AND Fecha_registro <= '$fend' ";
         }
+
+        $query .= " GROUP BY grupo_edad";
+
+        return $this->database->query($query);
+    }
+    public function getTotalByAge()
+    {
+        $query = "SELECT
+                CASE
+                    WHEN TIMESTAMPDIFF(YEAR, Fecha_nacimiento, CURDATE()) < 18 THEN 'Menor (-18)'
+                    WHEN TIMESTAMPDIFF(YEAR, Fecha_nacimiento, CURDATE()) BETWEEN 18 AND 64 THEN 'Adulto (18 a 64)'
+                    WHEN TIMESTAMPDIFF(YEAR, Fecha_nacimiento, CURDATE()) >= 65 THEN 'Jubilado (+65)'
+                END AS grupo_edad,
+                COUNT(*) AS cantidad_usuarios
+              FROM usuario WHERE Id_rol =3 
+               ";
 
         $query .= " GROUP BY grupo_edad";
 

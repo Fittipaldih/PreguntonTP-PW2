@@ -1,68 +1,52 @@
 <main class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3">
-        <article class="mx-auto">
-            <br>
+        <h1 class="col-11"> Estadisticas de usuarios</h1>
+    <article class="mx-auto">
+        <br>
+        {{#empty}}
+            <h2 class="text-center fw-bold display-5"> No hay jugadores en la fecha seleccionada</h2>
+        {{/empty}}
+        {{^empty}}
             <div class="d-flex">
-                <h3 class="col-11"> Total de Preguntas: {{totalQuestions}}</h3>
-                <a href="/admin/testPdf" class="btn btn-primary col-1">
+                <h2 class="col-10"> Total de usuarios para la fecha seleccionada: {{totalPlayers}} </h2>
+                <a href="/admin/totalPlayersPdf" class="btn btn-primary col-1">
                     <i class="fa-solid fa-file-arrow-down"></i> PDF
                 </a>
-            </div>
-            <div>
-                <form action="/admin/totalGames" method="post" enctype="multipart/form-data" class="row g-3">
-                    <div class="col-4">
-                        <label for="finit">Fecha inicio</label>
-                        <input required type="date" id="finit" name="finit" value="2023-01-01">
-                    </div>
-                    <div class="col-4">
-                        <label for="fend">Fecha final</label>
-                        <input required type="date" id="fend" name="fend" value="2023-12-12">
-                    </div>
-                    <div class="col-4 d-flex justify-content-between">
-                        <input type="submit" value="Confirmar" class="btn btn-primary m-2">
-                    </div>
-
-                </form>
+                <a href="/admin/playersGraph" class="btn btn-primary col-1">Ver Gráficos</a>
             </div>
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Pregunta</th>
-                    <th>Opcion A</th>
-                    <th>Opcion B</th>
-                    <th>Opcion C</th>
-                    <th>Opcion D</th>
-                    <th>Correcta</th>
-                    <th>Creacion</th>
-                    <th>Mostrada</th>
-                    <th>Acertada(cant)</th>
-                    <th>Acertada(%)</th>
+                    <th>Id</th>
+                    <th>Nombre de Usuario</th>
+                    <th>Email</th>
+                    <th>Género</th>
+                    <th>Fecha de Nac.</th>
+                    <th>Fecha registro</th>
+                    <th>Respuestas correctas</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{#allQuestions}}
+                {{#allPlayers}}
                     <tr>
-                        <td>{{descripcion}}</td>
-                        <td>{{opcionA}}</td>
-                        <td>{{opcionB}}</td>
-                        <td>{{opcionC}}</td>
-                        <td>{{opcionD}}</td>
-                        <td>{{resp_correcta}}</td>
-                        <td>{{fecha_creacion}}</td>
-                        <td>{{veces_mostrada}} veces</td>
-                        <td>{{veces_correcta}} veces</td>
-                        <td>{{porc_correc}} %</td>
+                        <td>{{Id}}</td>
+                        <td>{{Nombre_usuario}}</td>
+                        <td>{{Mail}}</td>
+                        <td>{{Genero}}</td>
+                        <td>{{Fecha_nacimiento}}</td>
+                        <td>{{Fecha_registro}}</td>
+                        <td>{{nivel}}%</td>
                     </tr>
-                {{/allQuestions}}
-                {{^allQuestions}}
-                    {{#questions}}
-                        <p class="text-center fw-bold display-5"> No hay preguntas</p>
-                    {{/questions}}
-                {{/allQuestions}}
+                {{/allPlayers}}
+                {{^allPlayers}}
+                    <tr>
+                        <td colspan="6" class="text-center fw-bold display-5"> No hay jugadores</td>
+                    </tr>
+                {{/allPlayers}}
                 </tbody>
             </table>
         </article>
-
+        {{/empty}}
         <div class="pagination">
             {{#paginas}}
                 <a href="?pagina={{numero}}" class="{{#esActual}}active{{/esActual}}">{{numero}}</a>
@@ -74,3 +58,4 @@
         </div>
     </div>
 </main>
+

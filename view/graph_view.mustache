@@ -1,0 +1,109 @@
+<main class="py-5">
+    <article class="content container px-lg-5 p-4 bg-light rounded-3">
+        <h1 class="col-11"> Estadisticas de usuarios</h1>
+        <article class="mx-auto">
+        <br>
+            <div class="d-flex">
+                <a href="/admin/playersGraphPdf" class="btn btn-primary col-1">
+                    <i class="fa-solid fa-file-arrow-down"></i> PDF
+                </a>
+            </div>
+
+            <article>
+            <div>
+                <h2 class="table-title">Usuarios por género</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Género</th>
+                        <th>Cantidad de Usuarios</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#usersByGenre}}
+                        <tr>
+                            <td>{{Genero}}</td>
+                            <td>{{cantidad_usuarios}}</td>
+                        </tr>
+                    {{/usersByGenre}}
+                    </tbody>
+                </table>
+                <img src="public/imagenes/genre.png" alt="Gráfico de géneros de jugadores">
+            </div>
+            <div>
+                <h2 class="table-title">Usuarios por país</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>País</th>
+                        <th>Cantidad de Usuarios</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#usersFromCountry}}
+                        <tr>
+                            <td>{{Pais}}</td>
+                            <td>{{cantidadUsuarios}}</td>
+                        </tr>
+                    {{/usersFromCountry}}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h2 class="table-title">Usuarios por edad</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Edad</th>
+                        <th>Cantidad de Usuarios</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#usersByAge}}
+                        <tr>
+                            <td>{{grupo_edad}}</td>
+                            <td>{{cantidad_usuarios}}</td>
+                        </tr>
+                    {{/usersByAge}}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h2 class="table-title">Total de jugadores</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Cantidad</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{totalPlayers}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h2 class="table-title">Nuevos jugadores</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Registrados en los ultimos 3 días</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{usersNews}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            </article>
+        <div class="d-flex justify-content-center">
+            <br>
+            <a href="/lobby" class="btn btn-lg btn-primary m-3">Volver al lobby</a>
+        </div>
+    </article>
+    </article>
+</main>
+

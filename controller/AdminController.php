@@ -18,11 +18,76 @@ class AdminController
         list($finit, $fend) = $this->getDatesFromPost();
         $datau = $this->getStatisticsForUsers($finit, $fend);
         $data = $datau;
-        $data['userName'] = $this->sessionManager->get("userName");
-        $tabla=$this->getStatisticsForPrint($finit, $fend);
-        $this->adminModel->getPrintPlayer($finit, $fend);
-        $this->renderer->render("playersList", $data);
+        $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+        $registrosPorPagina = 22;
+        $offset = ($paginaActual - 1) * $registrosPorPagina;
+        $totalRegistros = $data["totalPlayers"];
+        $registros = $this->adminModel->getPartialPlayers($finit, $fend,$registrosPorPagina, $offset);
+        $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
+        $data[]=[
+            'allPlayers' => $registros,
+            'totalPaginas' => $totalPaginas,
+            'paginaActual' => $paginaActual
+        ];
+
+        for ($i = 1; $i <= $totalPaginas; $i++) {
+            $data['paginas'][] = [
+                'numero' => $i,
+                'esActual' => $i == $paginaActual,
+            ];
+        }
+        var_dump($data["usersByGenre"]);
+        $this->renderer->render("test", $data);
     }
+
+    public function playersGraph()
+    {
+        list($finit, $fend) = $this->getDatesFromPost();
+        $datau = $this->getStatisticsForUsers($finit, $fend);
+
+        // Obtén los datos de género de los usuarios
+        $dataGenero = $datau['usersByGenre'];
+
+        // Incluye las bibliotecas de JpGraph
+        require_once('third-party/jpgraph/src/jpgraph.php');
+        require_once('third-party/jpgraph/src/jpgraph_pie.php');
+        require_once('third-party/jpgraph/src/jpgraph_pie3d.php');
+
+        // Create the Pie Graph.
+        $dataGeneroNumeric = [];
+        foreach ($dataGenero as $value) {
+            $cantidadUsuarios = intval($value['cantidad_usuarios']);
+            if (is_numeric($cantidadUsuarios)) {
+                $dataGeneroNumeric[] = $cantidadUsuarios;
+            }
+        }
+// Create the Pie Graph.
+        $graph = new PieGraph(600, 400);
+
+        $theme_class = new VividTheme;
+        $graph->SetTheme($theme_class);
+
+// Set A title for the plot
+        $graph->title->Set("Distribución de géneros de los jugadores");
+
+// Create
+        $p1 = new PiePlot3D($dataGeneroNumeric);
+        $graph->Add($p1);
+
+        $p1->ShowBorder();
+        $p1->SetColor('black');
+
+// Genera el gráfico en un archivo de imagen
+        $imagePath = 'public/imagenes/genre.png';
+        $graph->Stroke($imagePath);
+
+// Actualiza los datos con la ruta de la imagen generada
+        $datau['grafico'] = $imagePath;
+
+// Renderiza la vista
+        $this->renderer->render("graph", $datau);
+    }
+
 
     public function totalGames()
     {
@@ -81,7 +146,16 @@ class AdminController
         $fend = isset($_POST['fend']) && !empty($_POST['fend']) ? $_POST['fend'] : null;
         return [$finit, $fend];
     }
-
+    private function getStatisticsForGraph()
+    {
+        $data = array(
+            'usersByAge' => $this->adminModel->getTotalByAge(),
+        );
+        if (empty($data['usersByAge'])){
+            $data['empty'] = true;
+        }
+        return $data;
+    }
     private function getStatisticsForUsers($finit, $fend)
     {
         $data = array(
@@ -162,4 +236,25 @@ class AdminController
         $pdf->Output('TotalQuestions.pdf', 'D');
     }
 
+    public function totalPlayersPdf(){
+        require('helpers/TotalPlayers.php');
+        $pdf = new PDF("L");
+        $pdf->AddPage();
+        $pdf->AliasNbPages(); //muestra la pagina / y total de paginas
+        $tabla=$this->adminModel->getPrintAllPlayers();
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->SetDrawColor(163, 163, 163); //colorBorde
+        // Generar contenido de la tabla en el PDF
+        foreach ($tabla as $fila) {
+            $pdf->Cell(20, 20, utf8_decode($fila["Id"]), 1, 0, 'C', 0);
+            $pdf->Cell(50, 20, utf8_decode($fila["Nombre_usuario"]), 1, 0, 'C', 0);
+            $pdf->Cell(70, 20, utf8_decode($fila["Mail"]), 1, 0, 'C', 0);
+            $pdf->Cell(30, 20, utf8_decode($fila["Genero"]), 1, 0, 'C', 0);
+            $pdf->Cell(35, 20, utf8_decode($fila["Fecha_nacimiento"]), 1, 0, 'C', 0);
+            $pdf->Cell(35, 20, utf8_decode($fila["Fecha_registro"]), 1, 0, 'C', 0);
+            $pdf->Cell(35, 20, utf8_decode($fila["cant_acertadas"]), 1, 0, 'C', 0);
+            $pdf->Ln();
+        }
+        $pdf->Output('TotalQuestions.pdf', 'I');
+    }
 }

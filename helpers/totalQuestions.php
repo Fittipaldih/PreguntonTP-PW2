@@ -1,6 +1,6 @@
 <?php
 
-require('third-party/fpdf-tutoriales-master/fpdf.php');
+require('third-party/fpdf/fpdf.php');
 
 class PDF extends fpdf
 {
@@ -8,7 +8,7 @@ class PDF extends fpdf
     // Cabecera de página
     function Header()
     {
-        $this->Image('third-party/fpdf-tutoriales-master/logo2.png', 110, 5, 80); //logo de la empresa,moverDerecha,moverAbajo,tamañoIMG
+        $this->Image('third-party/fpdf/logo2.png', 110, 5, 80); //logo de la empresa,moverDerecha,moverAbajo,tamañoIMG
         $this->SetFont('Arial', 'B', 19); //tipo fuente, negrita(B-I-U-BIU), tamañoTexto
         $this->Cell(45); // Movernos a la derecha
         $this->SetTextColor(0, 0, 0); //color
