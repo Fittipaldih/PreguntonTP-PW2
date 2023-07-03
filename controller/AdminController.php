@@ -318,29 +318,15 @@ class AdminController
         $pdf = new PDF("P");
         $pdf->AddPage();
         $pdf->AliasNbPages(); //muestra la pagina / y total de paginas
-        $tabla=$this->adminModel->getPrintTotalUsersByGenre();
 
-        $pdf->SetTextColor(228, 100, 0);
-        $pdf->Cell(-24); // mover a la derecha
-        $pdf->SetFont('Arial', 'B', 15);
-        $pdf->Cell(100, 10, utf8_decode("Usuarios por género "), 0, 1, 'C', 0);
-        $pdf->Ln(4);
-
-        $pdf->SetFillColor(228, 100, 0); //colorFondo
-        $pdf->SetTextColor(255, 255, 255); //colorTexto
-        $pdf->SetDrawColor(163, 163, 163); //colorBorde
-        $pdf->SetFont('Arial', 'B', 11);
-        $pdf->Cell(70, 10, utf8_decode('Género'), 1, 0, 'C', 1);
-        $pdf->Cell(70,10, utf8_decode('Cantidad de Usuarios'), 1, 0, 'C', 1);
+        $tablaGenre=$this->adminModel->getPrintTotalUsersByGenre();
+        $tablaCountry=$this->adminModel->getPrintTotalUsersFromCountry();
+        $tablaAge=$this->adminModel->getPrintTotalUsersByAge();
         $pdf->Ln();
-        $pdf->SetFont('Arial', '', 10);
-        $pdf->SetDrawColor(163, 163, 163); //colorBorde
-        // Generar contenido de la tabla en el PDF
-        foreach ($tabla as $fila) {
-            $pdf->Cell(70, 20, utf8_decode($fila["Genero"]), 1, 0, 'C', 0);
-            $pdf->Cell(70, 20, utf8_decode($fila["cantidad_usuarios"]), 1, 0, 'C', 0);
-            $pdf->Ln();
-        }
+        $pdf->Image($this->graficoUserByGenre($tablaGenre),60);
+        $pdf->Image($this->graficoUserByCountry($tablaCountry),60);
+        $pdf->Image($this->graficoUserByAge($tablaAge),60);
+
         $pdf->Output('GraphUsers.pdf', 'D');
     }
 }
