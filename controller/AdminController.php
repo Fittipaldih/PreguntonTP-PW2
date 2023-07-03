@@ -37,6 +37,8 @@ class AdminController
                 'esActual' => $i == $paginaActual,
             ];
         }
+        $data['previous'] = ($paginaActual == 1) ? $paginaActual : $paginaActual - 1;
+        $data['next'] = ($paginaActual >= $totalPaginas) ? $paginaActual : $paginaActual + 1;
         $this->renderer->render("playersList", $data);
     }
     public function totalGames()
@@ -60,6 +62,8 @@ class AdminController
                 'esActual' => $i == $paginaActual,
             ];
         }
+        $data['previous'] = ($paginaActual == 1) ? $paginaActual : $paginaActual - 1;
+        $data['next'] = ($paginaActual >= $totalPaginas) ? $paginaActual : $paginaActual + 1;
         $data["totalGames"] = $totalRegistros;
         return $this->renderer->render("gamesList", $data);
     }
@@ -84,6 +88,10 @@ class AdminController
                 'esActual' => $i == $paginaActual,
             ];
         }
+
+        $data['previous'] = ($paginaActual == 1) ? $paginaActual : $paginaActual - 1;
+        $data['next'] = ($paginaActual >= $totalPaginas) ? $paginaActual : $paginaActual + 1;
+
         $data["totalQuestions"] = $totalRegistros;
 
         $this->renderer->render("questionsList", $data);

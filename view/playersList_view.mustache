@@ -60,11 +60,21 @@
             </table>
         </article>
         {{/empty}}
-        <div class="pagination">
-            {{#paginas}}
-                <a href="?pagina={{numero}}" class="{{#esActual}}active{{/esActual}}">{{numero}}</a>
-            {{/paginas}}
-        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="?pagina={{previous}}">Previous</a>
+                </li>
+                {{#paginas}}
+                    <li class="page-item">
+                        <a class="page-link {{#esActual}}active{{/esActual}}" href="?pagina={{numero}}">{{numero}}</a>
+                    </li>
+                {{/paginas}}
+                <li class="page-item">
+                    <a class="page-link" href="?pagina={{next}}">Next</a>
+                </li>
+            </ul>
+        </nav>
         <div class="d-flex justify-content-center">
             <br>
             <a href="/lobby" class="btn btn-lg btn-primary m-3">Volver al lobby</a>
