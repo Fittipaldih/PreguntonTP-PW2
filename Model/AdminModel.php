@@ -98,6 +98,44 @@ class AdminModel
         return $this->database->print($query);
     }
 
+    public function getPrintTotalUsersFromCountry()
+    {
+        $query = "SELECT p.nombre AS Pais, COUNT(u.Id) AS cantidad_usuarios
+              FROM usuario AS u
+              JOIN pais AS p ON u.idPais = p.id WHERE Id_rol =3
+               ";
+
+        $query .= " GROUP BY p.nombre";
+        $result = $this->database->print($query);
+
+        $data = array();
+        foreach ($result as $row) {
+            $nombrePais = $row['Pais'];
+            $cantidadUsuarios = $row['cantidad_usuarios'];
+            $data[] = array('Pais' => $nombrePais, 'cantidadUsuarios' => $cantidadUsuarios);
+        }
+
+        return $data;
+    }
+
+    public function getPrintTotalUsersByAge()
+    {
+        $query = "SELECT
+                CASE
+                    WHEN TIMESTAMPDIFF(YEAR, Fecha_nacimiento, CURDATE()) < 18 THEN 'Menor (-18)'
+                    WHEN TIMESTAMPDIFF(YEAR, Fecha_nacimiento, CURDATE()) BETWEEN 18 AND 64 THEN 'Adulto (18 a 64)'
+                    WHEN TIMESTAMPDIFF(YEAR, Fecha_nacimiento, CURDATE()) >= 65 THEN 'Jubilado (+65)'
+                END AS grupo_edad,
+                COUNT(*) AS cantidad_usuarios
+              FROM usuario WHERE Id_rol =3 
+               ";
+
+
+        $query .= " GROUP BY grupo_edad";
+
+        return $this->database->print($query);
+    }
+
     public function getTotalUsersByAge($finit, $fend)
     {
         $query = "SELECT

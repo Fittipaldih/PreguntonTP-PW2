@@ -12,7 +12,7 @@ class PDF extends fpdf
 
         //$consulta_info = $conexion->query(" select *from hotel ");//traemos datos de la empresa desde BD
         //$dato_info = $consulta_info->fetch_object();
-        $this->Image('third-party/fpdf/logo2.png', 66, 5, 80); //logo de la empresa,moverDerecha,moverAbajo,tamañoIMG
+        $this->Image('third-party/fpdf/logo2.png', 150, 5, 50); //logo de la empresa,moverDerecha,moverAbajo,tamañoIMG
         $this->SetFont('Arial', 'B', 19); //tipo fuente, negrita(B-I-U-BIU), tamañoTexto
         $this->Cell(45); // Movernos a la derecha
         $this->SetTextColor(0, 0, 0); //color
@@ -22,8 +22,8 @@ class PDF extends fpdf
         //color
         $this->SetTextColor(228, 100, 0);
         $this->Cell(50); // mover a la derecha
-        $this->SetFont('Arial', 'B', 15);
-        $this->Cell(100, 10, utf8_decode("REPORTE DE PARTIDAS "), 0, 1, 'C', 0);
+        $this->SetFont('Arial', 'B', 18);
+        $this->Cell(100, 10, utf8_decode("REPORTE DE JUGADORES "), 0, 1, 'C', 0);
         $this->Ln(4);
 
         /* CAMPOS DE LA TABLA */
