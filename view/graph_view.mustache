@@ -1,16 +1,48 @@
 <main class="py-5">
     <article class="content container px-lg-5 p-4 bg-light rounded-3">
-        <h1 class="col-11"> Estadisticas de usuarios</h1>
-        <article class="mx-auto">
+        <div class="d-flex">
+        <h1 class="col-11 fw-bold display-5"> Estadisticas de usuarios</h1>
+            <a href="/admin/playersGraphPdf" class="btn btn-primary btn-lg col-1 fw-bold">
+                <i class="fa-solid fa-file-arrow-down"></i> PDF
+            </a>
+        </div>
         <br>
-            <div class="d-flex">
-                <a href="/admin/playersGraphPdf" class="btn btn-primary col-1">
-                    <i class="fa-solid fa-file-arrow-down"></i> PDF
-                </a>
-            </div>
-
-            <article>
-            <div>
+        <article class="mx-auto">
+            <div class="text-center">
+                <div class="text-center">
+                    <h2 class="table-title">Nuevos jugadores</h2>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Registrados en los ultimos 3 días</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{usersNews}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <br>
+                <div class="text-center">
+                    <h2 class="table-title">Total de jugadores</h2>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Cantidad</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{totalPlayers}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <br>
                 <h2 class="table-title">Usuarios por género</h2>
                 <table class="table table-striped">
                     <thead>
@@ -30,7 +62,9 @@
                 </table>
                 <img src="/{{imagePathGenre}}" alt="Gráfico de pastel de usuarios por género">
             </div>
-            <div>
+                <br>
+                <br>
+            <div class="text-center">
                 <h2 class="table-title">Usuarios por país</h2>
                 <table class="table table-striped">
                     <thead>
@@ -50,7 +84,9 @@
                 </table>
                 <img src="/{{imagePathCountry}}" alt="Gráfico de usuarios por país">
             </div>
-            <div>
+                <br>
+                <br>
+            <div class="text-center">
                 <h2 class="table-title">Usuarios por edad</h2>
                 <table class="table table-striped">
                     <thead>
@@ -70,42 +106,11 @@
                 </table>
                 <img src="/{{imagePathAge}}" alt="Gráfico de usuarios por país">
             </div>
-            <div>
-                <h2 class="table-title">Total de jugadores</h2>
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Cantidad</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>{{totalPlayers}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <h2 class="table-title">Nuevos jugadores</h2>
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Registrados en los ultimos 3 días</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>{{usersNews}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
             </article>
         <div class="d-flex justify-content-center">
             <br>
             <a href="/lobby" class="btn btn-lg btn-primary m-3">Volver al lobby</a>
         </div>
-    </article>
     </article>
 </main>
 

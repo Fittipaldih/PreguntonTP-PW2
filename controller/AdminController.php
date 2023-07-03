@@ -24,8 +24,32 @@ class AdminController
         $totalRegistros = $data["totalPlayers"];
         $registros = $this->adminModel->getPartialPlayers($finit, $fend,$registrosPorPagina, $offset);
         $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
-        $data[]=[
+        $data=[
             'allPlayers' => $registros,
+            'totalPaginas' => $totalPaginas,
+            'paginaActual' => $paginaActual,
+            'totalPlayers' => $totalRegistros
+        ];
+
+        for ($i = 1; $i <= $totalPaginas; $i++) {
+            $data['paginas'][] = [
+                'numero' => $i,
+                'esActual' => $i == $paginaActual,
+            ];
+        }
+        $this->renderer->render("playersList", $data);
+    }
+    public function totalGames()
+    {
+        list($finit, $fend) = $this->getDatesFromPost();
+        $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+        $registrosPorPagina = 22;
+        $offset = ($paginaActual - 1) * $registrosPorPagina;
+        $totalRegistros = $this->adminModel->getTotalGames($finit, $fend);
+        $registros = $this->adminModel->getPartialGames($finit, $fend,$registrosPorPagina, $offset);
+        $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
+        $data=[
+            'allGames' => $registros,
             'totalPaginas' => $totalPaginas,
             'paginaActual' => $paginaActual
         ];
@@ -36,8 +60,33 @@ class AdminController
                 'esActual' => $i == $paginaActual,
             ];
         }
-        var_dump($data["usersByAge"]);
-        $this->renderer->render("test", $data);
+        $data["totalGames"] = $totalRegistros;
+        return $this->renderer->render("gamesList", $data);
+    }
+    public function totalQuestions()
+    {
+        list($finit, $fend) = $this->getDatesFromPost();
+        $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+        $registrosPorPagina = 22;
+        $offset = ($paginaActual - 1) * $registrosPorPagina;
+        $totalRegistros = $this->adminModel->getTotalQuestions($finit, $fend);
+        $registros = $this->adminModel->getPartialQuestions($finit, $fend,$registrosPorPagina, $offset);
+        $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
+        $data=[
+            'allQuestions' => $registros,
+            'totalPaginas' => $totalPaginas,
+            'paginaActual' => $paginaActual
+        ];
+
+        for ($i = 1; $i <= $totalPaginas; $i++) {
+            $data['paginas'][] = [
+                'numero' => $i,
+                'esActual' => $i == $paginaActual,
+            ];
+        }
+        $data["totalQuestions"] = $totalRegistros;
+
+        $this->renderer->render("questionsList", $data);
     }
 
     public function playersGraph()
@@ -53,11 +102,8 @@ class AdminController
         $data["imagePathCountry"]=$this->graficoUserByCountry($dataCountry);
         $data["imagePathAge"]=$this->graficoUserByAge($dataAge);
         $tabla=$this->adminModel->getPrintTotalUsersByGenre();
-        var_dump($tabla);
-
         $this->renderer->render("graph", $data);
     }
-
     private function graficoUserByAge($dataAge)
     {
         require_once('third-party/jpgraph/src/jpgraph.php');
@@ -151,59 +197,6 @@ class AdminController
 
         return $imagePath;
     }
-
-
-    public function totalGames()
-    {
-        list($finit, $fend) = $this->getDatesFromPost();
-        $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
-        $registrosPorPagina = 22;
-        $offset = ($paginaActual - 1) * $registrosPorPagina;
-        $totalRegistros = $this->adminModel->getTotalGames($finit, $fend);
-        $registros = $this->adminModel->getPartialGames($finit, $fend,$registrosPorPagina, $offset);
-        $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
-        $data=[
-            'allGames' => $registros,
-            'totalPaginas' => $totalPaginas,
-            'paginaActual' => $paginaActual
-        ];
-
-        for ($i = 1; $i <= $totalPaginas; $i++) {
-            $data['paginas'][] = [
-                'numero' => $i,
-                'esActual' => $i == $paginaActual,
-            ];
-        }
-        $data["totalGames"] = $totalRegistros;
-        return $this->renderer->render("gamesList", $data);
-    }
-
-    public function totalQuestions()
-    {
-        list($finit, $fend) = $this->getDatesFromPost();
-        $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
-        $registrosPorPagina = 22;
-        $offset = ($paginaActual - 1) * $registrosPorPagina;
-        $totalRegistros = $this->adminModel->getTotalQuestions($finit, $fend);
-        $registros = $this->adminModel->getPartialQuestions($finit, $fend,$registrosPorPagina, $offset);
-        $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
-        $data=[
-            'allQuestions' => $registros,
-            'totalPaginas' => $totalPaginas,
-            'paginaActual' => $paginaActual
-        ];
-
-        for ($i = 1; $i <= $totalPaginas; $i++) {
-            $data['paginas'][] = [
-                'numero' => $i,
-                'esActual' => $i == $paginaActual,
-            ];
-        }
-        $data["totalQuestions"] = $totalRegistros;
-
-        $this->renderer->render("questionsList", $data);
-    }
-
     private function getDatesFromPost()
     {
         $finit = isset($_POST['finit']) && !empty($_POST['finit']) ? $_POST['finit'] : null;
@@ -236,7 +229,6 @@ class AdminController
         }
         return $data;
     }
-
     private function getStatisticsForPrint($finit, $fend)
     {
         $data = array(
@@ -269,7 +261,6 @@ class AdminController
                 $pdf->AddPage();
             }
         }
-
         $pdf->Output('TotalGames.pdf', 'D'); // Descargar el PDF con el nombre "tabla.pdf"
     }
 
@@ -319,7 +310,7 @@ class AdminController
             $pdf->Cell(35, 20, utf8_decode($fila["cant_acertadas"]), 1, 0, 'C', 0);
             $pdf->Ln();
         }
-        $pdf->Output('TotalQuestions.pdf', 'I');
+        $pdf->Output('TotalPlayers.pdf', 'D');
     }
 
     public function playersGraphPdf(){
@@ -328,7 +319,6 @@ class AdminController
         $pdf->AddPage();
         $pdf->AliasNbPages(); //muestra la pagina / y total de paginas
         $tabla=$this->adminModel->getPrintTotalUsersByGenre();
-
 
         $pdf->SetTextColor(228, 100, 0);
         $pdf->Cell(-24); // mover a la derecha

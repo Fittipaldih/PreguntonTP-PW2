@@ -1,12 +1,31 @@
 <main class="py-5">
     <div class="content container px-lg-5 p-4 bg-light rounded-3">
+        <h1 class="col-11 fw-bold display-5">Preguntas</h1>
         <article class="mx-auto">
             <br>
-            <div class="d-flex">
-                <h3 class="col-11"> Total de preguntas creadas durante las fechas seleccionadas: {{totalQuestions}}</h3>
-                <a href="/admin/totalQuestionsPdf" class="btn btn-primary col-1">
-                    <i class="fa-solid fa-file-arrow-down"></i> PDF
-                </a>
+            <div>
+                <form action="/admin/totalQuestions" method="post" enctype="multipart/form-data" class="row g-3">
+                    <div class="col-3 d-flex">
+                        <label for="finit" class="col-form-label">Fecha inicio</label>
+                        <input required type="date" id="finit" name="finit" class="form-control">
+                    </div>
+                    <div class="col-3 d-flex">
+                        <label for="fend" class="col-form-label">Fecha final</label>
+                        <input required type="date" id="fend" name="fend" class="form-control">
+                    </div>
+                    <div class="col-2 d-flex align-items-end">
+                        <input type="submit" value="Filtrar" class="btn btn-primary m-2">
+                    </div>
+                    <div class="col-4 d-flex align-items-end justify-content-end">
+                        <a href="/admin/totalQuestionsPdf" class="btn btn-primary m-1">
+                            <i class="fa-solid fa-file-arrow-down"></i> PDF
+                        </a>
+                    </div>
+                </form>
+                <br>
+                <div class="d-flex">
+                    <h4 class="col-10">Total encontradas: {{totalQuestions}}</h4>
+                </div>
             </div>
             <br>
             <table class="table table-striped">
